@@ -1,0 +1,70 @@
+<section id="cell-grid" class="single">
+  <div id="cell-grid__container" class="container">
+    <header>
+      <div class="svg-preview">
+        <a download="favicon.svg" href="/favicon.svg?dl=1&{{ cellURL }}" title="Preview your Favicon as SVG">
+          {% include 'svg-preview.twig' with cells %}
+        </a>
+
+      </div>
+      <h3>Fill Selected Cells</h3>
+      <p class="instructions">
+        Fill the selected cells above with the color you input&nbsp;below.
+      </p>
+    </header>
+    <div class="canpx">
+      <fieldset class="input-by-color">
+        <legend>Input Color By:</legend>
+        <div class="flexible">
+          <div class="">
+            <label for="input_color_by__text">Text:&nbsp;</label>
+            <input checked type="radio" id="input_color_by__text" name="input_color_by" value="text" />
+          </div>
+
+          <div hidden class="color option"></div>
+
+          <div class="">
+            <label for="input_color_by__rgb">RGB Slider:&nbsp;</label>
+            <input type="radio" id="input_color_by__rgb" name="input_color_by" value="rgb" />
+          </div>
+        </div>
+      </fieldset>
+      <fieldset class="">
+        <legend>Fill Color:</legend>
+        <div>
+          <div class="flexible fieldset">
+            <label for="input_color_by__text__color">Hex:</label>
+            <input type="text" id="input_color_by__text__color" name="input_color_by__text__color" value="" placeholder="rebeccapurple" />
+          </div>
+
+          <div hidden class="colorpicker fieldset"></div>
+
+          <hr>
+          <fieldset class="rgb">
+            <legend>RGB Slider:</legend>
+            <div class="flexible fieldset">
+              <label for="rgb_slider_r">Red:</label>
+              <input type="range" min="0" max="255" step="1" id="rgb_slider_r" name="rgb_slider_r" value="255" />
+            </div>
+
+            <div class="flexible fieldset">
+              <label for="rgb_slider_r">Green:</label>
+              <input type="range" min="0" max="255" step="1" id="rgb_slider_g" name="rgb_slider_g" value="255" />
+            </div>
+
+            <div class="flexible fieldset">
+              <label for="rgb_slider_r">Blue:</label>
+              <input type="range" min="0" max="255" step="1" id="rgb_slider_b" name="rgb_slider_b" value="255" />
+            </div>
+          </fieldset>
+        </div>
+      </fieldset>
+      <footer>
+        <button type="submit">Fill Selected Cells</button>
+        <button type="reset">Reset Form</button>
+        <p id="start-over" class="subtle"{% if not startOver %} hidden{% endif %}><a href="/">Start Over</a></p>
+      </footer>
+    </div>
+
+  </div>
+</section>

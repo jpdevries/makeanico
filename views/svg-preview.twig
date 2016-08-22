@@ -1,0 +1,12 @@
+<svg id="svg-preview__svg" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <title>Your Favicon</title>
+  <g id="art">
+    {% for row in cells %}
+        {% for cell in row %}
+          {% if cell.fill %}
+            <rect x="{{ cell.column }}" y="{{ cell.row }}" width="1" height="1" fill="{{ cell.fill }}" />
+          {% endif %}
+        {% endfor %}
+    {% endfor %}
+  </g>
+</svg>

@@ -1,0 +1,192 @@
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+#stage, table, #stage input[type="checkbox"], #stage table {
+  width: 100%; }
+
+#stage input[type="checkbox"], #stage input[type="checkbox"] + label {
+  cursor: pointer; }
+
+#stage, .svg-preview, #cell-grid, #cell-grid h3, .async-btns, .canpx footer {
+  text-align: center; }
+
+#stage input[type="checkbox"], #stage input[type="checkbox"] + label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+/*
+http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
+*/
+.accessibly-hidden {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  top: 0;
+  clip: rect(1px 1px 1px 1px);
+  /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px); }
+
+.flexible {
+  display: -ms-flexbox;
+  display: flex; }
+
+.container {
+  padding: 1em; }
+
+.container {
+  background: white;
+  border: 1px solid gainsboro; }
+
+#cell-grid > *, #stage td {
+  background: white;
+  max-width: 30em; }
+  #cell-grid > * header p, #stage td header p {
+    text-align: center; }
+
+#stage, table, #stage input[type="checkbox"] {
+  height: 100%; }
+
+#stage input[type="checkbox"], #stage input[type="checkbox"] + label {
+  z-index: 99999; }
+
+#cell-grid > * {
+  padding: .5em .5em 1em .5em; }
+
+fieldset {
+  border: 1px solid gainsboro; }
+
+.svg-preview svg, #cell-grid > * {
+  margin: 0 auto; }
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #f0f0f0; }
+
+fieldset.rgb {
+  margin-top: 1em; }
+
+fieldset .fieldset:last-of-type {
+  margin-bottom: 0; }
+
+hr {
+  border: none;
+  border-top: 1px solid gainsboro; }
+
+#makeanico {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around; }
+
+#canvas {
+  width: 100vw;
+  height: 100vw;
+  -ms-flex: 0 0 100vw;
+      flex: 0 0 100vw; }
+  #canvas th, #canvas td {
+    width: 6.25vw; }
+  #canvas th, #canvas .row-col {
+    font-weight: normal;
+    font-size: 8px; }
+  @media screen and (min-aspect-ratio: 1 / 1) {
+    #canvas {
+      width: 100vh;
+      height: 100vh;
+      -ms-flex: 0 0 100vh;
+          flex: 0 0 100vh; } }
+
+#stage td {
+  border-right: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0; }
+
+fieldset, .fieldset {
+  margin-bottom: 1em; }
+
+#cell-grid {
+  margin: 1em auto; }
+  #cell-grid > * {
+    text-align: left; }
+
+#stage input[type="checkbox"] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background: transparent;
+  opacity: 0; }
+
+#stage input[type="checkbox"] + label {
+  text-indent: -99999em; }
+
+#stage input[type="checkbox"]:checked + label {
+  box-shadow: 0 0 5px #51cbee;
+  border: 1px solid #51cbee; }
+
+#stage td {
+  position: relative; }
+  #stage td.row-col {
+    position: absolute; }
+  #stage td:first-of-type {
+    width: 1em; }
+
+.flexible.unaligned {
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.flexible.fieldset label[for*="rgb_slider_"] {
+  -ms-flex: 0 0 3em;
+      flex: 0 0 3em; }
+
+.flexible.fieldset input[type="text"], .flexible.fieldset input[type="range"] {
+  -ms-flex-positive: 1;
+      flex-grow: 1; }
+
+.flexible.fieldset > * {
+  margin-right: 1em; }
+
+.flexible.fieldset > *:last-child {
+  margin-right: 0; }
+
+.input-by-color .flexible {
+  -ms-flex-pack: distribute;
+      justify-content: space-around; }
+
+footer p:last-of-type {
+  margin-bottom: 0; }
+
+footer button {
+  margin-right: 1em; }
+  footer button:last-of-type {
+    margin-right: 0; }
+
+.subtle {
+  font-size: .8em; }
+  .subtle a {
+    color: currentColor; }
+    .subtle a:visited {
+      color: currentColor; }
+
+#cell-grid h3 {
+  margin: .5em; }
+
+#cell-grid__container.dirty {
+  border-width: 3px; }
+
+.canpx fieldset:last-child {
+  margin-bottom: 0; }
+
+.canpx footer {
+  margin-top: 1em; }
+
+/*# sourceMappingURL=main.css.map */

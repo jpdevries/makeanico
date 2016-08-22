@@ -1,0 +1,36 @@
+{
+  "name": "synctodo",
+  "version": "0.0.0",
+  "homepage": "https://github.com/jpdevries/synctodo",
+  "authors": [
+    "JP DeVries <mail@devries.jp>"
+  ],
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "bourbon": "~4.2.7",
+    "neat": "~1.7.4",
+    "spectacular": "~0.0.0"
+  },
+  "exportsOverride": {
+    "bourbon": {
+      "": "app/assets/stylesheets/"
+    },
+    "neat": {
+      "": "app/assets/stylesheets/"
+    },
+    "spectacular": {
+      "": "app/assets/stylesheets/"
+    }
+  }
+}

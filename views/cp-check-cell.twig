@@ -1,0 +1,5 @@
+<td{%if fill %} style="background:{{ fill }}" data-dirty="true"{% endif %}>
+  {% if fill %}<input type="hidden" name="c{{ index }}" value="{{ fill|replace({'#':'0x'}) }}" >{% endif %}
+  <input type="checkbox" id="cell__{{ index }}" name="cell__{{ index }}" value="1" />
+  <label for="cell__{{ index }}">Cell {{ index }}</label>
+</td>

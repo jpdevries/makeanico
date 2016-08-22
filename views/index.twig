@@ -1,0 +1,35 @@
+{% include 'header.twig' with { loadStyles:true } %}
+<body>
+  <form id="makeanico" action="/" method="post">
+  <div id="canvas">
+    <div id="stage">
+      <table cellspacing="0" cellpadding="0">
+        <thead>
+          <tr>
+            <th class="accessibly-hidden"><span>Row</span></th>
+            {% for row in cells %}
+              <th class="accessibly-hidden">Column {{ loop.index0 }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in cells %}
+            <tr>
+              <td class="accessibly-hidden row-col">Row {{loop.index0}}</td>
+              {% for cell in row %}
+                {% include 'cp-check-cell.twig' with cell %}
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div>
+    {% include 'cp-single-cell.twig' with {index:"0", row:"0", column:"0"} %}
+  </div>
+  </form>
+  {% include 'scripts.twig' %}
+</body>
+</html>
