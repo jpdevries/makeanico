@@ -38,9 +38,18 @@
     "express": "^4.14.0",
     "express-minify-html": "^0.5.0",
     "formidable": "^1.0.17",
+    "install": "^0.8.1",
+    "lwip": "0.0.9",
+    "npm": "^3.10.6",
     "onecolor": "^3.0.4",
+    "png-coder": "^0.2.1",
+    "png-pixel": "git://github.com/jpdevries/png-pixel#f6a5f82def31623f67e4fb2977d4246f77d6b0b2",
+    "pngjs": "^3.0.0",
     "query-string": "^4.2.3",
+    "rimraf": "^2.5.4",
     "serve-static": "^1.11.1",
+    "svg-to-png": "^3.1.0",
+    "to-ico": "^1.0.1",
     "twig": "^0.9.5"
   }
 }

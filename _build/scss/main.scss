@@ -2,14 +2,28 @@
 @import "neat/neat";
 @import "spec/tacular";
 
+$dangerous:rgb(201, 0, 5);
+
 $square: min-aspect-ratio #{1}/#{1};
 
 %flexible {
   display:flex;
 }
 
+%outer-container {
+  @include outer-container;
+}
+
 %container {
   padding:1em;
+}
+
+%balanced {
+  text-align:center;
+}
+
+%dangerous {
+  color:$dangerous;
 }
 
 %bright-container {
@@ -43,6 +57,12 @@ $topMost:999999;
   padding:.5em .5em 1em .5em;
 }
 
+%easy {
+  html.do-transitions & {
+    transition:all 240ms ease;
+  }
+}
+
 %bordered {
   border:1px solid rgb(220, 220, 220);
 }
@@ -72,6 +92,73 @@ fieldset {
 hr {
   border:none;
   border-top:1px solid rgb(220, 220, 220);
+}
+
+%button {
+  font-family:BlinkMacSystemFont, sans-serif;
+  color:black;
+  color: buttontext;
+  background: white;
+  padding: em(2px) em(6px) em(3px);
+  border-width: 1px;
+  border-radius:em(4px);
+  border-style: solid;
+  border-color: buttonface;
+
+  @extend %easy;
+
+  &.heavy {
+    background:darkgreen;
+    border-color:darken(darkgreen,6%);
+    color:white;
+
+    &:focus, &:active, &:hover {
+      background:darken(darkgreen,6%);
+      border-color:darken(darkgreen,12%);
+    }
+  }
+
+  &.comfortable, &.comforatbly {
+    padding: .5em 1em;
+  }
+}
+
+#start-over {
+  a {
+    &:hover, &:focus, &:active {
+      @extend %dangerous;
+    }
+  }
+}
+
+nav.button-bar {
+  padding:1em 0;
+}
+
+a.btn {
+  @extend %button;
+  text-decoration:none;
+}
+
+.button-bar {
+  font-size:13px;
+
+  label {
+    margin-right:1em;
+    &:last-of-type {
+      margin-right:0;
+    }
+  }
+
+  a {
+    @extend %clickable;
+    margin-right:1em;
+    text-transform:lowercase;
+
+    &:last-of-type {
+      margin-right:0;
+    }
+  }
 }
 
 .accessibly-hidden {
@@ -230,6 +317,10 @@ footer {
   }
 }
 
+.unaligned {
+  @extend %unaligned;
+}
+
 #cell-grid {
   h3 {
     @extend %unaligned; // text-align:center
@@ -238,8 +329,51 @@ footer {
 }
 
 #cell-grid__container {
+  transition:border-color 420ms linear;
+  font-size:.9em;
   &.dirty {
     border-width:3px;
+  }
+}
+
+.neat.container {
+  @extend %outer-container;
+}
+
+%widget {
+  margin-top:2em;
+  > .container {
+    @extend %balanced;
+    max-width:30em;
+  }
+}
+
+.export-as {
+  button {
+    margin-right:1em;
+  }
+}
+
+.bottom-bar {
+  @include media($gtMobile) {
+    display:flex;
+    justify-content:center;
+    > * {
+      flex-grow:1;
+    }
+  }
+}
+
+.widget {
+  @extend %widget;
+}
+
+#page-wrapper {
+  display:flex;
+  flex-wrap:wrap;
+  flex-direction:column-reverse;
+  > * {
+    width:100vw;
   }
 }
 

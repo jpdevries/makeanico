@@ -49,12 +49,16 @@
 	var makeanico = __webpack_require__(1);
 
 	document.addEventListener('DOMContentLoaded', function () {
-	  var cf = new makeanico.MakeAnIco();
+	    var cf = new makeanico.MakeAnIco();
 
-	  (function (html) {
-	    html.classList.remove('no-js');
-	    html.classList.add('js');
-	  })(document.querySelector('html'));
+	    var lazy = document.createElement('script');
+	    lazy.setAttribute('src', 'assets/js/lazy.min.js');
+	    document.body.appendChild(lazy);
+
+	    (function (html) {
+	        html.classList.remove('no-js');
+	        html.classList.add('js');
+	    })(document.querySelector('html'));
 	});
 
 /***/ },
@@ -93,7 +97,8 @@
 	      cellGridContainer = document.getElementById('cell-grid__container'),
 	      inputColorByRGBRadio = document.getElementById('input_color_by__rgb'),
 	      inputColorByTextColor = document.getElementById('input_color_by__text__color'),
-	      inputColorByColorpicker = document.getElementById('input_color_by__colorpicker');
+	      inputColorByColorpicker = document.getElementById('input_color_by__colorpicker'),
+	      fillCellsOnClick = document.getElementById('fill-cells-on-click');
 
 	  // pull the initial URL params out and store them in a Object
 	  var fillBack = {};
@@ -130,7 +135,12 @@
 	    var updateTextField = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
 
 	    fillColor = helpers.cssColorNameToRGB(color.replace('0x', '#'), true);
+	    var wasHex = color.charCodeAt(0) == '#';
+	    var wasBlack = wasHex ? color == '#000000' || color == '#000' : color.toLowerCase() == 'black';
 	    color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2]);
+
+	    if (!wasHex && !wasBlack && color == '#000000') return;
+
 	    cellGridContainer.classList.add('dirty');
 	    cellGridContainer.style.borderColor = color;
 
@@ -154,6 +164,7 @@
 	    var checkedCells = document.querySelectorAll('#stage input[type="checkbox"]:checked');
 	    for (var _i2 = 0; _i2 < checkedCells.length; _i2++) {
 	      var key = checkedCells[_i2].getAttribute('id').replace('cell__', 'c');
+	      //console.log(key,color.replace('#','0x'));
 	      fillBack[key] = color.replace('#', '0x');
 	      checkedCells[_i2].parentNode.style.backgroundColor = color;
 	      checkedCells[_i2].parentNode.setAttribute('data-dirty', 'true');
@@ -173,13 +184,13 @@
 	      function drawRow(row, rowIndex) {
 	        var rects = [];
 	        var cells = row.querySelectorAll('td:not(.row-col)');
-	        for (var _i4 = 0; _i4 < cells.length; _i4++) {
-	          var cell = cells[_i4];
+	        for (var _i5 = 0; _i5 < cells.length; _i5++) {
+	          var cell = cells[_i5];
 	          if (cell.getAttribute('data-dirty') == 'true') {
 	            var rgb = helpers.cssColorNameToRGB(cell.style.backgroundColor, true);
 	            var color = helpers.rgbToHex(rgb[0], rgb[1], rgb[2]);
 
-	            rects.push("<rect x=\"" + _i4 + "\" y=\"" + rowIndex + "\" width=\"1\" height=\"1\" fill=\"" + color + "\"></rect>");
+	            rects.push("<rect x=\"" + _i5 + "\" y=\"" + rowIndex + "\" width=\"1\" height=\"1\" fill=\"" + color + "\"></rect>");
 	          }
 	        }
 	        return rects;
@@ -190,7 +201,11 @@
 	      _loop(_i3);
 	    }
 
-	    document.querySelector('#svg-preview__svg #art').innerHTML = svg;
+	    //document.querySelector('#svg-preview__svg #art').innerHTML = svg;
+	    var svgs = document.querySelectorAll('.svg-preview__svg');
+	    for (var _i4 = 0; _i4 < svgs.length; _i4++) {
+	      svgs[_i4].querySelector('.art').innerHTML = svg;
+	    }
 	  }
 
 	  function updateFavicon() {
@@ -200,7 +215,7 @@
 	        ctx = void 0,
 	        img = document.createElement('img'),
 	        link = document.getElementById('favicon'),
-	        svgHTML = encodeURIComponent(document.querySelector('#svg-preview__svg').outerHTML);
+	        svgHTML = encodeURIComponent(document.querySelector('.svg-preview__svg').outerHTML);
 
 	    if (canvas.getContext) {
 	      canvas.height = canvas.width = 16; // set the size
@@ -215,14 +230,14 @@
 	    }
 	  }
 
-	  var _loop2 = function _loop2(_i5) {
-	    var range = ranges[_i5];
-	    var index = _i5;
-	    fillColor[_i5] = parseInt(range.value);
+	  var _loop2 = function _loop2(_i6) {
+	    var range = ranges[_i6];
+	    var index = _i6;
+	    fillColor[_i6] = parseInt(range.value);
 
 	    range.addEventListener('input', function (e) {
 	      fillColor[index] = parseInt(e.target.value); // update the fill color
-
+	      console.log(fillColor);
 	      var color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2]); //convert RGB values to hex
 	      updateColor(color);
 
@@ -231,38 +246,43 @@
 
 	    range.addEventListener('change', function (e) {
 	      pushState();
+	      updateDownloadLinks();
 	    });
 	  };
 
-	  for (var _i5 = 0; _i5 < ranges.length; _i5++) {
-	    _loop2(_i5);
+	  for (var _i6 = 0; _i6 < ranges.length; _i6++) {
+	    _loop2(_i6);
 	  }
 
 	  inputColorByTextColor.addEventListener('input', function (e) {
 	    document.getElementById('input_color_by__text').checked = true;
 	    updateColor(e.target.value, false);
 	    pushState();
+	    updateDownloadLinks();
 	  });
 
 	  try {
 	    inputColorByColorpicker.addEventListener('input', function (e) {
 	      document.getElementById('input_color_by__text__colorpicker').checked = true;
 	      updateColor(e.target.value);
+	      updateDownloadLinks();
 	    });
 
 	    inputColorByColorpicker.addEventListener('change', function (e) {
-	      console.log(event.target.value);
 	      pushState();
+	      console.log(event.target.value);
 	    });
-	  } catch (e) {}
+	  } catch (e) {
+	    console.log(e);
+	  }
 
 	  document.querySelector('button[type="submit"]').remove();
 	  document.querySelector('button[type="reset"]').remove();
 
-	  document.querySelector('#cell-grid__container header').innerHTML += "<div class=\"async-btns flexible unaligned fieldset\">\n    <button id=\"select_all_cells\">Select all Cells</button>\n    <button id=\"unselect_all_cells\">Unselect all Cells</button>\n    <button id=\"inverse_selection\">Inverse Selection</button>\n  </div>";
+	  document.querySelector('#cell-grid__container header').innerHTML += "<h3>Select Cells</h3><div class=\"async-btns flexible unaligned fieldset\">\n\n    <button id=\"select_all_cells\">Select all Cells</button>\n    <button id=\"unselect_all_cells\">Unselect all Cells</button>\n    <button id=\"inverse_selection\">Inverse Selection</button>\n  </div>";
 
-	  var _loop3 = function _loop3(_i6) {
-	    var cell = cellInputs[_i6];
+	  var _loop3 = function _loop3(_i7) {
+	    var cell = cellInputs[_i7];
 	    //console.log(cell);
 	    cell.addEventListener('click', function (e) {
 	      if (e.target.checked) {
@@ -270,38 +290,42 @@
 
 	        var key = cell.getAttribute('id').replace('cell__', 'c');
 	        fillBack[key] = color.replace('#', '0x');
-	        e.target.parentNode.style.backgroundColor = color;
-	        e.target.parentNode.setAttribute('data-dirty', 'true');
+
+	        if (fillCellsOnClick.checked) {
+	          e.target.parentNode.style.backgroundColor = color;
+	          e.target.parentNode.setAttribute('data-dirty', 'true');
+	        }
 
 	        pushState();
 	      }
 
 	      updateFavicon();
+	      updateDownloadLinks();
 	    });
 	  };
 
-	  for (var _i6 = 0; _i6 < cellInputs.length; _i6++) {
-	    _loop3(_i6);
+	  for (var _i7 = 0; _i7 < cellInputs.length; _i7++) {
+	    _loop3(_i7);
 	  }
 
 	  document.getElementById('select_all_cells').addEventListener('click', function (e) {
 	    e.preventDefault();
-	    for (var _i7 = 0; _i7 < cellInputs.length; _i7++) {
-	      cellInputs[_i7].checked = true;
+	    for (var _i8 = 0; _i8 < cellInputs.length; _i8++) {
+	      cellInputs[_i8].checked = true;
 	    }
 	  });
 
 	  document.getElementById('unselect_all_cells').addEventListener('click', function (e) {
 	    e.preventDefault();
-	    for (var _i8 = 0; _i8 < cellInputs.length; _i8++) {
-	      cellInputs[_i8].checked = false;
+	    for (var _i9 = 0; _i9 < cellInputs.length; _i9++) {
+	      cellInputs[_i9].checked = false;
 	    }
 	  });
 
 	  document.getElementById('inverse_selection').addEventListener('click', function (e) {
 	    e.preventDefault();
-	    for (var _i9 = 0; _i9 < cellInputs.length; _i9++) {
-	      cellInputs[_i9].checked = !cellInputs[_i9].checked;
+	    for (var _i10 = 0; _i10 < cellInputs.length; _i10++) {
+	      cellInputs[_i10].checked = !cellInputs[_i10].checked;
 	    }
 	  });
 
@@ -329,10 +353,19 @@
 	  });
 
 	  function clearBoard() {
-	    for (var _i10 = 0; _i10 < cellInputs.length; _i10++) {
-	      var _cell = cellInputs[_i10];
+	    for (var _i11 = 0; _i11 < cellInputs.length; _i11++) {
+	      var _cell = cellInputs[_i11];
 	      _cell.checked = false;
 	      _cell.parentNode.removeAttribute('style');
+	    }
+	  }
+
+	  function updateDownloadLinks() {
+	    console.log('updateDownloadLinks', location.search);
+	    var downloadAnchors = document.querySelectorAll('a[download]');
+	    for (var _i12 = 0; _i12 < downloadAnchors.length; _i12++) {
+	      var a = downloadAnchors[_i12];
+	      a.setAttribute('href', a.getAttribute('data-base-url') + location.search + '&dl=1');
 	    }
 	  }
 
@@ -350,6 +383,43 @@
 	  });
 
 	  document.querySelector('.instructions').innerHTML = "Select cells above to fill them with the color chosen&nbsp;below.";
+
+	  fillCellsOnClick.addEventListener('change', function (e) {
+	    e.target.checked ? document.getElementById('fill-selected-cells').setAttribute('disabled', 'true') : document.getElementById('fill-selected-cells').removeAttribute('disabled');
+	  });
+
+	  document.getElementById('filename__text').addEventListener('input', function (e) {
+	    var filenames = document.querySelectorAll('.filename');
+	    for (var _i13 = 0; _i13 < filenames.length; _i13++) {
+	      filenames[_i13].innerHTML = e.target.value ? e.target.value : 'favicon';
+	    }
+
+	    var anchors = document.querySelectorAll('nav.button-bar a');
+	    for (var _i14 = 0; _i14 < anchors.length; _i14++) {
+	      var anchor = anchors[_i14];
+	      anchor.setAttribute('download', (e.target.value || 'favicon') + "." + anchor.getAttribute('data-format'));
+	    }
+	  });
+
+	  var downloadBtns = document.querySelectorAll('input[name="download__as"]');
+	  for (var _i15 = 0; _i15 < downloadBtns.length; _i15++) {
+	    var downloadBtn = downloadBtns[_i15];
+
+	    downloadBtn.addEventListener('change', function (e) {
+	      var anchors = document.querySelectorAll('nav.button-bar a');
+
+	      for (var _i16 = 0; _i16 < anchors.length; _i16++) {
+	        var anchor = anchors[_i16];
+	        e.target.value == anchor.getAttribute('data-format') ? anchor.removeAttribute('hidden') : anchor.setAttribute('hidden', 'true');
+	        console.log(event.target.value + "." + anchor.getAttribute('data-format'));
+	      }
+
+	      var extensions = document.querySelectorAll('.extension');
+	      for (var _i17 = 0; _i17 < extensions.length; _i17++) {
+	        extensions[_i17].innerHTML = e.target.value;
+	      }
+	    });
+	  }
 
 	  window.onpopstate = function (event) {
 	    clearBoard(); // clear the art board
@@ -394,6 +464,7 @@
 	  //Color in RGB
 
 	  var rgb = window.getComputedStyle(d).color;
+	  console.log('rgb', rgb);
 	  d.remove();
 	  if (!returnArray) return rgb;
 

@@ -2,17 +2,24 @@
   <div id="cell-grid__container" class="container">
     <header>
       <div class="svg-preview">
-        <a download="favicon.svg" href="/favicon.svg?dl=1&{{ cellURL }}" title="Preview your Favicon as SVG">
-          {% include 'svg-preview.twig' with cells %}
-        </a>
-
+        {% include 'favicon-preview.twig' with cells %}
       </div>
+
+    </header>
+    <div class="canpx">
       <h3>Fill Selected Cells</h3>
       <p class="instructions">
         Fill the selected cells above with the color you input&nbsp;below.
       </p>
-    </header>
-    <div class="canpx">
+      <div>
+        <label for="fill-cells-on-click">
+          <input type="checkbox" id="fill-cells-on-click" name="fill-cells-on-click" value="1" checked>
+           Fill Cells on Click
+        </label>
+      </div>
+      <p class="unaligned">
+        <button id="fill-selected-cells" disabled>Fill Selected Cells</button>
+      </p>
       <fieldset class="input-by-color">
         <legend>Input Color By:</legend>
         <div class="flexible">

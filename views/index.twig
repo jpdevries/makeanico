@@ -1,35 +1,98 @@
 {% include 'header.twig' with { loadStyles:true } %}
 <body>
-  <form id="makeanico" action="/" method="post">
-  <div id="canvas">
-    <div id="stage">
-      <table cellspacing="0" cellpadding="0">
-        <thead>
-          <tr>
-            <th class="accessibly-hidden"><span>Row</span></th>
-            {% for row in cells %}
-              <th class="accessibly-hidden">Column {{ loop.index0 }}</th>
-            {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in cells %}
+  <div id="page-wrapper">
+    <aside class="bottom-bar">
+      <div class="quick-start widget">
+        <div class="neat container">
+          <div class="svg-preview">
+            {% include 'favicon-preview.twig' with cells %}
+          </div>
+          <h1>Make an <span aria-hidden="true">.</span>ICO <span class="accessibly-hidden">Graphic</span></h1>
+          <p>
+            Just getting started?<br>Check out our <a href="/howto">quick start&nbsp;guide</a>.
+          </p>
+        </div>
+      </div>
+      <div class="widget">
+        <div class="export-as neat container">
+          <div class="svg-preview">
+            {% include 'favicon-preview.twig' with cells %}
+          </div>
+          <h2>Export</h2>
+          <p>
+            Your <i><span class="filename">favicon</span>.<span class="extension">ico</span></i> icon is just one click&nbsp;away.
+          </p>
+          <label for="filename__text">Filename:</label>
+          <input type="text" id="filename__text" name="filename__text" placeholder="favicon" />
+          <p></p>
+          <form class="button-bar">
+            <fieldset>
+              <legend>Download As</legend>
+              <label for="download__ico">
+                ICO
+                <input type="radio" id="download__ico" name="download__as" checked value="ico">
+              </label>
+              <label for="download__svg">
+                SVG
+                <input type="radio" id="download__svg" name="download__as" value="svg">
+              </label>
+              <label for="download__png">
+                PNG
+                <input type="radio" id="download__png" name="download__as" value="png">
+              </label>
+            </fieldset>
+          </form>
+          <nav class="flexible unaligned button-bar">
+            <div>
+              <a href="/make/favicon.ico?dl=1&{{ cellURL }}" data-base-url="/make/favicon.ico" download="favicon.ico" class="comforatbly heavy btn" aria-label="ICO Graphic (ICO)" data-format="ico">Download <span class="filename">favicon</span>.<span class="extension">ico</span></a>
+            </div>
+            <div>
+              <a hidden href="/make/favicon.svg?dl=1&{{ cellURL }}" data-base-url="/make/favicon.svg" download="favicon.svg" class="comforatbly heavy btn" aria-label="Scalable Vector Graphic (SVG)" data-format="svg">Download <span class="filename">favicon</span>.<span class="extension">svg</span></a>
+            </div>
+            <div>
+              <a hidden href="/make/favicon.png?dl=1&{{ cellURL }}" data-base-url="/make/favicon.png" download="favicon.png" class="comforatbly heavy btn" aria-label="Portable Network Graphic (PNG)" data-format="png">Download <span class="filename">favicon</span>.<span class="extension">png</span></a>
+            </div>
+          </nav>
+          <!--form class="" action="index.html" method="post">
+            <button type="button" name="button" form-target="/api/favicon.ico" aria-label="ICO Graphic (ICO)">ICO</button>
+            <button type="button" name="button" form-target="/api/svg" aria-label="Scalable Vector Graphic (SVG)">SVG</button>
+            <button type="button" name="button" aria-label="Portable Network Graphic (PNG)">PNG</button>
+            <button type="button" name="button" aria-label="Comma Separated File (CSV)">CSV</button>
+          </form-->
+        </div>
+      </div>
+    </aside>
+    <form id="makeanico" action="/" method="post">
+    <div id="canvas">
+      <div id="stage">
+        <table cellspacing="0" cellpadding="0">
+          <thead>
             <tr>
-              <td class="accessibly-hidden row-col">Row {{loop.index0}}</td>
-              {% for cell in row %}
-                {% include 'cp-check-cell.twig' with cell %}
+              <th class="accessibly-hidden"><span>Row</span></th>
+              {% for row in cells %}
+                <th class="accessibly-hidden">Column {{ loop.index0 }}</th>
               {% endfor %}
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {% for row in cells %}
+              <tr>
+                <td class="accessibly-hidden row-col">Row {{loop.index0}}</td>
+                {% for cell in row %}
+                  {% include 'cp-check-cell.twig' with cell %}
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
 
-  <div>
-    {% include 'cp-single-cell.twig' with {index:"0", row:"0", column:"0"} %}
+    <div>
+      {% include 'cp-single-cell.twig' with {index:"0", row:"0", column:"0"} %}
+    </div>
+    </form>
   </div>
-  </form>
   {% include 'scripts.twig' %}
 </body>
 </html>

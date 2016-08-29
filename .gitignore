@@ -4,3 +4,6 @@ bower_components
 _build/scss/bourbon
 _build/scss/neat
 lib
+
+temp
+shame.js

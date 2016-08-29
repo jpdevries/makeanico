@@ -29,7 +29,8 @@ const MakeAnIco = function() {
   cellGridContainer = document.getElementById('cell-grid__container'),
   inputColorByRGBRadio = document.getElementById('input_color_by__rgb'),
   inputColorByTextColor = document.getElementById('input_color_by__text__color'),
-  inputColorByColorpicker = document.getElementById('input_color_by__colorpicker');
+  inputColorByColorpicker = document.getElementById('input_color_by__colorpicker'),
+  fillCellsOnClick = document.getElementById('fill-cells-on-click');
 
   // pull the initial URL params out and store them in a Object
   var fillBack = {};
@@ -64,7 +65,12 @@ const MakeAnIco = function() {
 
   function updateColor(color, updateTextField = true) {
     fillColor = helpers.cssColorNameToRGB(color.replace('0x', '#'), true);
+    let wasHex = color.charCodeAt(0) == '#';
+    let wasBlack = (wasHex) ? color == '#000000' || color == '#000' : color.toLowerCase() == 'black';
     color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2]);
+
+    if(!wasHex && !wasBlack && color == '#000000') return;
+
     cellGridContainer.classList.add('dirty');
     cellGridContainer.style.borderColor = color;
 
@@ -88,6 +94,7 @@ const MakeAnIco = function() {
     let checkedCells = document.querySelectorAll('#stage input[type="checkbox"]:checked');
     for(let i = 0; i < checkedCells.length; i++) {
       let key = checkedCells[i].getAttribute('id').replace('cell__','c');
+      //console.log(key,color.replace('#','0x'));
       fillBack[key] = color.replace('#','0x');
       checkedCells[i].parentNode.style.backgroundColor = color;
       checkedCells[i].parentNode.setAttribute('data-dirty','true');
@@ -119,7 +126,9 @@ const MakeAnIco = function() {
       }
     }
 
-    document.querySelector('#svg-preview__svg #art').innerHTML = svg;
+    //document.querySelector('#svg-preview__svg #art').innerHTML = svg;
+    let svgs = document.querySelectorAll('.svg-preview__svg');
+    for(let i = 0; i < svgs.length; i++) svgs[i].querySelector('.art').innerHTML = svg;
   }
 
   function updateFavicon() {
@@ -129,7 +138,7 @@ const MakeAnIco = function() {
     ctx,
     img = document.createElement('img'),
     link = document.getElementById('favicon'),
-    svgHTML = encodeURIComponent(document.querySelector('#svg-preview__svg').outerHTML);
+    svgHTML = encodeURIComponent(document.querySelector('.svg-preview__svg').outerHTML);
 
      if (canvas.getContext) {
        canvas.height = canvas.width = 16; // set the size
@@ -150,7 +159,7 @@ const MakeAnIco = function() {
 
     range.addEventListener('input',function(e){
       fillColor[index] = parseInt(e.target.value); // update the fill color
-
+      console.log(fillColor);
       let color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2]); //convert RGB values to hex
       updateColor(color);
 
@@ -159,6 +168,7 @@ const MakeAnIco = function() {
 
     range.addEventListener('change',function(e){
       pushState();
+      updateDownloadLinks();
     })
   }
 
@@ -166,24 +176,27 @@ const MakeAnIco = function() {
     document.getElementById('input_color_by__text').checked = true;
     updateColor(e.target.value, false);
     pushState();
+    updateDownloadLinks();
   });
 
   try {
     inputColorByColorpicker.addEventListener('input',function(e){
       document.getElementById('input_color_by__text__colorpicker').checked = true;
       updateColor(e.target.value);
+      updateDownloadLinks();
     });
 
     inputColorByColorpicker.addEventListener('change',function(e){
-      console.log(event.target.value);
       pushState();
+      console.log(event.target.value);
     });
-  } catch (e) {}
+  } catch (e) { console.log(e) }
 
   document.querySelector('button[type="submit"]').remove();
   document.querySelector('button[type="reset"]').remove();
 
-  document.querySelector('#cell-grid__container header').innerHTML += `<div class="async-btns flexible unaligned fieldset">
+  document.querySelector('#cell-grid__container header').innerHTML += `<h3>Select Cells</h3><div class="async-btns flexible unaligned fieldset">
+
     <button id="select_all_cells">Select all Cells</button>
     <button id="unselect_all_cells">Unselect all Cells</button>
     <button id="inverse_selection">Inverse Selection</button>
@@ -198,13 +211,17 @@ const MakeAnIco = function() {
 
         let key = cell.getAttribute('id').replace('cell__','c');
         fillBack[key] = color.replace('#','0x');
-        e.target.parentNode.style.backgroundColor = color;
-        e.target.parentNode.setAttribute('data-dirty','true');
+
+        if(fillCellsOnClick.checked) {
+          e.target.parentNode.style.backgroundColor = color;
+          e.target.parentNode.setAttribute('data-dirty','true');
+        }
 
         pushState();
       }
 
       updateFavicon();
+      updateDownloadLinks();
     });
   }
 
@@ -250,6 +267,15 @@ const MakeAnIco = function() {
     }
   }
 
+  function updateDownloadLinks() {
+    console.log('updateDownloadLinks', location.search);
+    let downloadAnchors = document.querySelectorAll('a[download]');
+    for(let i = 0; i < downloadAnchors.length; i++) {
+      let a = downloadAnchors[i];
+      a.setAttribute('href', a.getAttribute('data-base-url') + location.search + '&dl=1');
+    }
+  }
+
   document.querySelector('#start-over a').addEventListener('click', function(e){
     e.preventDefault();
 
@@ -264,6 +290,43 @@ const MakeAnIco = function() {
   });
 
   document.querySelector('.instructions').innerHTML = `Select cells above to fill them with the color chosen&nbsp;below.`;
+
+  fillCellsOnClick.addEventListener('change', function(e) {
+    (e.target.checked) ? document.getElementById('fill-selected-cells').setAttribute('disabled','true') : document.getElementById('fill-selected-cells').removeAttribute('disabled');
+  });
+
+  document.getElementById('filename__text').addEventListener('input', function(e) {
+    let filenames = document.querySelectorAll('.filename');
+    for(let i = 0; i < filenames.length; i++) {
+      filenames[i].innerHTML = e.target.value ? e.target.value : 'favicon';
+    }
+
+    let anchors = document.querySelectorAll('nav.button-bar a');
+    for(let i = 0; i < anchors.length; i++) {
+      let anchor = anchors[i];
+      anchor.setAttribute('download', `${e.target.value || 'favicon'}.${anchor.getAttribute('data-format')}`);
+    }
+  });
+
+  const downloadBtns = document.querySelectorAll('input[name="download__as"]');
+  for(let i = 0; i < downloadBtns.length; i++) {
+    let downloadBtn = downloadBtns[i];
+
+    downloadBtn.addEventListener('change', function(e) {
+      let anchors = document.querySelectorAll('nav.button-bar a');
+
+      for(let i = 0; i < anchors.length; i++) {
+        let anchor = anchors[i];
+        (e.target.value == anchor.getAttribute('data-format')) ? anchor.removeAttribute('hidden') : anchor.setAttribute('hidden', 'true');
+        console.log(`${event.target.value}.${anchor.getAttribute('data-format')}`);
+      }
+
+      let extensions = document.querySelectorAll('.extension');
+      for(let i = 0; i < extensions.length; i++) {
+        extensions[i].innerHTML = e.target.value;
+      }
+    });
+  }
 
   window.onpopstate = function(event) {
     clearBoard(); // clear the art board

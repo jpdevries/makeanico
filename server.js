@@ -12,8 +12,23 @@ color = require('onecolor'),
 compression = require('compression'),
 contentDisposition = require('content-disposition'),
 minifyHTML = require('express-minify-html'),
+svg_to_png = require('svg-to-png'),
+rmdir = require('rimraf'),
 //endpoints = require('./_build/js/model/endpoints'),
+path = require('path'),
 app = express();
+
+const toIco = require('to-ico');
+const tmpDir = './temp';
+//PNG = require('png-coder').PNG;
+
+const PNGPixel = require('png-pixel');
+
+const lwip = require('lwip');
+
+const PNG = require('pngjs').PNG;
+
+const transparent = {r: 255, g: 255, b: 255, a: 0};
 
 if(process.env.NODE_ENV) {
   app.use(minifyHTML({
@@ -22,13 +37,13 @@ if(process.env.NODE_ENV) {
       removeComments: true,
       collapseWhitespace: true,
       collapseBooleanAttributes: true,
-      removeAttributeQuotes: true,
+      removeAttributeQuotes: false,
       removeEmptyAttributes: true,
       minifyJS: true
     }
   }));
 
-  app.use(compression({ level: 9, threshold: 0 }));  
+  app.use(compression({ level: 9, threshold: 0 }));
 }
 
 app.use(express.static(__dirname));
@@ -100,6 +115,54 @@ function getCells(filledCells) {
   return a;
 }
 
+app.get('/png-coder', function(req, res) {
+  console.log('get png-coder ' + new Date().getTime());
+  let redirect = '';
+
+  createDirectoryIfNonExistant(tmpDir);
+
+  let folder = fs.mkdtempSync(tmpDir + path.sep);
+
+  lwip.open('favicon24.png', function(err, image) {
+    // check err...
+    // define a batch of manipulations and save to disk as JPEG:
+    image.batch()
+      .contain(16,16)          // scale to 16x16
+      .writeFile(folder + path.sep + 'favicon16.png', function(err) {
+        console.log('wrote ' + folder + path.sep + 'favicon16.png');
+
+        fs.createReadStream(folder + path.sep + 'favicon16.png').pipe(new PNG({
+          depth:8
+        })).on('parsed', function() {
+          console.log('parsed', this.width, this.height);
+          let c = 0;
+          let params = [];
+          for (let y = 0; y < this.height; y++) {
+              for (let x = 0; x < this.width; x++) {
+                  let idx = (this.width * y + x) << 2;
+                  //console.log(idx, this.data[idx+3]);
+                  let hex = helpers.rgbToHex(this.data[idx], this.data[idx+1], this.data[idx+2]);
+
+                  //console.log(hex);
+
+                  // if not transparent paint the cell param
+                  if(this.data[idx+3]) params.push(`c${c}=${hex.replace('#','0x')}`);
+
+                  c++;
+              }
+          }
+
+          res.redirect(`/?${params.join('&')}`);
+          res.end();
+
+        });
+
+      });
+
+  });
+
+});
+
 app.get('/', function(req, res) {
   //res.set('Content-Encoding', 'gzip');
   var filledCells = getFilledCells(req.query);
@@ -115,8 +178,6 @@ app.get('/', function(req, res) {
 app.post('/', function(req, res) {
   const form = new formidable.IncomingForm();
 
-
-
   form.parse(req, function(err, fields, files){
     let targetColor = '#FFFFFF';
     if(fields['input_color_by'] == 'text' && fields['input_color_by__text__color']) {
@@ -127,8 +188,8 @@ app.post('/', function(req, res) {
       targetColor = `rgb(${[fields['rgb_slider_r'],fields['rgb_slider_g'],fields['rgb_slider_b']].join(',')})`;
     }
 
-    console.log(targetColor);
-    console.log(fields);
+    //console.log(targetColor);
+    //console.log(fields);
     var filledCells = getFilledCells(fields);
     var selectedCells = getSelectedCells(fields);
     selectedCells.map(function(value){
@@ -142,16 +203,10 @@ app.post('/', function(req, res) {
     res.redirect(`/?${redirect}`);
     res.end();
 
-    /*res.json({
-      fields:fields,
-      filledCells:filledCells,
-      selectedCells:selectedCells,
-      redirect:redirect
-    });*/
   });
 });
 
-app.get('/favicon.svg', function(req, res){
+app.get('/make/favicon.svg', function(req, res){
   var filledCells = getFilledCells(req.query);
   let cells = getCells(filledCells);
 
@@ -166,6 +221,108 @@ app.get('/favicon.svg', function(req, res){
   });
 });
 
+app.get('/make/favicon.png', function(req, res) {
+  let filledCells = getFilledCells(req.query);
+  let cells = getCells(filledCells);
+
+  createDirectoryIfNonExistant(tmpDir);
+
+  if(req.query['dl']) res.setHeader('Content-Disposition', contentDisposition(undefined,{
+    type:'attachment'
+  }));
+
+  urlParamsToPNG(cells).then(function(buffer) {
+    res.end(buffer);
+  });
+
+});
+
+app.get('/make/favicon.ico', function(req, res) {
+  let filledCells = getFilledCells(req.query);
+  let cells = getCells(filledCells);
+
+  createDirectoryIfNonExistant(tmpDir);
+
+  if(req.query['dl']) res.setHeader('Content-Disposition', contentDisposition(undefined,{
+    type:'attachment'
+  }));
+
+  urlParamsToPNG(cells).then(function(buffer) {
+    const files = [buffer];
+
+    toIco(files).then(buf => {
+      res.end(buf);
+    });
+  });
+});
+
+app.get('/es', function(req, res) { // this is kind of weird. This is to support the ExtendScript which reads a Photoshop file, creates a 16x16 favicon and creates a MakeAnIco URL for it. The mac terminal open command only supports one URL param, so this supports cramming all the data in one URL by parsing that param and redirect to the appropriate endpoint
+  try {
+    let cells = req.query.d.split('__').map((cell) => (
+      cell.split('0x')[0] + '=0x' + cell.split('0x')[1]
+    )).join('&');
+
+    res.redirect(`/?${cells}`);
+  } catch(e) {
+    res.redirect(`/`);
+  }
+  res.end();
+});
+
+function createDirectoryIfNonExistant(dir) {
+  if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+  }
+}
+
+function svgToPNG(folder) { // consider https://www.npmjs.com/package/png-pixel
+  return svg_to_png.convert([folder + path.sep + 'favicon.svg'], folder) // async, returns promise
+  .then(() => ([
+        fs.readFileSync(folder + path.sep + 'favicon.png')
+  ]));
+}
+
+function urlParamsToPNG(cells) {
+  return new Promise(function(resolve, reject) {
+    let pixels = [];
+
+    cells.map(function(row) {
+      row.map(function(cell) {
+        if(cell.fill) pixels.push({
+          x: cell.column,
+          y: cell.row,
+          color: cell.fill.replace('#','').toUpperCase()
+        });
+      });
+    });
+
+    fs.mkdtemp(tmpDir + path.sep, (err, folder) => {
+      if (err) throw err;
+      console.log(folder);
+
+      lwip.create(16, 16, transparent, function(err, image) {
+        image.writeFile(folder + path.sep + 'favicon.png', function(err) { // save the matte image to the filesystem
+          PNGPixel.add(folder + path.sep + 'favicon.png', folder + path.sep + 'favicon.png', pixels)
+          .then(function(writeStream) {
+            writeStream.on('close', function() {
+              fs.readFile(this.path, function(err, buffer) {
+                resolve(buffer);
+
+                rmdir(folder, function(error){
+                  try {
+                    fs.rmdirSync(tmpDir);
+                  } catch(e) { console.log(e) }
+                });
+
+              });
+            });
+          }); // end PNGPixel
+        }); // end image.writeFile
+      }); // end lwip.create
+    }); // end fs.mkdtemp
+  });
+}
+
 /*app.get('*.min.js', function (req, res, next) {
   req.url = req.url + '.gz';
   res.set('Content-Encoding', 'gzip');
@@ -177,6 +334,9 @@ app.get('*.min.css', function (req, res, next) {
   res.set('Content-Encoding', 'gzip');
   next();
 });*/
+
+
+
        /*             __
       /\ \__         /\ \__  __
   ____\ \ ,_\    __  \ \ ,_\/\_\    ___         ____     __   _ __   __  __     __   _ __
@@ -184,8 +344,6 @@ app.get('*.min.css', function (req, res, next) {
 /\__, `\\ \ \_/\ \L\.\_\ \ \_\ \ \/\ \__/     /\__, `\/\  __/\ \ \/ \ \ \_/ |/\  __/\ \ \/
 \/\____/ \ \__\ \__/.\_\\ \__\\ \_\ \____\    \/\____/\ \____\\ \_\  \ \___/ \ \____\\ \_\
  \/___/   \/__/\/__/\/_/ \/__/ \/_/\/____/     \/___/  \/____/ \/_/   \/__/   \/____/ \/*/
-
-
 
 
 

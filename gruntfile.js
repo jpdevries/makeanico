@@ -90,7 +90,8 @@ module.exports = function(grunt) {
       js: {
         options:{report:"gzip"},
         files: {
-          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>app.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>app.js'
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>app.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>app.js',
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>lazy.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>lazy.js'
         }
       }
     },
