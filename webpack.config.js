@@ -3,7 +3,7 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: {
-    'app':'./_build/js/main.js',
+    'app':['./_build/js/main.js'],
     'lazy':'./_build/js/lazy.js',
   },
   output: { path: './assets/js/', filename: '[name].js' },

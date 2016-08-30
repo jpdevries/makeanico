@@ -3,4 +3,4 @@
   var useCDN = true;
 </script>
 
-<script defer>if(doEnhancments) document.write('<script src="assets/js/app.min.js"><\/script>');</script>
+<script defer>if(doEnhancments) document.write('<script src="assets/js/app{% if production %}.min{% endif %}.js"><\/script>');</script>

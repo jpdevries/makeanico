@@ -18,6 +18,10 @@ rmdir = require('rimraf'),
 path = require('path'),
 app = express();
 
+const util = require('util');
+
+const svg2png = require('svg2png');
+
 const toIco = require('to-ico');
 const tmpDir = './temp';
 //PNG = require('png-coder').PNG;
@@ -115,6 +119,96 @@ function getCells(filledCells) {
   return a;
 }
 
+function rasterizeIfNeeded(pic) {
+  console.log('rasterizeIfNeeded', pic.path);
+  return new Promise(function(resolve, reject) {
+    console.log('resolving');
+    if(pic.type !== 'image/svg+xml') {
+      resolve({
+        filepath: pic.path,
+        isBuffer: false
+      });
+    } else {
+
+      fs.readFile(pic.path, function (err, buffer) {
+          if (err) reject(err);
+          console.log(buffer);
+
+          svg2png(buffer, {})
+            .then((buf) => {
+              console.log(buf);
+              fs.writeFile("dest.png", buf);
+              resolve({
+                filepath: buf,
+                isBuffer: true
+              });
+            })
+            .catch(e => console.error(e))
+          ;
+
+          //resolve(pic.path);
+      });
+    }
+  });
+}
+
+app.post('/png-coder', function(req, res) {
+  var form = new formidable.IncomingForm();
+
+  //form.uploadDir = tmpDir;
+  form.keepExtensions = true;
+
+  form.parse(req, function(err, fields, files) {
+    //res.writeHead(200, {'content-type': 'text/plain'});
+    //res.write('received upload:\n\n');
+    console.log(files.pic.path);
+    console.log(files.pic.type);
+
+    rasterizeIfNeeded(files.pic).then(function(data) {
+      let filepath = data.filepath,
+      isBuffer = data.isBuffer;
+
+      console.log('resolved', isBuffer);
+
+      let callback = function(err, image) {
+        image.batch()
+        .cover(16,16)
+        .exec(function(err, image) {
+          let params = [];
+          let i = 0;
+          for(let y = 0; y < 16; y++) {
+            for(let x = 0; x < 16; x++) {
+              let rgb = image.getPixel(x, y);
+              let hex = helpers.rgbToHex(rgb.r, rgb.g, rgb.b);
+
+              params.push(`c${i}=${hex.replace('#','0x')}`);
+
+              i++;
+            }
+          }
+
+          res.redirect(`/?${params.join('&')}`);
+          res.end();
+        });
+      };
+
+      if(isBuffer) {
+        lwip.open(filepath, 'png', callback);
+      } else {
+        lwip.open(filepath, callback);
+      }
+
+    }, function(err) {
+      console.log('err', err);
+    });
+
+    //res.end(util.inspect({fields: fields, files: files}));
+  });
+
+
+
+});
+
 app.get('/png-coder', function(req, res) {
   console.log('get png-coder ' + new Date().getTime());
   let redirect = '';
@@ -171,7 +265,8 @@ app.get('/', function(req, res) {
   res.render('index.twig',{
     cells: cells,
     startOver: filledCells.length > 0,
-    cellURL: getCellURLString(req.query)
+    cellURL: getCellURLString(req.query),
+    production: process.env.NODE_ENV == 'production'
   });
 });
 
@@ -282,7 +377,7 @@ function svgToPNG(folder) { // consider https://www.npmjs.com/package/png-pixel
   ]));
 }
 
-function urlParamsToPNG(cells) {
+function urlParamsToPNG(cells, matte = transparent) {
   return new Promise(function(resolve, reject) {
     let pixels = [];
 
@@ -300,7 +395,7 @@ function urlParamsToPNG(cells) {
       if (err) throw err;
       console.log(folder);
 
-      lwip.create(16, 16, transparent, function(err, image) {
+      lwip.create(16, 16, matte, function(err, image) {
         image.writeFile(folder + path.sep + 'favicon.png', function(err) { // save the matte image to the filesystem
           PNGPixel.add(folder + path.sep + 'favicon.png', folder + path.sep + 'favicon.png', pixels)
           .then(function(writeStream) {

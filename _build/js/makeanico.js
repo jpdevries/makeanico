@@ -127,8 +127,8 @@ const MakeAnIco = function() {
     }
 
     //document.querySelector('#svg-preview__svg #art').innerHTML = svg;
-    let svgs = document.querySelectorAll('.svg-preview__svg');
-    for(let i = 0; i < svgs.length; i++) svgs[i].querySelector('.art').innerHTML = svg;
+    let svgs = document.querySelectorAll('.svg-preview__svg .art');
+    for(let i = 0; i < svgs.length; i++) svgs[i].innerHTML = svg;
   }
 
   function updateFavicon() {
@@ -192,8 +192,8 @@ const MakeAnIco = function() {
     });
   } catch (e) { console.log(e) }
 
-  document.querySelector('button[type="submit"]').remove();
-  document.querySelector('button[type="reset"]').remove();
+  document.querySelector('[no-js]').remove();
+  //document.querySelector('button[type="reset"]').remove();
 
   document.querySelector('#cell-grid__container header').innerHTML += `<h3>Select Cells</h3><div class="async-btns flexible unaligned fieldset">
 

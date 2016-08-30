@@ -7,7 +7,7 @@ html {
 #stage, table, #stage input[type="checkbox"], #stage table {
   width: 100%; }
 
-.button-bar a, #stage input[type="checkbox"], #stage input[type="checkbox"] + label {
+.button-bar a, #stage input[type="checkbox"], #stage input[type="checkbox"] + label, .widget.upload label[for="pic"], .widget.upload .svg-preview__svg {
   cursor: pointer; }
 
 #stage, .svg-preview, #cell-grid, .unaligned, #cell-grid h3, .async-btns, .canpx footer {
@@ -49,7 +49,7 @@ http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
 .container {
   padding: 1em; }
 
-.widget > .container {
+.widget > .container, footer, .widget.upload button {
   text-align: center; }
 
 #start-over a:hover, #start-over a:focus, #start-over a:active {
@@ -243,22 +243,64 @@ footer button {
     border-width: 3px; }
 
 .widget {
-  margin-top: 2em; }
+  margin-top: 1em; }
   .widget > .container {
-    max-width: 30em; }
+    max-width: 30em;
+    -ms-flex-preferred-size: 30em;
+        flex-basis: 30em; }
 
 .export-as button {
   margin-right: 1em; }
 
-@media screen and (min-width: 641px) {
-  .bottom-bar {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: center;
-        justify-content: center; }
-    .bottom-bar > * {
-      -ms-flex-positive: 1;
-          flex-grow: 1; } }
+.bottom-bar {
+  padding-bottom: 1em; }
+  @media screen and (min-width: 641px) {
+    .bottom-bar {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-pack: center;
+          justify-content: center;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+      .bottom-bar > * {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-positive: 0;
+            flex-grow: 0;
+        -ms-flex-negative: 1;
+            flex-shrink: 1;
+        -ms-flex-preferred-size: 20em;
+            flex-basis: 20em;
+        margin-right: 1em; }
+        .bottom-bar > *:last-child {
+          margin-right: 0; } }
+
+label[for="filename__text"] {
+  margin-right: 1em; }
+
+footer {
+  margin: 1em 0; }
+  footer a {
+    padding: 0 1em; }
+
+body {
+  padding-bottom: 1em; }
+
+.flexible input[type="text"] {
+  -ms-flex-positive: 1;
+      flex-grow: 1; }
+
+.widget.upload {
+  -ms-flex-preferred-size: 24em;
+      flex-basis: 24em; }
+  .widget.upload button {
+    display: block; }
+  .widget.upload label[for="pic"] {
+    margin-bottom: 1em;
+    margin-right: 1em;
+    display: inline-block; }
+  .widget.upload button {
+    margin: 2em auto 0 auto; }
 
 #page-wrapper {
   display: -ms-flexbox;

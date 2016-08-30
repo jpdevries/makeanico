@@ -44,9 +44,16 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = __webpack_require__(1);
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
-	var makeanico = __webpack_require__(1);
+	var makeanico = __webpack_require__(2);
 
 	document.addEventListener('DOMContentLoaded', function () {
 	    var cf = new makeanico.MakeAnIco();
@@ -62,12 +69,12 @@
 	});
 
 /***/ },
-/* 1 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var helpers = __webpack_require__(2);
+	var helpers = __webpack_require__(3);
 
 	var MakeAnIco = function MakeAnIco() {
 	  var inputColorSupport = function () {
@@ -202,9 +209,9 @@
 	    }
 
 	    //document.querySelector('#svg-preview__svg #art').innerHTML = svg;
-	    var svgs = document.querySelectorAll('.svg-preview__svg');
+	    var svgs = document.querySelectorAll('.svg-preview__svg .art');
 	    for (var _i4 = 0; _i4 < svgs.length; _i4++) {
-	      svgs[_i4].querySelector('.art').innerHTML = svg;
+	      svgs[_i4].innerHTML = svg;
 	    }
 	  }
 
@@ -276,8 +283,8 @@
 	    console.log(e);
 	  }
 
-	  document.querySelector('button[type="submit"]').remove();
-	  document.querySelector('button[type="reset"]').remove();
+	  document.querySelector('[no-js]').remove();
+	  //document.querySelector('button[type="reset"]').remove();
 
 	  document.querySelector('#cell-grid__container header').innerHTML += "<h3>Select Cells</h3><div class=\"async-btns flexible unaligned fieldset\">\n\n    <button id=\"select_all_cells\">Select all Cells</button>\n    <button id=\"unselect_all_cells\">Unselect all Cells</button>\n    <button id=\"inverse_selection\">Inverse Selection</button>\n  </div>";
 
@@ -438,7 +445,7 @@
 	exports.MakeAnIco = MakeAnIco;
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -464,7 +471,6 @@
 	  //Color in RGB
 
 	  var rgb = window.getComputedStyle(d).color;
-	  console.log('rgb', rgb);
 	  d.remove();
 	  if (!returnArray) return rgb;
 
