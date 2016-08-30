@@ -7,7 +7,7 @@ html {
 #stage, table, #stage input[type="checkbox"], #stage table {
   width: 100%; }
 
-.button-bar a, #stage input[type="checkbox"], #stage input[type="checkbox"] + label, .widget.upload label[for="pic"], .widget.upload .svg-preview__svg {
+.button-bar a, #stage input[type="checkbox"], #stage input[type="checkbox"] + label, .widget.import button, .widget.import label[for="pic"], .widget.import .svg-preview__svg {
   cursor: pointer; }
 
 #stage, .svg-preview, #cell-grid, .unaligned, #cell-grid h3, .async-btns, .canpx footer {
@@ -49,7 +49,7 @@ http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
 .container {
   padding: 1em; }
 
-.widget > .container, footer, .widget.upload button {
+.widget > .container, footer, .widget.import button {
   text-align: center; }
 
 #start-over a:hover, #start-over a:focus, #start-over a:active {
@@ -74,7 +74,7 @@ http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
 #cell-grid > * {
   padding: .5em .5em 1em .5em; }
 
-html.do-transitions a.btn {
+html.do-transitions a.btn, html.do-transitions .widget.import button, .widget.import html.do-transitions button {
   transition: all 240ms ease; }
 
 fieldset {
@@ -98,7 +98,12 @@ hr {
   border: none;
   border-top: 1px solid gainsboro; }
 
-a.btn {
+a.heavy.btn, .widget.import button.heavy {
+  background: darkgreen;
+  border-color: #004500;
+  color: white; }
+
+a.btn, .widget.import button {
   font-family: BlinkMacSystemFont, sans-serif;
   color: black;
   color: buttontext;
@@ -107,15 +112,15 @@ a.btn {
   border-width: 1px;
   border-radius: 0.25em;
   border-style: solid;
-  border-color: buttonface; }
-  a.heavy.btn {
-    background: darkgreen;
-    border-color: #004500;
-    color: white; }
-    a.heavy.btn:focus, a.heavy.btn:active, a.heavy.btn:hover {
+  border-color: silver; }
+  a.heavy.btn, .widget.import button.heavy {
+    display: inline-block; }
+    a.heavy[hidden].btn, .widget.import button.heavy[hidden] {
+      display: none; }
+    a.heavy.btn:focus, .widget.import button.heavy:focus, a.heavy.btn:active, .widget.import button.heavy:active, a.heavy.btn:hover, .widget.import button.heavy:hover {
       background: #004500;
       border-color: #002700; }
-  a.comfortable.btn, a.comforatbly.btn {
+  a.comfortable.btn, .widget.import button.comfortable, a.comforatbly.btn, .widget.import button.comforatbly {
     padding: .5em 1em; }
 
 nav.button-bar {
@@ -123,6 +128,9 @@ nav.button-bar {
 
 a.btn {
   text-decoration: none; }
+
+.download-as {
+  font-size: 13px; }
 
 .button-bar {
   font-size: 13px; }
@@ -170,10 +178,8 @@ a.btn {
 fieldset, .fieldset {
   margin-bottom: 1em; }
 
-#cell-grid {
-  margin: 1em auto; }
-  #cell-grid > * {
-    text-align: left; }
+#cell-grid > * {
+  text-align: left; }
 
 #stage input[type="checkbox"] {
   -webkit-appearance: none;
@@ -245,11 +251,12 @@ footer button {
 .widget {
   margin-top: 1em; }
   .widget > .container {
+    position: relative;
     max-width: 30em;
     -ms-flex-preferred-size: 30em;
         flex-basis: 30em; }
 
-.export-as button {
+.export button {
   margin-right: 1em; }
 
 .bottom-bar {
@@ -290,17 +297,31 @@ body {
   -ms-flex-positive: 1;
       flex-grow: 1; }
 
-.widget.upload {
+.widget.import {
   -ms-flex-preferred-size: 24em;
       flex-basis: 24em; }
-  .widget.upload button {
+  .widget.import button {
+    font-size: 1em;
+    background: whitesmoke;
     display: block; }
-  .widget.upload label[for="pic"] {
+    .widget.import button:hover, .widget.import button:focus, .widget.import button:active {
+      background: white; }
+  .widget.import label[for="pic"] {
     margin-bottom: 1em;
     margin-right: 1em;
     display: inline-block; }
-  .widget.upload button {
+  .widget.import button {
     margin: 2em auto 0 auto; }
+
+.widget.export > .container, .widget.import > .container {
+  padding-bottom: 4em; }
+
+.widget.export .button-bar, .widget.import .button-bar {
+  position: absolute;
+  bottom: 1em;
+  left: 0;
+  right: 0;
+  padding: 0; }
 
 #page-wrapper {
   display: -ms-flexbox;

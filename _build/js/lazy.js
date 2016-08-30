@@ -41,7 +41,7 @@ datalist.appendChild(colorLabel);
 datalist.appendChild(dataListSelect);
 datalist.appendChild(swatchOptGroup);
 
-document.querySelector('.widget.upload .svg-preview__svg').addEventListener('click', function(e) {
+document.querySelector('.widget.import .svg-preview__svg').addEventListener('click', function(e) {
   document.getElementById('pic').click();
 });
 

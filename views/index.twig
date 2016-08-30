@@ -17,7 +17,7 @@
           <p>Bookmark this page at anytime to save your&nbsp;proggress.</p>
         </div>
       </div>
-      <div class="upload widget">
+      <div class="import widget">
         <form class="neat container" action="/png-coder" method="post" enctype="multipart/form-data">
           <div aria-hidden="true" class="svg-preview">
             <svg width="16" height="16" viewBox="0 0 2048 2048" class="svg-preview__svg" xmlns="http://www.w3.org/2000/svg"><path d="M1472 1600q0-26-19-45t-45-19-45 19-19 45 19 45 45 19 45-19 19-45zm256 0q0-26-19-45t-45-19-45 19-19 45 19 45 45 19 45-19 19-45zm128-224v320q0 40-28 68t-68 28h-1472q-40 0-68-28t-28-68v-320q0-40 28-68t68-28h427q21 56 70.5 92t110.5 36h256q61 0 110.5-36t70.5-92h427q40 0 68 28t28 68zm-325-648q-17 40-59 40h-256v448q0 26-19 45t-45 19h-256q-26 0-45-19t-19-45v-448h-256q-42 0-59-40-17-39 14-69l448-448q18-19 45-19t45 19l448 448q31 30 14 69z"/></svg>
@@ -26,11 +26,13 @@
           <p>Fancy a shortcut?<br>Upload a PNG, JPG, GIF, or SVG image and we'll generate a favicon from your&nbsp;image.<br>Your image will be scaled down and cropped as a 16x16 square so square aspect ratios work&nbsp;best.</p>
           <label for="pic">Upload a Picture</label>
           <input type="file" id="pic" name="pic" accept="image/*" />
-          <button type="submit">Import</button>
+          <div class="button-bar">
+            <button type="submit" class="comfortable">Import</button>
+          </div>
         </form>
       </div>
-      <div class="widget">
-        <div class="export-as neat container">
+      <div class="export widget">
+        <div class="neat container">
           <div class="svg-preview">
             {% include 'favicon-preview.twig' with cells %}
           </div>
@@ -43,7 +45,7 @@
             <input type="text" id="filename__text" name="filename__text" placeholder="favicon" />
           </div>
           <p></p>
-          <form class="button-bar">
+          <form class="download-as">
             <fieldset>
               <legend>Download As</legend>
               <label for="download__ico">
@@ -106,9 +108,9 @@
   </div>
   <footer class="page-wrapper">
     <nav>
-      <a href="mailto:">Share this Icon</a>
+      <a href="mailto:" class="data-dependent"{% if not startOver %} hidden{% endif %}>Share this Icon</a>
       <a href="#">Read the Docs</a>
-      <a href="#">Source Code</a>
+      <a href="https://github.com/jpdevries/makeanico">Source Code</a>
       <a href="mailto:contact@makeani.co?subject=Make%20an%20Ico">Contact Us</a>
     </nav>
   </footer>

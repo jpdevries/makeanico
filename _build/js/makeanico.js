@@ -42,6 +42,19 @@ const MakeAnIco = function() {
       const keyValue = params[i].split('=');
       fillBack[keyValue[0]] = keyValue[1];
     }
+
+    if(params.length) {
+      updateView();
+    }
+  }
+
+  function updateView() {
+    updateFavicon();
+    updateDownloadLinks();
+
+    const isBlank = !Object.keys(fillBack).length;
+    let dataDependents = document.querySelectorAll('.data-dependent');
+    for(let i = 0; i < dataDependents.length; i++) (isBlank) ? dataDependents[i].setAttribute('hidden', 'true') : dataDependents[i].removeAttribute('hidden');
   }
 
   function pushState() {
@@ -58,7 +71,7 @@ const MakeAnIco = function() {
     window.history.pushState(fillBack, 'Makeanico', `/?${newURL}`);
   }
 
-  let fillColor = [255, 255, 255];
+  let fillColor = [255, 255, 255, 100];
   if(localStorage.getItem('fillColor')) {
     updateColor(localStorage.getItem('fillColor'));
   }
@@ -76,14 +89,18 @@ const MakeAnIco = function() {
 
     if(updateTextField) inputColorByTextColor.value = color;
 
-    for(let i = 0; i < ranges.length; i++) ranges[i].value = fillColor[i];
+    for(let i = 0; i < 3; i++) {
+      //console.log('setting ' + i + ' to ' + fillColor[i], ranges[i]);
+      ranges[i].value = fillColor[i];
+    }
 
     try {
       inputColorByColorpicker.value = color;
     } catch (e) {}
 
     updateColorGrid(color);
-    updateFavicon();
+    //updateFavicon();
+    updateView();
 
     localStorage.setItem('fillColor', color);
 
@@ -220,8 +237,9 @@ const MakeAnIco = function() {
         pushState();
       }
 
-      updateFavicon();
-      updateDownloadLinks();
+      updateView();
+      //updateFavicon();
+      //updateDownloadLinks();
     });
   }
 

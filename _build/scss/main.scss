@@ -94,6 +94,12 @@ hr {
   border-top:1px solid rgb(220, 220, 220);
 }
 
+%heavy-btn {
+  background:darkgreen;
+  border-color:darken(darkgreen,6%);
+  color:white;
+}
+
 %button {
   font-family:BlinkMacSystemFont, sans-serif;
   color:black;
@@ -103,14 +109,18 @@ hr {
   border-width: 1px;
   border-radius:em(4px);
   border-style: solid;
-  border-color: buttonface;
+  border-color:rgb(192, 192, 192);
+  //border-color: buttonface;
 
   @extend %easy;
 
   &.heavy {
-    background:darkgreen;
-    border-color:darken(darkgreen,6%);
-    color:white;
+    display:inline-block;
+    @extend %heavy-btn;
+
+    &[hidden] {
+      display:none;
+    }
 
     &:focus, &:active, &:hover {
       background:darken(darkgreen,6%);
@@ -138,6 +148,10 @@ nav.button-bar {
 a.btn {
   @extend %button;
   text-decoration:none;
+}
+
+.download-as {
+  font-size:13px;
 }
 
 .button-bar {
@@ -223,7 +237,7 @@ fieldset, .fieldset {
 
 #cell-grid {
   @extend %unaligned; // text-align:center
-  margin:1em auto;
+  //margin:1em auto;
   > * {
     @extend %padded-cell;
     @extend %margin-center;
@@ -344,12 +358,13 @@ footer {
   margin-top:1em;
   > .container {
     @extend %balanced;
+    position:relative;
     max-width:30em;
     flex-basis:30em;
   }
 }
 
-.export-as {
+.export {
   button {
     margin-right:1em;
   }
@@ -400,11 +415,22 @@ body {
 
 .widget {
   @extend %widget;
-  &.upload {
+  &.import {
     flex-basis:24em;
     button {
-      display:block;
+      @extend %easy;
+      @extend %button;
+      @extend %clickable;
       @extend %balanced;
+      font-size:1em;
+      background:rgb(245,245,245);
+      &:hover, &:focus, &:active {
+        background:white;
+      }
+      html & {
+        //@extend %heavy-btn;
+      }
+      display:block;
     }
     label[for="pic"] {
       @extend %clickable;
@@ -417,6 +443,19 @@ body {
     }
     button {
       margin:2em auto 0 auto;
+    }
+  }
+
+  &.export, &.import {
+    > .container {
+      padding-bottom:4em;
+    }
+    .button-bar {
+      position:absolute;
+      bottom:1em;
+      left:0;
+      right:0;
+      padding:0;
     }
   }
 }

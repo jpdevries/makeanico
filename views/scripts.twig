@@ -1,6 +1,7 @@
 <script>
   var doEnhancments = document.addEventListener ? true : false;
   var useCDN = true;
+  var production = {% if production %}true{% else %}false{% endif %};
 </script>
 
 <script defer>if(doEnhancments) document.write('<script src="assets/js/app{% if production %}.min{% endif %}.js"><\/script>');</script>

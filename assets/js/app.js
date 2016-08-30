@@ -59,7 +59,7 @@
 	    var cf = new makeanico.MakeAnIco();
 
 	    var lazy = document.createElement('script');
-	    lazy.setAttribute('src', 'assets/js/lazy.min.js');
+	    lazy.setAttribute('src', 'assets/js/lazy' + (production ? '.min' : '') + '.js');
 	    document.body.appendChild(lazy);
 
 	    (function (html) {
@@ -117,6 +117,21 @@
 	      var keyValue = params[i].split('=');
 	      fillBack[keyValue[0]] = keyValue[1];
 	    }
+
+	    if (params.length) {
+	      updateView();
+	    }
+	  }
+
+	  function updateView() {
+	    updateFavicon();
+	    updateDownloadLinks();
+
+	    var isBlank = !Object.keys(fillBack).length;
+	    var dataDependents = document.querySelectorAll('.data-dependent');
+	    for (var _i = 0; _i < dataDependents.length; _i++) {
+	      isBlank ? dataDependents[_i].setAttribute('hidden', 'true') : dataDependents[_i].removeAttribute('hidden');
+	    }
 	  }
 
 	  function pushState() {
@@ -133,7 +148,7 @@
 	    window.history.pushState(fillBack, 'Makeanico', "/?" + newURL);
 	  }
 
-	  var fillColor = [255, 255, 255];
+	  var fillColor = [255, 255, 255, 100];
 	  if (localStorage.getItem('fillColor')) {
 	    updateColor(localStorage.getItem('fillColor'));
 	  }
@@ -153,14 +168,18 @@
 
 	    if (updateTextField) inputColorByTextColor.value = color;
 
-	    for (var _i = 0; _i < ranges.length; _i++) {
-	      ranges[_i].value = fillColor[_i];
-	    }try {
+	    for (var _i2 = 0; _i2 < 3; _i2++) {
+	      //console.log('setting ' + i + ' to ' + fillColor[i], ranges[i]);
+	      ranges[_i2].value = fillColor[_i2];
+	    }
+
+	    try {
 	      inputColorByColorpicker.value = color;
 	    } catch (e) {}
 
 	    updateColorGrid(color);
-	    updateFavicon();
+	    //updateFavicon();
+	    updateView();
 
 	    localStorage.setItem('fillColor', color);
 
@@ -169,12 +188,12 @@
 
 	  function updateColorGrid(color) {
 	    var checkedCells = document.querySelectorAll('#stage input[type="checkbox"]:checked');
-	    for (var _i2 = 0; _i2 < checkedCells.length; _i2++) {
-	      var key = checkedCells[_i2].getAttribute('id').replace('cell__', 'c');
+	    for (var _i3 = 0; _i3 < checkedCells.length; _i3++) {
+	      var key = checkedCells[_i3].getAttribute('id').replace('cell__', 'c');
 	      //console.log(key,color.replace('#','0x'));
 	      fillBack[key] = color.replace('#', '0x');
-	      checkedCells[_i2].parentNode.style.backgroundColor = color;
-	      checkedCells[_i2].parentNode.setAttribute('data-dirty', 'true');
+	      checkedCells[_i3].parentNode.style.backgroundColor = color;
+	      checkedCells[_i3].parentNode.setAttribute('data-dirty', 'true');
 	    }
 	  }
 
@@ -182,36 +201,36 @@
 	    var rows = document.querySelectorAll('#stage tbody tr'),
 	        svg = '';
 
-	    var _loop = function _loop(_i3) {
-	      var row = rows[_i3];
-	      var rects = drawRow(row, _i3);
+	    var _loop = function _loop(_i4) {
+	      var row = rows[_i4];
+	      var rects = drawRow(row, _i4);
 
 	      svg += rects.join('\n');
 
 	      function drawRow(row, rowIndex) {
 	        var rects = [];
 	        var cells = row.querySelectorAll('td:not(.row-col)');
-	        for (var _i5 = 0; _i5 < cells.length; _i5++) {
-	          var cell = cells[_i5];
+	        for (var _i6 = 0; _i6 < cells.length; _i6++) {
+	          var cell = cells[_i6];
 	          if (cell.getAttribute('data-dirty') == 'true') {
 	            var rgb = helpers.cssColorNameToRGB(cell.style.backgroundColor, true);
 	            var color = helpers.rgbToHex(rgb[0], rgb[1], rgb[2]);
 
-	            rects.push("<rect x=\"" + _i5 + "\" y=\"" + rowIndex + "\" width=\"1\" height=\"1\" fill=\"" + color + "\"></rect>");
+	            rects.push("<rect x=\"" + _i6 + "\" y=\"" + rowIndex + "\" width=\"1\" height=\"1\" fill=\"" + color + "\"></rect>");
 	          }
 	        }
 	        return rects;
 	      }
 	    };
 
-	    for (var _i3 = 0; _i3 < rows.length; _i3++) {
-	      _loop(_i3);
+	    for (var _i4 = 0; _i4 < rows.length; _i4++) {
+	      _loop(_i4);
 	    }
 
 	    //document.querySelector('#svg-preview__svg #art').innerHTML = svg;
 	    var svgs = document.querySelectorAll('.svg-preview__svg .art');
-	    for (var _i4 = 0; _i4 < svgs.length; _i4++) {
-	      svgs[_i4].innerHTML = svg;
+	    for (var _i5 = 0; _i5 < svgs.length; _i5++) {
+	      svgs[_i5].innerHTML = svg;
 	    }
 	  }
 
@@ -237,10 +256,10 @@
 	    }
 	  }
 
-	  var _loop2 = function _loop2(_i6) {
-	    var range = ranges[_i6];
-	    var index = _i6;
-	    fillColor[_i6] = parseInt(range.value);
+	  var _loop2 = function _loop2(_i7) {
+	    var range = ranges[_i7];
+	    var index = _i7;
+	    fillColor[_i7] = parseInt(range.value);
 
 	    range.addEventListener('input', function (e) {
 	      fillColor[index] = parseInt(e.target.value); // update the fill color
@@ -257,8 +276,8 @@
 	    });
 	  };
 
-	  for (var _i6 = 0; _i6 < ranges.length; _i6++) {
-	    _loop2(_i6);
+	  for (var _i7 = 0; _i7 < ranges.length; _i7++) {
+	    _loop2(_i7);
 	  }
 
 	  inputColorByTextColor.addEventListener('input', function (e) {
@@ -288,8 +307,8 @@
 
 	  document.querySelector('#cell-grid__container header').innerHTML += "<h3>Select Cells</h3><div class=\"async-btns flexible unaligned fieldset\">\n\n    <button id=\"select_all_cells\">Select all Cells</button>\n    <button id=\"unselect_all_cells\">Unselect all Cells</button>\n    <button id=\"inverse_selection\">Inverse Selection</button>\n  </div>";
 
-	  var _loop3 = function _loop3(_i7) {
-	    var cell = cellInputs[_i7];
+	  var _loop3 = function _loop3(_i8) {
+	    var cell = cellInputs[_i8];
 	    //console.log(cell);
 	    cell.addEventListener('click', function (e) {
 	      if (e.target.checked) {
@@ -306,33 +325,34 @@
 	        pushState();
 	      }
 
-	      updateFavicon();
-	      updateDownloadLinks();
+	      updateView();
+	      //updateFavicon();
+	      //updateDownloadLinks();
 	    });
 	  };
 
-	  for (var _i7 = 0; _i7 < cellInputs.length; _i7++) {
-	    _loop3(_i7);
+	  for (var _i8 = 0; _i8 < cellInputs.length; _i8++) {
+	    _loop3(_i8);
 	  }
 
 	  document.getElementById('select_all_cells').addEventListener('click', function (e) {
 	    e.preventDefault();
-	    for (var _i8 = 0; _i8 < cellInputs.length; _i8++) {
-	      cellInputs[_i8].checked = true;
+	    for (var _i9 = 0; _i9 < cellInputs.length; _i9++) {
+	      cellInputs[_i9].checked = true;
 	    }
 	  });
 
 	  document.getElementById('unselect_all_cells').addEventListener('click', function (e) {
 	    e.preventDefault();
-	    for (var _i9 = 0; _i9 < cellInputs.length; _i9++) {
-	      cellInputs[_i9].checked = false;
+	    for (var _i10 = 0; _i10 < cellInputs.length; _i10++) {
+	      cellInputs[_i10].checked = false;
 	    }
 	  });
 
 	  document.getElementById('inverse_selection').addEventListener('click', function (e) {
 	    e.preventDefault();
-	    for (var _i10 = 0; _i10 < cellInputs.length; _i10++) {
-	      cellInputs[_i10].checked = !cellInputs[_i10].checked;
+	    for (var _i11 = 0; _i11 < cellInputs.length; _i11++) {
+	      cellInputs[_i11].checked = !cellInputs[_i11].checked;
 	    }
 	  });
 
@@ -360,8 +380,8 @@
 	  });
 
 	  function clearBoard() {
-	    for (var _i11 = 0; _i11 < cellInputs.length; _i11++) {
-	      var _cell = cellInputs[_i11];
+	    for (var _i12 = 0; _i12 < cellInputs.length; _i12++) {
+	      var _cell = cellInputs[_i12];
 	      _cell.checked = false;
 	      _cell.parentNode.removeAttribute('style');
 	    }
@@ -370,8 +390,8 @@
 	  function updateDownloadLinks() {
 	    console.log('updateDownloadLinks', location.search);
 	    var downloadAnchors = document.querySelectorAll('a[download]');
-	    for (var _i12 = 0; _i12 < downloadAnchors.length; _i12++) {
-	      var a = downloadAnchors[_i12];
+	    for (var _i13 = 0; _i13 < downloadAnchors.length; _i13++) {
+	      var a = downloadAnchors[_i13];
 	      a.setAttribute('href', a.getAttribute('data-base-url') + location.search + '&dl=1');
 	    }
 	  }
@@ -397,33 +417,33 @@
 
 	  document.getElementById('filename__text').addEventListener('input', function (e) {
 	    var filenames = document.querySelectorAll('.filename');
-	    for (var _i13 = 0; _i13 < filenames.length; _i13++) {
-	      filenames[_i13].innerHTML = e.target.value ? e.target.value : 'favicon';
+	    for (var _i14 = 0; _i14 < filenames.length; _i14++) {
+	      filenames[_i14].innerHTML = e.target.value ? e.target.value : 'favicon';
 	    }
 
 	    var anchors = document.querySelectorAll('nav.button-bar a');
-	    for (var _i14 = 0; _i14 < anchors.length; _i14++) {
-	      var anchor = anchors[_i14];
+	    for (var _i15 = 0; _i15 < anchors.length; _i15++) {
+	      var anchor = anchors[_i15];
 	      anchor.setAttribute('download', (e.target.value || 'favicon') + "." + anchor.getAttribute('data-format'));
 	    }
 	  });
 
 	  var downloadBtns = document.querySelectorAll('input[name="download__as"]');
-	  for (var _i15 = 0; _i15 < downloadBtns.length; _i15++) {
-	    var downloadBtn = downloadBtns[_i15];
+	  for (var _i16 = 0; _i16 < downloadBtns.length; _i16++) {
+	    var downloadBtn = downloadBtns[_i16];
 
 	    downloadBtn.addEventListener('change', function (e) {
 	      var anchors = document.querySelectorAll('nav.button-bar a');
 
-	      for (var _i16 = 0; _i16 < anchors.length; _i16++) {
-	        var anchor = anchors[_i16];
+	      for (var _i17 = 0; _i17 < anchors.length; _i17++) {
+	        var anchor = anchors[_i17];
 	        e.target.value == anchor.getAttribute('data-format') ? anchor.removeAttribute('hidden') : anchor.setAttribute('hidden', 'true');
 	        console.log(event.target.value + "." + anchor.getAttribute('data-format'));
 	      }
 
 	      var extensions = document.querySelectorAll('.extension');
-	      for (var _i17 = 0; _i17 < extensions.length; _i17++) {
-	        extensions[_i17].innerHTML = e.target.value;
+	      for (var _i18 = 0; _i18 < extensions.length; _i18++) {
+	        extensions[_i18].innerHTML = e.target.value;
 	      }
 	    });
 	  }

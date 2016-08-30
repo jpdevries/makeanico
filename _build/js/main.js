@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var cf = new makeanico.MakeAnIco();
 
     var lazy = document.createElement('script');
-    lazy.setAttribute('src', 'assets/js/lazy.min.js');
+    lazy.setAttribute('src', `assets/js/lazy${(production) ? '.min' : ''}.js`);
     document.body.appendChild(lazy);
 
     (function(html){

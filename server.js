@@ -174,14 +174,16 @@ app.post('/png-coder', function(req, res) {
         image.batch()
         .cover(16,16)
         .exec(function(err, image) {
-          let params = [];
-          let i = 0;
+          let params = [],
+          i = 0;
           for(let y = 0; y < 16; y++) {
             for(let x = 0; x < 16; x++) {
-              let rgb = image.getPixel(x, y);
-              let hex = helpers.rgbToHex(rgb.r, rgb.g, rgb.b);
+              let rgb = image.getPixel(x, y),
+              hex = helpers.rgbToHex(rgb.r, rgb.g, rgb.b);
 
-              params.push(`c${i}=${hex.replace('#','0x')}`);
+              console.log(rgb);
+
+              if(rgb.a) params.push(`c${i}=${hex.replace('#','0x')}`);
 
               i++;
             }
