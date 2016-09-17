@@ -46,7 +46,7 @@
 
 	'use strict';
 
-	__webpack_require__(4);
+	__webpack_require__(5);
 
 	var helpers = __webpack_require__(3);
 
@@ -123,7 +123,7 @@
 /* 1 */,
 /* 2 */,
 /* 3 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -137,6 +137,9 @@
 	    color = "#" + color; // prepend #
 	    return color;
 	}*/
+
+	var hexToRgba = __webpack_require__(4).hexToRgba;
+	var rgbaToHex = __webpack_require__(4).rgbaToHex;
 
 	var cssColorNameToRGB = function cssColorNameToRGB(colorName) {
 	  var returnArray = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
@@ -158,37 +161,82 @@
 	  });
 	};
 
-	var hexToRGB = function hexToRGB(hexo) {
-	  if (!hexo) return undefined;
+	/*var hexToRGB = function(hexo, returnArray = false) {
+	  if(!hexo) return undefined;
 	  var hex = hexo.toString();
-	  if (!hex.includes('0x')) return hexo;
+	  if(!hex.includes('0x')) return hexo;
 	  var rgb = parseInt(hex, 16); // value is 1675421
 
-	  var red = rgb >> 16 & 0xFF; // returns 255
-	  var green = rgb >> 8 & 0xFF; // 170
-	  var blue = rgb & 0xFF; // 221
+	  var red   = (rgb >> 16) & 0xFF; // returns 255
+	  var green = (rgb >> 8) & 0xFF;  // 170
+	  var blue  = rgb & 0xFF;     // 221
 
-	  return 'rgb(' + [red, green, blue].join(',') + ')';
-	};
+	  if(returnArray) return [red,green,blue];
 
-	var componentToHex = function componentToHex(c) {
-	  var hex = c.toString(16);
+	  return `rgb(${[red,green,blue].join(',')})`;
+	}*/
+
+	/*
+	const rgbToHex = (r, g, b) => '#' + [r, g, b].map((c) => {
+	  const hex = c.toString(16);
 	  return hex.length === 1 ? '0' + hex : hex;
-	};
-
-	var rgbToHex = function rgbToHex(r, g, b) {
-	  return '#' + [r, g, b].map(componentToHex).join('');
-	}; // http://stackoverflow.com/a/5624139/4671250
+	}).join(''); // http://stackoverflow.com/a/5624139/4671250
+	*/
 
 	module.exports = {
 	  //invertColor: invertColor,
 	  cssColorNameToRGB: cssColorNameToRGB,
-	  hexToRGB: hexToRGB,
-	  rgbToHex: rgbToHex
+	  hexToRGB: hexToRgba,
+	  rgbToHex: rgbaToHex,
+	  hexToDecimal: hexToDecimal
 	};
 
 /***/ },
 /* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+
+	module.exports.rgbaToHex = function rgbaToHex(rgba_params_here)
+	{
+	    var arraytoHex = function(args) {
+	        return args.map(function(e){ var r = (+e).toString(16); r.length==1 && (r='0'+r); return r; }).join('');
+	    }
+
+	    var args = Array.prototype.slice.call(arguments);       // Arguments to Array conversion
+	    
+	    if (args.length == 4)                                   // is with optional alpha value
+	        args[3] = Math.floor(255 * args[3]);                // opacity float to 255-based value
+
+	    return '#' + arraytoHex(args);
+	}
+
+
+	module.exports.hexToRgba = function hexToRgba(hex)
+	{
+	    var valid = new RegExp(/^#([0-9a-f]{8}|[0-9a-f]{6}|[0-9a-f]{4}|[0-9a-f]{3})$/i);
+
+	    if (! valid.test(hex))
+	        return false;
+
+	    var code = hex.match(valid)[1];
+
+	    if (code.length == 3 || code.length == 4)               // fix 3 and 4 letter codes
+	        code = code.match(/./g).reduce( function(i,e) { return i+e+e; }, '');
+
+	    var codePairs = code.match(/.{1,2}/g).map( function(e) { return parseInt(e, 16); });
+
+	    if (codePairs.length == 4)
+	        codePairs[3] = codePairs[3] / 255;
+	    else
+	        codePairs[3] = 1.0;
+
+	    return codePairs;
+	}
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";

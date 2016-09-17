@@ -9,6 +9,9 @@
     return color;
 }*/
 
+const hexToRgba = require('hex-and-rgba').hexToRgba;
+const rgbaToHex = require('hex-and-rgba').rgbaToHex;
+
 var cssColorNameToRGB = function(colorName, returnArray = false) { // http://stackoverflow.com/a/1573154/4671250
     var d = document.createElement("div");
     d.style.color = colorName;
@@ -27,7 +30,7 @@ var cssColorNameToRGB = function(colorName, returnArray = false) { // http://sta
     ));
 }
 
-var hexToRGB = function(hexo) {
+/*var hexToRGB = function(hexo, returnArray = false) {
   if(!hexo) return undefined;
   var hex = hexo.toString();
   if(!hex.includes('0x')) return hexo;
@@ -37,19 +40,24 @@ var hexToRGB = function(hexo) {
   var green = (rgb >> 8) & 0xFF;  // 170
   var blue  = rgb & 0xFF;     // 221
 
+  if(returnArray) return [red,green,blue];
+
   return `rgb(${[red,green,blue].join(',')})`;
-}
+}*/
 
-const componentToHex = c => {
-  const hex = c.toString(16)
-  return hex.length === 1 ? '0' + hex : hex
-}
+/*
+const rgbToHex = (r, g, b) => '#' + [r, g, b].map((c) => {
+  const hex = c.toString(16);
+  return hex.length === 1 ? '0' + hex : hex;
+}).join(''); // http://stackoverflow.com/a/5624139/4671250
+*/
 
-const rgbToHex = (r, g, b) => '#' + [r, g, b].map(componentToHex).join(''); // http://stackoverflow.com/a/5624139/4671250
+
 
 module.exports = {
   //invertColor: invertColor,
   cssColorNameToRGB: cssColorNameToRGB,
-  hexToRGB: hexToRGB,
-  rgbToHex:rgbToHex
+  hexToRGB: hexToRgba,
+  rgbToHex:rgbaToHex,
+  hexToDecimal:hexToDecimal
 };
