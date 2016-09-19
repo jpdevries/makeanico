@@ -18,6 +18,8 @@ rmdir = require('rimraf'),
 path = require('path'),
 app = express();
 
+
+
 const util = require('util');
 
 const svg2png = require('svg2png');
@@ -247,6 +249,11 @@ app.get('/icos/modmore', function(req, res) {
   res.end();
 });
 
+app.get('/icos/thinkful', function(req, res) {
+  res.redirect('/?c0=0x202a34&c1=0x202a34&c2=0x202a34&c3=0x202a34&c4=0x202a34&c5=0x202a34&c6=0x202a34&c7=0x202a34&c8=0x202a34&c9=0x202a34&c10=0x202a34&c11=0x202a34&c14=0x202a34&c15=0x202a34&c16=0x202a34&c17=0x202a34&c18=0x202a34&c19=0x202a34&c20=0x202a34&c21=0x202a34&c22=0x202a34&c23=0x202a34&c24=0x202a34&c25=0x202a34&c26=0x202a34&c27=0x202a34&c30=0x202a34&c31=0x202a34&c32=0x202a34&c33=0x202a34&c46=0x202a34&c47=0x202a34&c48=0x202a34&c49=0x202a34&c62=0x202a34&c63=0x202a34&c64=0x202a34&c65=0x202a34&c66=0x202a34&c67=0x202a34&c68=0x202a34&c69=0x202a34&c70=0x202a34&c71=0xffffff&c73=0x202a34&c74=0x202a34&c75=0x202a34&c76=0x202a34&c77=0x202a34&c78=0x202a34&c79=0x202a34&c80=0x202a34&c81=0x202a34&c82=0x202a34&c83=0x202a34&c84=0x202a34&c85=0x202a34&c86=0x202a34&c87=0xffffff&c89=0x202a34&c90=0x202a34&c91=0x202a34&c92=0x202a34&c93=0x202a34&c94=0x202a34&c95=0x202a34&c101=0x202a34&c102=0x202a34&c103=0xffffff&c105=0x202a34&c106=0x202a34&c107=0xffffff&c117=0x202a34&c118=0x202a34&c119=0xffffff&c121=0x202a34&c122=0x202a34&c123=0xffffff&c133=0x202a34&c134=0x202a34&c135=0xffffff&c137=0x202a34&c138=0x202a34&c139=0xffffff&c149=0x202a34&c150=0x202a34&c151=0xffffff&c153=0x202a34&c154=0x202a34&c155=0xffffff&c165=0x202a34&c166=0x202a34&c167=0xffffff&c169=0x202a34&c170=0x202a34&c171=0xffffff&c181=0x202a34&c182=0x202a34&c183=0xffffff&c185=0x202a34&c186=0x202a34&c187=0xffffff&c201=0x202a34&c202=0x202a34&c203=0xffffff&c217=0x202a34&c218=0x202a34&c219=0xffffff&c229=0x202a34&c230=0x202a34&c231=0x202a34&c232=0x202a34&c233=0x202a34&c234=0x202a34&c235=0xffffff&c245=0x202a34&c246=0x202a34&c247=0x202a34&c248=0x202a34&c249=0x202a34&c250=0x202a34&c251=0xffffff');
+  res.end();
+})
+
 app.get('/png-coder', function(req, res) {
   console.log('get png-coder ' + new Date().getTime());
   let redirect = '';
@@ -296,6 +303,7 @@ app.get('/png-coder', function(req, res) {
 });
 
 app.get('/', function(req, res) {
+  const baseUrl = `${(req.protocol + '://' + req.get('host').substr(-1)) !== '/'}` ? `${req.protocol + '://' + req.get('host')}/` : req.protocol + '://' + req.get('host');
   //res.set('Content-Encoding', 'gzip');
   var filledCells = getFilledCells(req.query);
   let cells = getCells(filledCells);
@@ -304,6 +312,7 @@ app.get('/', function(req, res) {
     cells: cells,
     startOver: filledCells.length > 0,
     cellURL: getCellURLString(req.query),
+    baseUrl: baseUrl,
     production: process.env.NODE_ENV == 'production'
   });
 });
@@ -354,7 +363,7 @@ app.get('/make/favicon.svg', function(req, res){
   });
 });
 
-app.get('/make/favicon.png', function(req, res) {
+function handleMakeFaviconPng(req, res, matte = transparent, size = 16) {
   let filledCells = getFilledCells(req.query);
   let cells = getCells(filledCells);
 
@@ -364,8 +373,34 @@ app.get('/make/favicon.png', function(req, res) {
     type:'attachment'
   }));
 
-  urlParamsToPNG(cells).then(function(buffer) {
+  urlParamsToPNG(cells, matte, size).then(function(buffer) {
     res.end(buffer);
+  });
+}
+
+app.get('/make/favicon.png', function(req, res) {
+  handleMakeFaviconPng(req, res);
+});
+
+app.get('/make/:size/favicon.png', function(req, res) {
+  //console.log(req.params);
+  let size = req.params.size;
+  //handleMakeFaviconPng(req, res, undefined, 256);
+
+  var filledCells = getFilledCells(req.query);
+  let cells = getCells(filledCells);
+
+  if(req.query['dl']) res.setHeader('Content-Disposition', contentDisposition(undefined,{
+    type:'attachment'
+  }));
+
+  res.render('svg-preview.twig',{
+    cells: cells,
+    size: size
+  }, function(err, output) {
+    svg2png(new Buffer(output), {width:size, height:size}).then(function(buffer) {
+      res.end(buffer);
+    }).catch(e => console.log(e));
   });
 
 });
@@ -415,13 +450,13 @@ function svgToPNG(folder) { // consider https://www.npmjs.com/package/png-pixel
   ]));
 }
 
-function urlParamsToPNG(cells, matte = transparent) {
+function urlParamsToPNG(cells, matte = transparent, size = 16) {
   return new Promise(function(resolve, reject) {
     let pixels = [];
 
     cells.map(function(row) {
       row.map(function(cell) {
-        console.log(cell);
+        //console.log(cell);
         if(cell.fill) pixels.push({
           x: cell.column,
           y: cell.row,
@@ -431,13 +466,13 @@ function urlParamsToPNG(cells, matte = transparent) {
       });
     });
 
-    console.log(pixels);
+    //console.log(pixels);
 
     fs.mkdtemp(tmpDir + path.sep, (err, folder) => {
       if (err) throw err;
-      console.log(folder);
+      //console.log(folder);
 
-      lwip.create(16, 16, matte, function(err, image) {
+      lwip.create(size, size, matte, function(err, image) {
         image.writeFile(folder + path.sep + 'favicon.png', function(err) { // save the matte image to the filesystem
           PNGPixel.add(folder + path.sep + 'favicon.png', folder + path.sep + 'favicon.png', pixels)
           .then(function(writeStream) {

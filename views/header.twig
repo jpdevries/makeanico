@@ -2,7 +2,7 @@
 <html lang="en" class="do-transitions">
 <head>
   <meta charset="UTF-8">
-  <title data-base="{{ title|default('CellFill') }} ">{{ title|default('CellFill') }}</title>
+  <title data-base="{{ title|default('MakeanIco') }} ">{{ title|default('MakeanIco') }}</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,6 +13,7 @@
   <link id="favicon" rel="icon" type="image/png" href="/make/favicon.png?{{ cellURL }}" />
 
   <meta property="og:description" content="Makeanico is a progressively enhanced web app that allows anyone to create a 16x16 favicon.ico graphic.">
-  
-  <meta property="og:image" content="/make/favicon.png?{{ cellURL }}">
+  <meta property="og:image:width" content="256">
+  <meta property="og:image:height" content="256">
+  <meta property="og:image" content="{{ baseUrl|default('http://makeanico.herokuapp.com/')  }}make/256/favicon.png?{{ cellURL }}">
 </head>
