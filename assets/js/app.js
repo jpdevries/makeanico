@@ -107,6 +107,17 @@
 	      inputColorByColorpicker = document.getElementById('input_color_by__colorpicker'),
 	      fillCellsOnClick = document.getElementById('fill-cells-on-click');
 
+	  //let altKeyDown = false;
+
+	  /*document.addEventListener('keydown', function(e){
+	    altKeyDown = e.altKey || false;
+	    console.log('altKeyDown',altKeyDown);
+	  });
+	   document.addEventListener('keyup', function(e){
+	    altKeyDown = e.altKey || false;
+	    console.log('altKeyDown',altKeyDown);
+	  });*/
+
 	  // pull the initial URL params out and store them in a Object
 	  var fillBack = {};
 	  var origLocationSearch = location.search.charAt(0) == '?' ? location.search.substring(1) : '';
@@ -209,12 +220,15 @@
 	    var color = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 
 	    var alpha = rgb_slider_a.value;
+	    //console.log('setRGBAttributes',element,color, alpha);
 	    if (color) {
 	      color = helpers.hexToRGBA(color);
 	      color[3] = color[3] == undefined ? 1 : color[3];
 	    } else {
 	      color = fillColor;
 	    }
+
+	    //console.log(color);
 
 	    element.setAttribute('data-dirty', 'true');
 	    element.setAttribute('data-r', color[0]);
@@ -248,7 +262,7 @@
 	  }
 
 	  function setCellBorderFilterColor(label, color) {
-	    console.log('setCellBorderFilterColor', color);
+	    //console.log('setCellBorderFilterColor', color);
 	    label.style.boxShadow = "0 0 5px " + color;
 	    label.style.outlineColor = "" + color;
 	  }
@@ -371,11 +385,15 @@
 	    var cell = cellInputs[_i9];
 	    //console.log(cell);
 
+	    cell.parentNode.querySelector('label').addEventListener('click', function (e) {
+	      console.log(e);
+	    });
+
 	    ['click'].forEach(function (element, index, array) {
 	      cell.addEventListener(element, function (e) {
-	        console.log('handleCellClickChange', e, cell);
-	        if (e.shiftKey && lastClickedCellInput) {
-	          //console.log(lastClickedCellInput, e.target);
+	        console.log('handleCellClickChange', e.altKey, e, cell);
+	        if (e.altKey && lastClickedCellInput) {
+	          console.log(lastClickedCellInput, e.target);
 	          //console.log(lastClickedCellInput.parentNode.getAttribute('data-row'), lastClickedCellInput.parentNode.getAttribute('data-col'));
 	          var rows = document.querySelectorAll('#stage tbody tr');
 	          var start = Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row'));
@@ -392,7 +410,12 @@
 	              if (e.target.parentNode !== _td && lastClickedCellInput.parentNode !== _td) {
 	                //console.log(td);
 	                //console.log(e.target.checked);
-	                checkbox.checked = !checkbox.checked;
+	                //checkbox.checked = !checkbox.checked;
+	                checkbox.checked = true;
+	                if (fillCellsOnClick.checked) {
+	                  //console.log('setting rgb attributes');
+	                  setRGBAttributes(_td);
+	                }
 	                //console.log(e.target);
 	              }
 	            }
@@ -570,10 +593,17 @@
 	  document.getElementById('stage').addEventListener("change", function (event) {
 	    console.log(event);
 	    unFocusTDCells();
+	    try {
+	      event.target.parentNode.querySelector('input[type="checkbox"]').focus();
+	    } catch (e) {}
+	  });
+
+	  document.getElementById("stage").addEventListener("keyup", function (event) {
+	    console.log(event);
 	  });
 
 	  function unFocusTDCells() {
-	    console.log('unFocusTDCells');
+	    //console.log('unFocusTDCells');
 	    for (var _i21 = 0; _i21 < cellInputs.length; _i21++) {
 	      if (!cellInputs[_i21].checked) {
 	        try {
