@@ -245,6 +245,10 @@ fieldset, .fieldset {
   }
 }
 
+%selectable {
+  cursor:cell;
+}
+
 #stage {
   input[type="checkbox"] {
     @extend %topMost;
@@ -259,7 +263,7 @@ fieldset, .fieldset {
   input[type="checkbox"] + label {
     @extend %topMost;
     @extend %absolute-corners;
-    @extend %clickable;
+    @extend %selectable;
     text-indent:-99999em;
   }
 

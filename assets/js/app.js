@@ -123,6 +123,19 @@
 	    }
 	  }
 
+	  var lastClickedCellInput = void 0;
+
+	  (function () {
+	    var trs = document.querySelectorAll("#stage tbody tr");
+	    for (var i = 0; i < trs.length; i++) {
+	      var _tds = trs[i].querySelectorAll('td');
+	      for (var j = 1; j < _tds.length; j++) {
+	        _tds[j].setAttribute('data-row', i);
+	        _tds[j].setAttribute('data-col', j - 1);
+	      }
+	    }
+	  })();
+
 	  function addListenerMulti(el, s, fn) {
 	    s.split().forEach(function (e) {
 	      return el.addEventListener(e, fn, false);
@@ -193,12 +206,22 @@
 	  }
 
 	  function setRGBAttributes(element) {
+	    var color = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+
+	    var alpha = rgb_slider_a.value;
+	    if (color) {
+	      color = helpers.hexToRGBA(color);
+	      color[3] = color[3] == undefined ? 1 : color[3];
+	    } else {
+	      color = fillColor;
+	    }
+
 	    element.setAttribute('data-dirty', 'true');
-	    element.setAttribute('data-r', fillColor[0]);
-	    element.setAttribute('data-g', fillColor[1]);
-	    element.setAttribute('data-b', fillColor[2]);
+	    element.setAttribute('data-r', color[0]);
+	    element.setAttribute('data-g', color[1]);
+	    element.setAttribute('data-b', color[2]);
 	    element.setAttribute('data-a', rgb_slider_a.value);
-	    element.style.backgroundColor = "rgba(" + fillColor[0] + ", " + fillColor[1] + ", " + fillColor[2] + ", " + rgb_slider_a.value + ")";
+	    element.style.backgroundColor = "rgba(" + color[0] + ", " + color[1] + ", " + color[2] + ", " + alpha + ")";
 	    //element.style.opacity = rgb_slider_a.value;
 	  }
 
@@ -212,19 +235,15 @@
 
 	    for (var _i3 = 0; _i3 < checkedCells.length; _i3++) {
 	      var key = checkedCells[_i3].getAttribute('id').replace('cell__', 'c');
-	      //console.log(key,color.replace('#','0x'));
 
 	      fillBack[key] = helpers.rgbaToHex(alphaArray[0], alphaArray[1], alphaArray[2], Number(rgbASlider.value)).replace('#', '0x');
 
-	      var inputCheckbox = document.getElementById(checkedCells[_i3].for);
-	      var invert = helpers.invertColor(color);
-
-	      checkedCells[_i3].parentNode.style.backgroundColor = color;
-	      checkedCells[_i3].parentNode.setAttribute('data-dirty', 'true');
-
-	      setCellBorderFilterColor(checkedCells[_i3].parentNode.querySelector('label'), invert);
+	      try {
+	        checkedCells[_i3].parentNode.querySelector('input[type="hidden"]').setAttribute('value', fillBack[key]);
+	      } catch (e) {}
 
 	      setRGBAttributes(checkedCells[_i3].parentNode);
+	      setCellBorderFilterColor(checkedCells[_i3].parentNode.querySelector('label'), helpers.invertColor(color));
 	    }
 	  }
 
@@ -348,30 +367,63 @@
 
 	  document.querySelector('#cell-grid__container header').innerHTML += "<h3>Select Cells</h3><div class=\"async-btns flexible unaligned fieldset\">\n\n    <button id=\"select_all_cells\">Select all Cells</button>\n    <button id=\"unselect_all_cells\">Unselect all Cells</button>\n    <button id=\"inverse_selection\">Inverse Selection</button>\n  </div>";
 
-	  var _loop3 = function _loop3(_i8) {
-	    var cell = cellInputs[_i8];
+	  var _loop3 = function _loop3(_i9) {
+	    var cell = cellInputs[_i9];
 	    //console.log(cell);
-	    cell.addEventListener('click', function (e) {
-	      if (e.target.checked) {
-	        var color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], 1);
 
-	        var key = cell.getAttribute('id').replace('cell__', 'c');
-	        fillBack[key] = color.replace('#', '0x');
+	    ['click'].forEach(function (element, index, array) {
+	      cell.addEventListener(element, function (e) {
+	        console.log('handleCellClickChange', e, cell);
+	        if (e.shiftKey && lastClickedCellInput) {
+	          //console.log(lastClickedCellInput, e.target);
+	          //console.log(lastClickedCellInput.parentNode.getAttribute('data-row'), lastClickedCellInput.parentNode.getAttribute('data-col'));
+	          var rows = document.querySelectorAll('#stage tbody tr');
+	          var start = Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row'));
+	          //console.log('yo', Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row')), Math.abs(parseInt(lastClickedCellInput.parentNode.getAttribute('data-row')) - parseInt(e.target.parentNode.getAttribute('data-row'))));
+	          for (_i9 = start; _i9 <= start + Math.abs(parseInt(lastClickedCellInput.parentNode.getAttribute('data-row')) - parseInt(e.target.parentNode.getAttribute('data-row'))); _i9++) {
+	            //console.log(`select row ${i}`);
+	            //console.log(Math.min(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')), Math.max(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')));
+	            var tr = rows[_i9];
+	            var _tds2 = tr.querySelectorAll('td');
+	            for (var j = 1 + Math.min(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j <= 1 + Math.max(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j++) {
+	              var _td = _tds2[j];
+	              var checkbox = _td.querySelector('input[type="checkbox"]');
 
-	        if (fillCellsOnClick.checked) {
-	          //e.target.parentNode.style.backgroundColor = `rgba(${fillColor[0]}, ${fillColor[1]}, ${fillColor[2]}, ${rgb_slider_a.value})`;
-	          //e.target.parentNode.style.opacity = rgb_slider_a.value;
-	          setRGBAttributes(e.target.parentNode);
-	          setCellBorderFilterColor(e.target.parentNode.querySelector('label'), helpers.invertColor(helpers.rgbToHex(parseInt(e.target.parentNode.getAttribute('data-r')), parseInt(e.target.parentNode.getAttribute('data-g')), parseInt(e.target.parentNode.getAttribute('data-b')))));
+	              if (e.target.parentNode !== _td && lastClickedCellInput.parentNode !== _td) {
+	                //console.log(td);
+	                //console.log(e.target.checked);
+	                checkbox.checked = !checkbox.checked;
+	                //console.log(e.target);
+	              }
+	            }
+	          }
 	        }
 
-	        pushState();
-	      }
+	        if (e.target.checked) {
+	          var color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], 1);
 
-	      updateView();
-	      //updateFavicon();
-	      //updateDownloadLinks();
+	          var key = cell.getAttribute('id').replace('cell__', 'c');
+	          fillBack[key] = color.replace('#', '0x');
+
+	          if (fillCellsOnClick.checked) {
+	            //e.target.parentNode.style.backgroundColor = `rgba(${fillColor[0]}, ${fillColor[1]}, ${fillColor[2]}, ${rgb_slider_a.value})`;
+	            //e.target.parentNode.style.opacity = rgb_slider_a.value;
+	            setRGBAttributes(e.target.parentNode);
+	            setCellBorderFilterColor(e.target.parentNode.querySelector('label'), helpers.invertColor(helpers.rgbToHex(parseInt(e.target.parentNode.getAttribute('data-r')), parseInt(e.target.parentNode.getAttribute('data-g')), parseInt(e.target.parentNode.getAttribute('data-b')))));
+	          }
+
+	          pushState();
+	        }
+
+	        updateView();
+	        //updateFavicon();
+	        //updateDownloadLinks();
+
+	        lastClickedCellInput = e.target;
+	      });
 	    });
+
+	    _i8 = _i9;
 	  };
 
 	  for (var _i8 = 0; _i8 < cellInputs.length; _i8++) {
@@ -380,23 +432,23 @@
 
 	  document.getElementById('select_all_cells').addEventListener('click', function (e) {
 	    e.preventDefault();
-	    for (var _i9 = 0; _i9 < cellInputs.length; _i9++) {
-	      cellInputs[_i9].checked = true;
+	    for (var _i10 = 0; _i10 < cellInputs.length; _i10++) {
+	      cellInputs[_i10].checked = true;
 	    }
 	  });
 
 	  document.getElementById('unselect_all_cells').addEventListener('click', function (e) {
 	    e.preventDefault();
 
-	    for (var _i10 = 0; _i10 < cellInputs.length; _i10++) {
-	      cellInputs[_i10].checked = false;
+	    for (var _i11 = 0; _i11 < cellInputs.length; _i11++) {
+	      cellInputs[_i11].checked = false;
 	    }unFocusTDCells();
 	  });
 
 	  document.getElementById('inverse_selection').addEventListener('click', function (e) {
 	    e.preventDefault();
-	    for (var _i11 = 0; _i11 < cellInputs.length; _i11++) {
-	      cellInputs[_i11].checked = !cellInputs[_i11].checked;
+	    for (var _i12 = 0; _i12 < cellInputs.length; _i12++) {
+	      cellInputs[_i12].checked = !cellInputs[_i12].checked;
 	    }
 	  });
 
@@ -424,8 +476,8 @@
 	  });
 
 	  function clearBoard() {
-	    for (var _i12 = 0; _i12 < cellInputs.length; _i12++) {
-	      var _cell = cellInputs[_i12];
+	    for (var _i13 = 0; _i13 < cellInputs.length; _i13++) {
+	      var _cell = cellInputs[_i13];
 	      _cell.checked = false;
 	      _cell.parentNode.removeAttribute('style');
 	    }
@@ -434,8 +486,8 @@
 	  function updateDownloadLinks() {
 	    //console.log('updateDownloadLinks', location.search);
 	    var downloadAnchors = document.querySelectorAll('a[download]');
-	    for (var _i13 = 0; _i13 < downloadAnchors.length; _i13++) {
-	      var a = downloadAnchors[_i13];
+	    for (var _i14 = 0; _i14 < downloadAnchors.length; _i14++) {
+	      var a = downloadAnchors[_i14];
 	      a.setAttribute('href', a.getAttribute('data-base-url') + location.search + '&dl=1');
 	    }
 	  }
@@ -462,40 +514,40 @@
 
 	  document.getElementById('filename__text').addEventListener('input', function (e) {
 	    var filenames = document.querySelectorAll('.filename');
-	    for (var _i14 = 0; _i14 < filenames.length; _i14++) {
-	      filenames[_i14].innerHTML = e.target.value ? e.target.value : 'favicon';
+	    for (var _i15 = 0; _i15 < filenames.length; _i15++) {
+	      filenames[_i15].innerHTML = e.target.value ? e.target.value : 'favicon';
 	    }
 
 	    var anchors = document.querySelectorAll('nav.button-bar a');
-	    for (var _i15 = 0; _i15 < anchors.length; _i15++) {
-	      var anchor = anchors[_i15];
+	    for (var _i16 = 0; _i16 < anchors.length; _i16++) {
+	      var anchor = anchors[_i16];
 	      anchor.setAttribute('download', (e.target.value || 'favicon') + "." + anchor.getAttribute('data-format'));
 	    }
 	  });
 
 	  var downloadBtns = document.querySelectorAll('input[name="download__as"]');
-	  for (var _i16 = 0; _i16 < downloadBtns.length; _i16++) {
-	    var downloadBtn = downloadBtns[_i16];
+	  for (var _i17 = 0; _i17 < downloadBtns.length; _i17++) {
+	    var downloadBtn = downloadBtns[_i17];
 
 	    downloadBtn.addEventListener('change', function (e) {
 	      var anchors = document.querySelectorAll('nav.button-bar a');
 
-	      for (var _i17 = 0; _i17 < anchors.length; _i17++) {
-	        var anchor = anchors[_i17];
+	      for (var _i18 = 0; _i18 < anchors.length; _i18++) {
+	        var anchor = anchors[_i18];
 	        e.target.value == anchor.getAttribute('data-format') ? anchor.removeAttribute('hidden') : anchor.setAttribute('hidden', 'true');
 	        //console.log(`${event.target.value}.${anchor.getAttribute('data-format')}`);
 	      }
 
 	      var extensions = document.querySelectorAll('.extension');
-	      for (var _i18 = 0; _i18 < extensions.length; _i18++) {
-	        extensions[_i18].innerHTML = e.target.value;
+	      for (var _i19 = 0; _i19 < extensions.length; _i19++) {
+	        extensions[_i19].innerHTML = e.target.value;
 	      }
 	    });
 	  }
 
 	  var tds = document.querySelectorAll('#stage td');
-	  for (var _i19 = 0; _i19 < tds.length; _i19++) {
-	    var td = tds[_i19];
+	  for (var _i20 = 0; _i20 < tds.length; _i20++) {
+	    var td = tds[_i20];
 	    /*td.addEventListener('change', function(event){
 	      if(!event.target.checked) {
 	        let label = document.querySelector(`label[for="${event.target.getAttribute('id')}"]`);
@@ -522,10 +574,10 @@
 
 	  function unFocusTDCells() {
 	    console.log('unFocusTDCells');
-	    for (var _i20 = 0; _i20 < cellInputs.length; _i20++) {
-	      if (!cellInputs[_i20].checked) {
+	    for (var _i21 = 0; _i21 < cellInputs.length; _i21++) {
+	      if (!cellInputs[_i21].checked) {
 	        try {
-	          var label = cellInputs[_i20].parentNode.querySelector('label');
+	          var label = cellInputs[_i21].parentNode.querySelector('label');
 	          unFocusTDCell(label);
 	        } catch (e) {}
 	      }
@@ -544,7 +596,7 @@
 
 	    Object.keys(fillBack).forEach(function (key) {
 	      // draw the new state
-	      setRGBAttributes(document.getElementById(key.replace('c', 'cell__')).parentNode);
+	      setRGBAttributes(document.getElementById(key.replace('c', 'cell__')).parentNode, fillBack[key].replace('0x', '#'));
 	    });
 
 	    window.scrollTo(0, 0); // scroll to the top

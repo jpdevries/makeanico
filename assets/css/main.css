@@ -7,7 +7,7 @@ html {
 #stage, table, #stage input[type="checkbox"], #stage table {
   width: 100%; }
 
-.button-bar a, #stage input[type="checkbox"], #stage input[type="checkbox"] + label, .widget.import button, .widget.import label[for="pic"], .widget.import .svg-preview__svg {
+.button-bar a, #stage input[type="checkbox"], .widget.import button, .widget.import label[for="pic"], .widget.import .svg-preview__svg {
   cursor: pointer; }
 
 #stage, .svg-preview, #cell-grid, .unaligned, #cell-grid h3, .async-btns, .canpx footer {
@@ -180,6 +180,9 @@ fieldset, .fieldset {
 
 #cell-grid > * {
   text-align: left; }
+
+#stage input[type="checkbox"] + label {
+  cursor: cell; }
 
 #stage input[type="checkbox"] {
   -webkit-appearance: none;

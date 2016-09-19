@@ -48,6 +48,19 @@ const MakeAnIco = function() {
     }
   }
 
+  let lastClickedCellInput;
+
+  (function(){
+    let trs = document.querySelectorAll("#stage tbody tr");
+    for(var i = 0; i < trs.length; i++) {
+      let tds = trs[i].querySelectorAll('td');
+      for(let j = 1; j < tds.length; j++) {
+        tds[j].setAttribute('data-row', i);
+        tds[j].setAttribute('data-col', j-1);
+      }
+    }
+  })();
+
   function addListenerMulti(el, s, fn) {
     s.split().forEach(e => el.addEventListener(e, fn, false));
   }
@@ -111,13 +124,21 @@ const MakeAnIco = function() {
     document.getElementById('start-over').removeAttribute('hidden');
   }
 
-  function setRGBAttributes(element) {
+  function setRGBAttributes(element, color = undefined) {
+    let alpha = rgb_slider_a.value;
+    if(color) {
+      color = helpers.hexToRGBA(color);
+      color[3] = (color[3] == undefined) ? 1 : color[3];
+    } else {
+      color = fillColor;
+    }
+
     element.setAttribute('data-dirty', 'true');
-    element.setAttribute('data-r', fillColor[0]);
-    element.setAttribute('data-g', fillColor[1]);
-    element.setAttribute('data-b', fillColor[2]);
+    element.setAttribute('data-r', color[0]);
+    element.setAttribute('data-g', color[1]);
+    element.setAttribute('data-b', color[2]);
     element.setAttribute('data-a', rgb_slider_a.value);
-    element.style.backgroundColor = `rgba(${fillColor[0]}, ${fillColor[1]}, ${fillColor[2]}, ${rgb_slider_a.value})`;
+    element.style.backgroundColor = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${alpha})`;
     //element.style.opacity = rgb_slider_a.value;
   }
 
@@ -131,22 +152,16 @@ const MakeAnIco = function() {
 
     for(let i = 0; i < checkedCells.length; i++) {
       let key = checkedCells[i].getAttribute('id').replace('cell__','c');
-      //console.log(key,color.replace('#','0x'));
 
       fillBack[key] = helpers.rgbaToHex(alphaArray[0], alphaArray[1], alphaArray[2], Number(rgbASlider.value)).replace('#','0x');
 
-      let inputCheckbox = document.getElementById(checkedCells[i].for);
-      let invert = helpers.invertColor(color);
 
-
-      checkedCells[i].parentNode.style.backgroundColor = color;
-      checkedCells[i].parentNode.setAttribute('data-dirty','true');
-
-      setCellBorderFilterColor(checkedCells[i].parentNode.querySelector('label'), invert);
-
-
+      try {
+        checkedCells[i].parentNode.querySelector('input[type="hidden"]').setAttribute('value', fillBack[key]);
+      } catch(e) {}
 
       setRGBAttributes(checkedCells[i].parentNode);
+      setCellBorderFilterColor(checkedCells[i].parentNode.querySelector('label'), helpers.invertColor(color));
     }
   }
 
@@ -264,30 +279,65 @@ const MakeAnIco = function() {
   for(let i = 0; i < cellInputs.length; i++) {
     let cell = cellInputs[i];
     //console.log(cell);
-    cell.addEventListener('click', function(e) {
-      if(e.target.checked) {
-        let color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], 1);
 
-        let key = cell.getAttribute('id').replace('cell__','c');
-        fillBack[key] = color.replace('#','0x');
+    ['click'].forEach((element, index, array) => {
+        cell.addEventListener(element, (e) => {
+          console.log('handleCellClickChange', e, cell);
+          if(e.shiftKey && lastClickedCellInput) {
+            //console.log(lastClickedCellInput, e.target);
+            //console.log(lastClickedCellInput.parentNode.getAttribute('data-row'), lastClickedCellInput.parentNode.getAttribute('data-col'));
+            let rows = document.querySelectorAll('#stage tbody tr');
+            let start = Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row'));
+            //console.log('yo', Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row')), Math.abs(parseInt(lastClickedCellInput.parentNode.getAttribute('data-row')) - parseInt(e.target.parentNode.getAttribute('data-row'))));
+            for(i = start; i <= start + Math.abs(parseInt(lastClickedCellInput.parentNode.getAttribute('data-row')) - parseInt(e.target.parentNode.getAttribute('data-row'))); i++) {
+              //console.log(`select row ${i}`);
+              //console.log(Math.min(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')), Math.max(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')));
+              let tr = rows[i];
+              let tds = tr.querySelectorAll('td');
+              for(let j = 1 + Math.min(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j <= 1 + Math.max(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j++) {
+                let td = tds[j];
+                let checkbox = td.querySelector('input[type="checkbox"]');
 
-        if(fillCellsOnClick.checked) {
-          //e.target.parentNode.style.backgroundColor = `rgba(${fillColor[0]}, ${fillColor[1]}, ${fillColor[2]}, ${rgb_slider_a.value})`;
-          //e.target.parentNode.style.opacity = rgb_slider_a.value;
-          setRGBAttributes(e.target.parentNode);
-          setCellBorderFilterColor( e.target.parentNode.querySelector('label'), helpers.invertColor(helpers.rgbToHex(parseInt(e.target.parentNode.getAttribute('data-r')), parseInt(e.target.parentNode.getAttribute('data-g')), parseInt(e.target.parentNode.getAttribute('data-b')))) );
-        }
+                if(e.target.parentNode !== td && lastClickedCellInput.parentNode !== td) {
+                  //console.log(td);
+                  //console.log(e.target.checked);
+                  checkbox.checked = !checkbox.checked;
+                  //console.log(e.target);
+                }
+              }
+            }
+          }
+
+          if(e.target.checked) {
+            let color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], 1);
+
+            let key = cell.getAttribute('id').replace('cell__','c');
+            fillBack[key] = color.replace('#','0x');
+
+            if(fillCellsOnClick.checked) {
+              //e.target.parentNode.style.backgroundColor = `rgba(${fillColor[0]}, ${fillColor[1]}, ${fillColor[2]}, ${rgb_slider_a.value})`;
+              //e.target.parentNode.style.opacity = rgb_slider_a.value;
+              setRGBAttributes(e.target.parentNode);
+              setCellBorderFilterColor( e.target.parentNode.querySelector('label'), helpers.invertColor(helpers.rgbToHex(parseInt(e.target.parentNode.getAttribute('data-r')), parseInt(e.target.parentNode.getAttribute('data-g')), parseInt(e.target.parentNode.getAttribute('data-b')))) );
+            }
 
 
 
-        pushState();
-      }
+            pushState();
+          }
 
-      updateView();
-      //updateFavicon();
-      //updateDownloadLinks();
+          updateView();
+          //updateFavicon();
+          //updateDownloadLinks();
+
+          lastClickedCellInput = e.target;
+        });
     });
+
+
   }
+
+
 
   document.getElementById('select_all_cells').addEventListener('click', function(e){
     e.preventDefault();
@@ -446,7 +496,7 @@ const MakeAnIco = function() {
     fillBack = event.state; // set the new state
 
     Object.keys(fillBack).forEach(function(key) { // draw the new state
-      setRGBAttributes(document.getElementById(key.replace('c','cell__')).parentNode);
+      setRGBAttributes(document.getElementById(key.replace('c','cell__')).parentNode, fillBack[key].replace('0x', '#'));
     });
 
     window.scrollTo(0,0); // scroll to the top
