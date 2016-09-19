@@ -193,7 +193,7 @@ fieldset, .fieldset {
 
 #stage input[type="checkbox"]:checked + label {
   box-shadow: 0 0 5px #51cbee;
-  border: 1px solid #51cbee; }
+  outline: 1px solid #51cbee; }
 
 #stage td {
   position: relative; }

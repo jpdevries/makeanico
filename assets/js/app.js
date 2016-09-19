@@ -100,7 +100,7 @@
 
 	  var form = document.getElementById('makeanico'),
 	      ranges = document.querySelectorAll('input[type="range"]'),
-	      cellInputs = document.querySelectorAll('#stage input'),
+	      cellInputs = document.querySelectorAll('#stage input[type="checkbox"]'),
 	      cellGridContainer = document.getElementById('cell-grid__container'),
 	      inputColorByRGBRadio = document.getElementById('input_color_by__rgb'),
 	      inputColorByTextColor = document.getElementById('input_color_by__text__color'),
@@ -186,15 +186,46 @@
 	    document.getElementById('start-over').removeAttribute('hidden');
 	  }
 
+	  function setRGBAttributes(element) {
+	    element.setAttribute('data-dirty', 'true');
+	    element.setAttribute('data-r', fillColor[0]);
+	    element.setAttribute('data-g', fillColor[1]);
+	    element.setAttribute('data-b', fillColor[2]);
+	    element.setAttribute('data-a', rgb_slider_a.value);
+	    element.style.backgroundColor = "rgba(" + fillColor[0] + ", " + fillColor[1] + ", " + fillColor[2] + ", " + rgb_slider_a.value + ")";
+	    //element.style.opacity = rgb_slider_a.value;
+	  }
+
 	  function updateColorGrid(color) {
-	    var checkedCells = document.querySelectorAll('#stage input[type="checkbox"]:checked');
+	    //console.log('updateColorGrid',color);
+	    var checkedCells = document.querySelectorAll('#stage input[type="checkbox"]:checked'),
+	        rgbASlider = document.getElementById('rgb_slider_a');
+
+	    var alphaArray = helpers.hexToRGBA(color);
+	    //console.log('yolo',alphaArray,helpers.rgbaToHex(alphaArray[0],alphaArray[1],alphaArray[2],Number(rgbASlider.value)), Number(rgbASlider.value));
+
 	    for (var _i3 = 0; _i3 < checkedCells.length; _i3++) {
 	      var key = checkedCells[_i3].getAttribute('id').replace('cell__', 'c');
 	      //console.log(key,color.replace('#','0x'));
-	      fillBack[key] = color.replace('#', '0x');
+
+	      fillBack[key] = helpers.rgbaToHex(alphaArray[0], alphaArray[1], alphaArray[2], Number(rgbASlider.value)).replace('#', '0x');
+
+	      var inputCheckbox = document.getElementById(checkedCells[_i3].for);
+	      var invert = helpers.invertColor(color);
+
 	      checkedCells[_i3].parentNode.style.backgroundColor = color;
 	      checkedCells[_i3].parentNode.setAttribute('data-dirty', 'true');
+
+	      setCellBorderFilterColor(checkedCells[_i3].parentNode.querySelector('label'), invert);
+
+	      setRGBAttributes(checkedCells[_i3].parentNode);
 	    }
+	  }
+
+	  function setCellBorderFilterColor(label, color) {
+	    console.log('setCellBorderFilterColor', color);
+	    label.style.boxShadow = "0 0 5px " + color;
+	    label.style.outlineColor = "" + color;
 	  }
 
 	  function updateFaviconPreview() {
@@ -213,10 +244,11 @@
 	        for (var _i6 = 0; _i6 < cells.length; _i6++) {
 	          var cell = cells[_i6];
 	          if (cell.getAttribute('data-dirty') == 'true') {
-	            var rgb = helpers.cssColorNameToRGB(cell.style.backgroundColor, true);
+	            var rgb = [cell.getAttribute('data-r'), cell.getAttribute('data-g'), cell.getAttribute('data-b')];
+	            var opacity = cell.getAttribute('data-a') ? " opacity=\"" + cell.getAttribute('data-a') + "\"" : '';
 	            var color = helpers.rgbToHex(rgb[0], rgb[1], rgb[2]);
 
-	            rects.push("<rect x=\"" + _i6 + "\" y=\"" + rowIndex + "\" width=\"1\" height=\"1\" fill=\"" + color + "\"></rect>");
+	            rects.push("<rect x=\"" + _i6 + "\" y=\"" + rowIndex + "\" width=\"1\" height=\"1\" fill=\"" + color + "\"" + opacity + "></rect>");
 	          }
 	        }
 	        return rects;
@@ -263,7 +295,6 @@
 
 	    range.addEventListener('input', function (e) {
 	      fillColor[index] = parseInt(e.target.value); // update the fill color
-	      console.log(fillColor);
 	      var color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2]); //convert RGB values to hex
 	      updateColor(color);
 
@@ -296,7 +327,7 @@
 
 	    inputColorByColorpicker.addEventListener('change', function (e) {
 	      pushState();
-	      console.log(event.target.value);
+	      //console.log(event.target.value);
 	    });
 	  } catch (e) {
 	    console.log(e);
@@ -312,14 +343,16 @@
 	    //console.log(cell);
 	    cell.addEventListener('click', function (e) {
 	      if (e.target.checked) {
-	        var color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2]);
+	        var color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], 1);
 
 	        var key = cell.getAttribute('id').replace('cell__', 'c');
 	        fillBack[key] = color.replace('#', '0x');
 
 	        if (fillCellsOnClick.checked) {
-	          e.target.parentNode.style.backgroundColor = color;
-	          e.target.parentNode.setAttribute('data-dirty', 'true');
+	          //e.target.parentNode.style.backgroundColor = `rgba(${fillColor[0]}, ${fillColor[1]}, ${fillColor[2]}, ${rgb_slider_a.value})`;
+	          //e.target.parentNode.style.opacity = rgb_slider_a.value;
+	          setRGBAttributes(e.target.parentNode);
+	          setCellBorderFilterColor(e.target.parentNode.querySelector('label'), helpers.invertColor(helpers.rgbToHex(parseInt(e.target.parentNode.getAttribute('data-r')), parseInt(e.target.parentNode.getAttribute('data-g')), parseInt(e.target.parentNode.getAttribute('data-b')))));
 	        }
 
 	        pushState();
@@ -344,9 +377,10 @@
 
 	  document.getElementById('unselect_all_cells').addEventListener('click', function (e) {
 	    e.preventDefault();
+
 	    for (var _i10 = 0; _i10 < cellInputs.length; _i10++) {
 	      cellInputs[_i10].checked = false;
-	    }
+	    }unFocusTDCells();
 	  });
 
 	  document.getElementById('inverse_selection').addEventListener('click', function (e) {
@@ -388,7 +422,7 @@
 	  }
 
 	  function updateDownloadLinks() {
-	    console.log('updateDownloadLinks', location.search);
+	    //console.log('updateDownloadLinks', location.search);
 	    var downloadAnchors = document.querySelectorAll('a[download]');
 	    for (var _i13 = 0; _i13 < downloadAnchors.length; _i13++) {
 	      var a = downloadAnchors[_i13];
@@ -412,6 +446,7 @@
 	  document.querySelector('.instructions').innerHTML = "Select cells above to fill them with the color chosen&nbsp;below.";
 
 	  fillCellsOnClick.addEventListener('change', function (e) {
+	    //console.log(document.getElementById('fill-selected-cells'), e.target.checked);
 	    e.target.checked ? document.getElementById('fill-selected-cells').setAttribute('disabled', 'true') : document.getElementById('fill-selected-cells').removeAttribute('disabled');
 	  });
 
@@ -438,7 +473,7 @@
 	      for (var _i17 = 0; _i17 < anchors.length; _i17++) {
 	        var anchor = anchors[_i17];
 	        e.target.value == anchor.getAttribute('data-format') ? anchor.removeAttribute('hidden') : anchor.setAttribute('hidden', 'true');
-	        console.log(event.target.value + "." + anchor.getAttribute('data-format'));
+	        //console.log(`${event.target.value}.${anchor.getAttribute('data-format')}`);
 	      }
 
 	      var extensions = document.querySelectorAll('.extension');
@@ -448,6 +483,50 @@
 	    });
 	  }
 
+	  var tds = document.querySelectorAll('#stage td');
+	  for (var _i19 = 0; _i19 < tds.length; _i19++) {
+	    var td = tds[_i19];
+	    /*td.addEventListener('change', function(event){
+	      if(!event.target.checked) {
+	        let label = document.querySelector(`label[for="${event.target.getAttribute('id')}"]`);
+	        label.style.removeProperty('boxShadow');
+	        label.style.removeProperty('borderColor');
+	      } else {
+	        //console.log(event.target.parentNode.style.backgroundColor);
+	      }
+	    });*/
+
+	    // td.querySelector('input[type="checkbox"]').addEventListener('change', function(event) {
+	    //   console.log(event);
+	    // });
+	  }
+
+	  // document.getElementById('makeanico').addEventListener("blur", function(event) {
+	  //   console.log('blur');
+	  // }, true);
+
+	  document.getElementById('stage').addEventListener("change", function (event) {
+	    console.log(event);
+	    unFocusTDCells();
+	  });
+
+	  function unFocusTDCells() {
+	    console.log('unFocusTDCells');
+	    for (var _i20 = 0; _i20 < cellInputs.length; _i20++) {
+	      if (!cellInputs[_i20].checked) {
+	        try {
+	          var label = cellInputs[_i20].parentNode.querySelector('label');
+	          unFocusTDCell(label);
+	        } catch (e) {}
+	      }
+	    }
+	  }
+
+	  function unFocusTDCell(cell) {
+	    cell.style.removeProperty('box-shadow');
+	    cell.style.removeProperty('border-color');
+	  }
+
 	  window.onpopstate = function (event) {
 	    clearBoard(); // clear the art board
 
@@ -455,7 +534,7 @@
 
 	    Object.keys(fillBack).forEach(function (key) {
 	      // draw the new state
-	      document.getElementById(key.replace('c', 'cell__')).parentNode.style.backgroundColor = fillBack[key].replace('0x', '#');
+	      setRGBAttributes(document.getElementById(key.replace('c', 'cell__')).parentNode);
 	    });
 
 	    window.scrollTo(0, 0); // scroll to the top
@@ -468,18 +547,19 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
-	/*var invertColor = function (hexTripletColor) { // http://jsfiddle.net/salman/f9Re3/
-	    var color = hexTripletColor;
-	    color = color.substring(1); // remove #
-	    color = parseInt(color, 16); // convert to integer
-	    color = 0xFFFFFF ^ color; // invert three bytes
-	    color = color.toString(16); // convert to hex
-	    color = ("000000" + color).slice(-6); // pad with leading zeros
-	    color = "#" + color; // prepend #
-	    return color;
-	}*/
+	var invertColor = function invertColor(hexTripletColor) {
+	  // http://jsfiddle.net/salman/f9Re3/
+	  var color = hexTripletColor;
+	  color = color.substring(1); // remove #
+	  color = parseInt(color, 16); // convert to integer
+	  color = 0xFFFFFF ^ color; // invert three bytes
+	  color = color.toString(16); // convert to hex
+	  color = ("000000" + color).slice(-6); // pad with leading zeros
+	  color = "#" + color; // prepend #
+	  return color;
+	};
 
 	var hexToRgba = __webpack_require__(4).hexToRgba;
 	var rgbaToHex = __webpack_require__(4).rgbaToHex;
@@ -527,11 +607,12 @@
 	*/
 
 	module.exports = {
-	  //invertColor: invertColor,
+	  invertColor: invertColor,
 	  cssColorNameToRGB: cssColorNameToRGB,
 	  hexToRGB: hexToRgba,
+	  hexToRGBA: hexToRgba,
 	  rgbToHex: rgbaToHex,
-	  hexToDecimal: hexToDecimal
+	  rgbaToHex: rgbaToHex
 	};
 
 /***/ },

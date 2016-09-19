@@ -2,11 +2,12 @@
   "name": "cellfill",
   "version": "0.0.0",
   "description": "Progressively Enhanced React Todo List App",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "nodemon --watch ./ --watch ./views -e js,twig server.js",
-    "serveprod": "NODE_ENV=production nodemon --watch ./ --watch ./views -e js,twig server.js"
+    "serveprod": "NODE_ENV=production nodemon --watch ./ --watch ./views -e js,twig server.js",
+    "start": "NODE_ENV=production node server.js"
   },
   "author": "JP de Vries",
   "license": "MIT",
@@ -44,7 +45,7 @@
     "npm": "^3.10.6",
     "onecolor": "^3.0.4",
     "png-coder": "^0.2.1",
-    "png-pixel": "git://github.com/jpdevries/png-pixel#f6a5f82def31623f67e4fb2977d4246f77d6b0b2",
+    "png-pixel": "git://github.com/jpdevries/png-pixel#c38b22b00c02a79160d09bbcd8727648f3273f9e",
     "pngjs": "^3.0.0",
     "query-string": "^4.2.3",
     "rimraf": "^2.5.4",

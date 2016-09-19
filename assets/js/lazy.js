@@ -125,18 +125,19 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
-	/*var invertColor = function (hexTripletColor) { // http://jsfiddle.net/salman/f9Re3/
-	    var color = hexTripletColor;
-	    color = color.substring(1); // remove #
-	    color = parseInt(color, 16); // convert to integer
-	    color = 0xFFFFFF ^ color; // invert three bytes
-	    color = color.toString(16); // convert to hex
-	    color = ("000000" + color).slice(-6); // pad with leading zeros
-	    color = "#" + color; // prepend #
-	    return color;
-	}*/
+	var invertColor = function invertColor(hexTripletColor) {
+	  // http://jsfiddle.net/salman/f9Re3/
+	  var color = hexTripletColor;
+	  color = color.substring(1); // remove #
+	  color = parseInt(color, 16); // convert to integer
+	  color = 0xFFFFFF ^ color; // invert three bytes
+	  color = color.toString(16); // convert to hex
+	  color = ("000000" + color).slice(-6); // pad with leading zeros
+	  color = "#" + color; // prepend #
+	  return color;
+	};
 
 	var hexToRgba = __webpack_require__(4).hexToRgba;
 	var rgbaToHex = __webpack_require__(4).rgbaToHex;
@@ -184,11 +185,12 @@
 	*/
 
 	module.exports = {
-	  //invertColor: invertColor,
+	  invertColor: invertColor,
 	  cssColorNameToRGB: cssColorNameToRGB,
 	  hexToRGB: hexToRgba,
+	  hexToRGBA: hexToRgba,
 	  rgbToHex: rgbaToHex,
-	  hexToDecimal: hexToDecimal
+	  rgbaToHex: rgbaToHex
 	};
 
 /***/ },

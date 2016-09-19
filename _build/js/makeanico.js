@@ -25,7 +25,7 @@ const MakeAnIco = function() {
 
   const form = document.getElementById('makeanico'),
   ranges = document.querySelectorAll('input[type="range"]'),
-  cellInputs = document.querySelectorAll('#stage input'),
+  cellInputs = document.querySelectorAll('#stage input[type="checkbox"]'),
   cellGridContainer = document.getElementById('cell-grid__container'),
   inputColorByRGBRadio = document.getElementById('input_color_by__rgb'),
   inputColorByTextColor = document.getElementById('input_color_by__text__color'),
@@ -107,15 +107,49 @@ const MakeAnIco = function() {
     document.getElementById('start-over').removeAttribute('hidden');
   }
 
+  function setRGBAttributes(element) {
+    element.setAttribute('data-dirty', 'true');
+    element.setAttribute('data-r', fillColor[0]);
+    element.setAttribute('data-g', fillColor[1]);
+    element.setAttribute('data-b', fillColor[2]);
+    element.setAttribute('data-a', rgb_slider_a.value);
+    element.style.backgroundColor = `rgba(${fillColor[0]}, ${fillColor[1]}, ${fillColor[2]}, ${rgb_slider_a.value})`;
+    //element.style.opacity = rgb_slider_a.value;
+  }
+
   function updateColorGrid(color) {
-    let checkedCells = document.querySelectorAll('#stage input[type="checkbox"]:checked');
+    //console.log('updateColorGrid',color);
+    let checkedCells = document.querySelectorAll('#stage input[type="checkbox"]:checked'),
+    rgbASlider = document.getElementById('rgb_slider_a');
+
+    let alphaArray = helpers.hexToRGBA(color);
+    //console.log('yolo',alphaArray,helpers.rgbaToHex(alphaArray[0],alphaArray[1],alphaArray[2],Number(rgbASlider.value)), Number(rgbASlider.value));
+
     for(let i = 0; i < checkedCells.length; i++) {
       let key = checkedCells[i].getAttribute('id').replace('cell__','c');
       //console.log(key,color.replace('#','0x'));
-      fillBack[key] = color.replace('#','0x');
+
+      fillBack[key] = helpers.rgbaToHex(alphaArray[0], alphaArray[1], alphaArray[2], Number(rgbASlider.value)).replace('#','0x');
+
+      let inputCheckbox = document.getElementById(checkedCells[i].for);
+      let invert = helpers.invertColor(color);
+
+
       checkedCells[i].parentNode.style.backgroundColor = color;
       checkedCells[i].parentNode.setAttribute('data-dirty','true');
+
+      setCellBorderFilterColor(checkedCells[i].parentNode.querySelector('label'), invert);
+
+
+
+      setRGBAttributes(checkedCells[i].parentNode);
     }
+  }
+
+  function setCellBorderFilterColor(label, color) {
+    console.log('setCellBorderFilterColor', color);
+    label.style.boxShadow = `0 0 5px ${color}`;
+    label.style.outlineColor = `${color}`;
   }
 
   function updateFaviconPreview() {
@@ -133,10 +167,11 @@ const MakeAnIco = function() {
         for(let i = 0; i < cells.length; i++) {
           let cell = cells[i];
           if(cell.getAttribute('data-dirty') == 'true') {
-            let rgb = helpers.cssColorNameToRGB(cell.style.backgroundColor, true);
+            let rgb = [cell.getAttribute('data-r'), cell.getAttribute('data-g'), cell.getAttribute('data-b')];
+            let opacity = cell.getAttribute('data-a') ? ` opacity="${cell.getAttribute('data-a')}"` : '';
             let color = helpers.rgbToHex(rgb[0], rgb[1], rgb[2]);
 
-            rects.push(`<rect x="${i}" y="${rowIndex}" width="1" height="1" fill="${color}"></rect>`);
+            rects.push(`<rect x="${i}" y="${rowIndex}" width="1" height="1" fill="${color}"${opacity}></rect>`);
           }
         }
         return rects;
@@ -176,7 +211,6 @@ const MakeAnIco = function() {
 
     range.addEventListener('input',function(e){
       fillColor[index] = parseInt(e.target.value); // update the fill color
-      console.log(fillColor);
       let color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2]); //convert RGB values to hex
       updateColor(color);
 
@@ -205,7 +239,7 @@ const MakeAnIco = function() {
 
     inputColorByColorpicker.addEventListener('change',function(e){
       pushState();
-      console.log(event.target.value);
+      //console.log(event.target.value);
     });
   } catch (e) { console.log(e) }
 
@@ -224,15 +258,19 @@ const MakeAnIco = function() {
     //console.log(cell);
     cell.addEventListener('click', function(e) {
       if(e.target.checked) {
-        let color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2]);
+        let color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], 1);
 
         let key = cell.getAttribute('id').replace('cell__','c');
         fillBack[key] = color.replace('#','0x');
 
         if(fillCellsOnClick.checked) {
-          e.target.parentNode.style.backgroundColor = color;
-          e.target.parentNode.setAttribute('data-dirty','true');
+          //e.target.parentNode.style.backgroundColor = `rgba(${fillColor[0]}, ${fillColor[1]}, ${fillColor[2]}, ${rgb_slider_a.value})`;
+          //e.target.parentNode.style.opacity = rgb_slider_a.value;
+          setRGBAttributes(e.target.parentNode);
+          setCellBorderFilterColor( e.target.parentNode.querySelector('label'), helpers.invertColor(helpers.rgbToHex(parseInt(e.target.parentNode.getAttribute('data-r')), parseInt(e.target.parentNode.getAttribute('data-g')), parseInt(e.target.parentNode.getAttribute('data-b')))) );
         }
+
+
 
         pushState();
       }
@@ -250,7 +288,9 @@ const MakeAnIco = function() {
 
   document.getElementById('unselect_all_cells').addEventListener('click', function(e){
     e.preventDefault();
+
     for(let i = 0; i < cellInputs.length; i++) cellInputs[i].checked = false;
+    unFocusTDCells();
   });
 
   document.getElementById('inverse_selection').addEventListener('click', function(e){
@@ -286,7 +326,7 @@ const MakeAnIco = function() {
   }
 
   function updateDownloadLinks() {
-    console.log('updateDownloadLinks', location.search);
+    //console.log('updateDownloadLinks', location.search);
     let downloadAnchors = document.querySelectorAll('a[download]');
     for(let i = 0; i < downloadAnchors.length; i++) {
       let a = downloadAnchors[i];
@@ -294,7 +334,7 @@ const MakeAnIco = function() {
     }
   }
 
-  document.querySelector('#start-over a').addEventListener('click', function(e){
+  document.querySelector('#start-over a').addEventListener('click', function(e) {
     e.preventDefault();
 
     window.history.pushState({}, 'Makeanico', `/`);
@@ -310,6 +350,7 @@ const MakeAnIco = function() {
   document.querySelector('.instructions').innerHTML = `Select cells above to fill them with the color chosen&nbsp;below.`;
 
   fillCellsOnClick.addEventListener('change', function(e) {
+    //console.log(document.getElementById('fill-selected-cells'), e.target.checked);
     (e.target.checked) ? document.getElementById('fill-selected-cells').setAttribute('disabled','true') : document.getElementById('fill-selected-cells').removeAttribute('disabled');
   });
 
@@ -336,7 +377,7 @@ const MakeAnIco = function() {
       for(let i = 0; i < anchors.length; i++) {
         let anchor = anchors[i];
         (e.target.value == anchor.getAttribute('data-format')) ? anchor.removeAttribute('hidden') : anchor.setAttribute('hidden', 'true');
-        console.log(`${event.target.value}.${anchor.getAttribute('data-format')}`);
+        //console.log(`${event.target.value}.${anchor.getAttribute('data-format')}`);
       }
 
       let extensions = document.querySelectorAll('.extension');
@@ -346,13 +387,58 @@ const MakeAnIco = function() {
     });
   }
 
+  let tds = document.querySelectorAll('#stage td');
+  for(let i = 0; i < tds.length; i++) {
+    let td = tds[i];
+    /*td.addEventListener('change', function(event){
+      if(!event.target.checked) {
+        let label = document.querySelector(`label[for="${event.target.getAttribute('id')}"]`);
+        label.style.removeProperty('boxShadow');
+        label.style.removeProperty('borderColor');
+      } else {
+        //console.log(event.target.parentNode.style.backgroundColor);
+      }
+    });*/
+
+    // td.querySelector('input[type="checkbox"]').addEventListener('change', function(event) {
+    //   console.log(event);
+    // });
+  }
+
+  // document.getElementById('makeanico').addEventListener("blur", function(event) {
+  //   console.log('blur');
+  // }, true);
+
+  document.getElementById('stage').addEventListener("change", function(event) {
+    console.log(event);
+    unFocusTDCells();
+  });
+
+  function unFocusTDCells() {
+    console.log('unFocusTDCells');
+    for(let i = 0; i < cellInputs.length; i++) {
+      if(!cellInputs[i].checked) {
+        try {
+          let label = cellInputs[i].parentNode.querySelector('label');
+          unFocusTDCell(label);
+
+        } catch(e) {}
+      }
+    }
+  }
+
+  function unFocusTDCell(cell) {
+    cell.style.removeProperty('box-shadow');
+    cell.style.removeProperty('border-color');
+  }
+
   window.onpopstate = function(event) {
     clearBoard(); // clear the art board
 
     fillBack = event.state; // set the new state
 
     Object.keys(fillBack).forEach(function(key) { // draw the new state
-      document.getElementById(key.replace('c','cell__')).parentNode.style.backgroundColor = fillBack[key].replace('0x','#');
+      setRGBAttributes(document.getElementById(key.replace('c','cell__')).parentNode);
     });
 
     window.scrollTo(0,0); // scroll to the top

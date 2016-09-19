@@ -1,4 +1,4 @@
-/*var invertColor = function (hexTripletColor) { // http://jsfiddle.net/salman/f9Re3/
+var invertColor = function (hexTripletColor) { // http://jsfiddle.net/salman/f9Re3/
     var color = hexTripletColor;
     color = color.substring(1); // remove #
     color = parseInt(color, 16); // convert to integer
@@ -7,7 +7,7 @@
     color = ("000000" + color).slice(-6); // pad with leading zeros
     color = "#" + color; // prepend #
     return color;
-}*/
+}
 
 const hexToRgba = require('hex-and-rgba').hexToRgba;
 const rgbaToHex = require('hex-and-rgba').rgbaToHex;
@@ -55,9 +55,10 @@ const rgbToHex = (r, g, b) => '#' + [r, g, b].map((c) => {
 
 
 module.exports = {
-  //invertColor: invertColor,
+  invertColor: invertColor,
   cssColorNameToRGB: cssColorNameToRGB,
   hexToRGB: hexToRgba,
+  hexToRGBA: hexToRgba,
   rgbToHex:rgbaToHex,
-  hexToDecimal:hexToDecimal
+  rgbaToHex:rgbaToHex
 };

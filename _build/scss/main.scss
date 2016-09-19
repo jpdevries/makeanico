@@ -266,7 +266,8 @@ fieldset, .fieldset {
   input[type="checkbox"]:checked + label {
     //outline:3px solid rgb(255,0,255);
     box-shadow: 0 0 5px #51cbee;
-    border: 1px solid #51cbee;
+    outline: 1px solid #51cbee;
+    //filter: hue-rotate(90deg);
   }
 
   td {

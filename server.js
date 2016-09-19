@@ -34,6 +34,9 @@ const PNG = require('pngjs').PNG;
 
 const transparent = {r: 255, g: 255, b: 255, a: 0};
 
+const hexToRgba = require('hex-and-rgba').hexToRgba;
+const rgbaToHex = require('hex-and-rgba').rgbaToHex;
+
 if(process.env.NODE_ENV) {
   app.use(minifyHTML({
     override: true,
@@ -53,13 +56,38 @@ if(process.env.NODE_ENV) {
 app.use(express.static(__dirname));
 
 var CellDTO = function(index = 0, row = 0, column = 0, checked = false, fill = undefined) {
+  console.log(fill);
+  let rgba = [transparent.a, transparent.g, transparent.b, transparent.a];
+  let opacity = undefined;
+  let hex = '#FFFFFF';
+  if(fill) {
+    try {
+      fill = hex = color(fill.toString().replace('0x','#')).hex();
+      opacity = 1;
+    } catch(e) {
+      fill = hexToRgba(fill.replace('0x','#'));
+      hex = rgbaToHex(fill[0],fill[1],fill[2]);
+      opacity = fill[3];
+      fill = `rgba(${fill[0]},${fill[1]},${fill[2]},${fill[3]})`;
+    }
+
+    rgba = hexToRgba(hex);
+    rgba[3] = opacity;
+    console.log(opacity);
+
+  }
+
+
 
   return {
     index:index,
     row:row,
     column:column,
     checked:checked,
-    fill:(fill) ? color(fill.toString().replace('0x','#')).hex() : fill
+    fill:fill,
+    rgba:rgba,
+    hex:hex,
+    opacity:opacity
   };
 }
 
@@ -111,6 +139,7 @@ function getCells(filledCells) {
       const a = [];
       for(let col = 0; col < 16; col++) {
         const index = col + (row * 16);
+        //console.log('!!',filledCells[index]);
         a.push(CellDTO(index, row, col, false, filledCells[index]))
       }
       return a;
@@ -179,11 +208,13 @@ app.post('/png-coder', function(req, res) {
           for(let y = 0; y < 16; y++) {
             for(let x = 0; x < 16; x++) {
               let rgb = image.getPixel(x, y),
-              hex = helpers.rgbToHex(rgb.r, rgb.g, rgb.b);
+              hex = helpers.rgbToHex(rgb.r, rgb.g, rgb.b, rgb.a / 100);
 
               console.log(rgb);
 
-              if(rgb.a) params.push(`c${i}=${hex.replace('#','0x')}`);
+              if(rgb.a) {
+                params.push(`c${i}=${hex.replace('#','0x')}`);
+              }
 
               i++;
             }
@@ -385,13 +416,17 @@ function urlParamsToPNG(cells, matte = transparent) {
 
     cells.map(function(row) {
       row.map(function(cell) {
+        console.log(cell);
         if(cell.fill) pixels.push({
           x: cell.column,
           y: cell.row,
-          color: cell.fill.replace('#','').toUpperCase()
+          color: cell.hex.replace('#','').toUpperCase(),
+          opacity: Math.min(255, parseInt(cell.opacity * 100, 16))
         });
       });
     });
+
+    console.log(pixels);
 
     fs.mkdtemp(tmpDir + path.sep, (err, folder) => {
       if (err) throw err;

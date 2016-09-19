@@ -4,7 +4,7 @@
     {% for row in cells %}
         {% for cell in row %}
           {% if cell.fill %}
-            <rect x="{{ cell.column }}" y="{{ cell.row }}" width="1" height="1" fill="{{ cell.fill }}" />
+            <rect x="{{ cell.column }}" y="{{ cell.row }}" width="1" height="1" fill="{{ cell.hex }}" opacity="{{ cell.opacity }}" />
           {% endif %}
         {% endfor %}
     {% endfor %}
