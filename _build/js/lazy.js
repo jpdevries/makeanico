@@ -20,6 +20,8 @@ let swatchOptGroup = createOptGroup('Swatches', ['#FF0000', '#00FF00', '#0000FF'
 dataListSelect.appendChild(cssNamesOptGroup);
 console.log('optGroup',cssNamesOptGroup);
 
+
+
 /*let otherOptGroup = document.createElement('optgroup');
 let opt = document.createElement('option');
 otherOptGroup.setAttribute('label', ' Other');
@@ -40,6 +42,11 @@ let colorLabel = (function(){
 datalist.appendChild(colorLabel);
 datalist.appendChild(dataListSelect);
 datalist.appendChild(swatchOptGroup);
+
+dataListSelect.addEventListener('change', function(event) {
+  inputColorByTextColor.value = event.target.value;
+  inputColorByTextColor.dispatchEvent(new Event('change'));
+});
 
 document.querySelector('.widget.import .svg-preview__svg').addEventListener('click', function(e) {
   document.getElementById('pic').click();

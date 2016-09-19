@@ -89,6 +89,11 @@
 	datalist.appendChild(dataListSelect);
 	datalist.appendChild(swatchOptGroup);
 
+	dataListSelect.addEventListener('change', function (event) {
+	  inputColorByTextColor.value = event.target.value;
+	  inputColorByTextColor.dispatchEvent(new Event('change'));
+	});
+
 	document.querySelector('.widget.import .svg-preview__svg').addEventListener('click', function (e) {
 	  document.getElementById('pic').click();
 	});

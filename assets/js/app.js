@@ -123,6 +123,12 @@
 	    }
 	  }
 
+	  function addListenerMulti(el, s, fn) {
+	    s.split().forEach(function (e) {
+	      return el.addEventListener(e, fn, false);
+	    });
+	  }
+
 	  function updateView() {
 	    updateFavicon();
 	    updateDownloadLinks();
@@ -311,12 +317,16 @@
 	    _loop2(_i7);
 	  }
 
-	  inputColorByTextColor.addEventListener('input', function (e) {
+	  function handleInputColorByTextColorChange(e) {
 	    document.getElementById('input_color_by__text').checked = true;
 	    updateColor(e.target.value, false);
 	    pushState();
 	    updateDownloadLinks();
-	  });
+	  }
+
+	  inputColorByTextColor.addEventListener('input', handleInputColorByTextColorChange);
+
+	  inputColorByTextColor.addEventListener('change', handleInputColorByTextColorChange);
 
 	  try {
 	    inputColorByColorpicker.addEventListener('input', function (e) {
