@@ -1,4 +1,4 @@
-var makeanico = require('./makeanico');
+const makeanico = require('./makeanico');
 
 document.addEventListener('DOMContentLoaded', function() {
     var cf = new makeanico.MakeAnIco();

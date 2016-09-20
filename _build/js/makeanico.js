@@ -30,19 +30,18 @@ const MakeAnIco = function() {
   inputColorByRGBRadio = document.getElementById('input_color_by__rgb'),
   inputColorByTextColor = document.getElementById('input_color_by__text__color'),
   inputColorByColorpicker = document.getElementById('input_color_by__colorpicker'),
-  fillCellsOnClick = document.getElementById('fill-cells-on-click');
+  fillCellsOnClick = document.getElementById('fill-cells-on-click'),
+  rgbASlider = document.getElementById('rgb_slider_a');
 
-  //let altKeyDown = false;
+  let sKeyDown = false;
 
-  /*document.addEventListener('keydown', function(e){
-    altKeyDown = e.altKey || false;
-    console.log('altKeyDown',altKeyDown);
+  document.getElementById('stage').addEventListener('keydown', function(e){
+    sKeyDown = (e.key == 's') || false;
   });
 
-  document.addEventListener('keyup', function(e){
-    altKeyDown = e.altKey || false;
-    console.log('altKeyDown',altKeyDown);
-  });*/
+  document.getElementById('stage').addEventListener('keyup', function(e){
+    sKeyDown = false;
+  });
 
   // pull the initial URL params out and store them in a Object
   var fillBack = {};
@@ -86,35 +85,22 @@ const MakeAnIco = function() {
     for(let i = 0; i < dataDependents.length; i++) (isBlank) ? dataDependents[i].setAttribute('hidden', 'true') : dataDependents[i].removeAttribute('hidden');
   }
 
-  function pushState() {
-    let newURL = (function(){
-      let a = [];
 
-      Object.keys(fillBack).forEach(function(key) {
-        a.push(`${key}=${fillBack[key]}`);
-      });
-
-      return a.join('&');
-    })();
-
-    window.history.pushState(fillBack, 'Makeanico', `/?${newURL}`);
-  }
 
   let fillColor = [255, 255, 255, 100];
   if(localStorage.getItem('fillColor')) {
     updateColor(localStorage.getItem('fillColor'));
   }
 
-  function updateColor(color, updateTextField = true) {
-    fillColor = helpers.cssColorNameToRGB(color.replace('0x', '#'), true);
-    let wasHex = color.charCodeAt(0) == '#';
+  function updateColor(color, updateTextField = true, doUpdateColorGrid = true) {
+    fillColor = helpers.hexToRGBA(color);
+    let wasHex = color.charAt(0) == '#';
     let wasBlack = (wasHex) ? color == '#000000' || color == '#000' : color.toLowerCase() == 'black';
-    color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2]);
 
     if(!wasHex && !wasBlack && color == '#000000') return;
 
     cellGridContainer.classList.add('dirty');
-    cellGridContainer.style.borderColor = color;
+    cellGridContainer.style.borderColor = `rgba(${fillColor[0]},${fillColor[1]},${fillColor[2]},${fillColor[3] == undefined ? 1 : fillColor[3]})`;
 
     if(updateTextField) inputColorByTextColor.value = color;
 
@@ -127,7 +113,7 @@ const MakeAnIco = function() {
       inputColorByColorpicker.value = color;
     } catch (e) {}
 
-    updateColorGrid(color);
+    if(doUpdateColorGrid) updateColorGrid(color);
     //updateFavicon();
     updateView();
 
@@ -138,7 +124,7 @@ const MakeAnIco = function() {
 
   function setRGBAttributes(element, color = undefined) {
     let alpha = rgb_slider_a.value;
-    //console.log('setRGBAttributes',element,color, alpha);
+
     if(color) {
       color = helpers.hexToRGBA(color);
       color[3] = (color[3] == undefined) ? 1 : color[3];
@@ -146,30 +132,22 @@ const MakeAnIco = function() {
       color = fillColor;
     }
 
-    //console.log(color);
-
     element.setAttribute('data-dirty', 'true');
     element.setAttribute('data-r', color[0]);
     element.setAttribute('data-g', color[1]);
     element.setAttribute('data-b', color[2]);
     element.setAttribute('data-a', rgb_slider_a.value);
     element.style.backgroundColor = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${alpha})`;
-    //element.style.opacity = rgb_slider_a.value;
   }
 
   function updateColorGrid(color) {
-    //console.log('updateColorGrid',color);
     let checkedCells = document.querySelectorAll('#stage input[type="checkbox"]:checked'),
-    rgbASlider = document.getElementById('rgb_slider_a');
-
-    let alphaArray = helpers.hexToRGBA(color);
-    //console.log('yolo',alphaArray,helpers.rgbaToHex(alphaArray[0],alphaArray[1],alphaArray[2],Number(rgbASlider.value)), Number(rgbASlider.value));
+    alphaArray = helpers.hexToRGBA(color);
 
     for(let i = 0; i < checkedCells.length; i++) {
       let key = checkedCells[i].getAttribute('id').replace('cell__','c');
 
       fillBack[key] = helpers.rgbaToHex(alphaArray[0], alphaArray[1], alphaArray[2], Number(rgbASlider.value)).replace('#','0x');
-
 
       try {
         checkedCells[i].parentNode.querySelector('input[type="hidden"]').setAttribute('value', fillBack[key]);
@@ -181,7 +159,6 @@ const MakeAnIco = function() {
   }
 
   function setCellBorderFilterColor(label, color) {
-    //console.log('setCellBorderFilterColor', color);
     label.style.boxShadow = `0 0 5px ${color}`;
     label.style.outlineColor = `${color}`;
   }
@@ -265,7 +242,6 @@ const MakeAnIco = function() {
   }
 
   inputColorByTextColor.addEventListener('input', handleInputColorByTextColorChange);
-
   inputColorByTextColor.addEventListener('change', handleInputColorByTextColorChange);
 
   try {
@@ -277,15 +253,12 @@ const MakeAnIco = function() {
 
     inputColorByColorpicker.addEventListener('change',function(e){
       pushState();
-      //console.log(event.target.value);
     });
   } catch (e) { console.log(e) }
 
   document.querySelector('[no-js]').remove();
-  //document.querySelector('button[type="reset"]').remove();
 
   document.querySelector('#cell-grid__container header').innerHTML += `<h3>Select Cells</h3><div class="async-btns flexible unaligned fieldset">
-
     <button id="select_all_cells">Select all Cells</button>
     <button id="unselect_all_cells">Unselect all Cells</button>
     <button id="inverse_selection">Inverse Selection</button>
@@ -293,74 +266,61 @@ const MakeAnIco = function() {
 
   for(let i = 0; i < cellInputs.length; i++) {
     let cell = cellInputs[i];
-    //console.log(cell);
 
-    cell.parentNode.querySelector('label').addEventListener('click', function(e){
-      console.log(e);
-    });
+    cell.addEventListener('click', (e) => {
+      if((e.altKey || sKeyDown) && lastClickedCellInput) {
+        let rows = document.querySelectorAll('#stage tbody tr');
+        let start = Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row'));
 
-    ['click'].forEach((element, index, array) => {
-        cell.addEventListener(element, (e) => {
-          console.log('handleCellClickChange',e.altKey, e, cell);
-          if((e.altKey) && lastClickedCellInput) {
-            console.log(lastClickedCellInput, e.target);
-            //console.log(lastClickedCellInput.parentNode.getAttribute('data-row'), lastClickedCellInput.parentNode.getAttribute('data-col'));
-            let rows = document.querySelectorAll('#stage tbody tr');
-            let start = Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row'));
-            //console.log('yo', Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row')), Math.abs(parseInt(lastClickedCellInput.parentNode.getAttribute('data-row')) - parseInt(e.target.parentNode.getAttribute('data-row'))));
-            for(i = start; i <= start + Math.abs(parseInt(lastClickedCellInput.parentNode.getAttribute('data-row')) - parseInt(e.target.parentNode.getAttribute('data-row'))); i++) {
-              //console.log(`select row ${i}`);
-              //console.log(Math.min(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')), Math.max(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')));
-              let tr = rows[i];
-              let tds = tr.querySelectorAll('td');
-              for(let j = 1 + Math.min(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j <= 1 + Math.max(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j++) {
-                let td = tds[j];
-                let checkbox = td.querySelector('input[type="checkbox"]');
+        for(i = start; i <= start + Math.abs(parseInt(lastClickedCellInput.parentNode.getAttribute('data-row')) - parseInt(e.target.parentNode.getAttribute('data-row'))); i++) {
+          let tr = rows[i];
+          let tds = tr.querySelectorAll('td');
+          for(let j = 1 + Math.min(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j <= 1 + Math.max(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j++) {
+            let td = tds[j];
+            let checkbox = td.querySelector('input[type="checkbox"]');
 
-                if(e.target.parentNode !== td && lastClickedCellInput.parentNode !== td) {
-                  //console.log(td);
-                  //console.log(e.target.checked);
-                  //checkbox.checked = !checkbox.checked;
-                  checkbox.checked = true;
-                  if(fillCellsOnClick.checked) {
-                    //console.log('setting rgb attributes');
-                    setRGBAttributes(td);
-                  }
-                  //console.log(e.target);
-                }
+            if(e.target.parentNode !== td && lastClickedCellInput.parentNode !== td) {
+              checkbox.checked = true;
+              if(fillCellsOnClick.checked) {
+                setRGBAttributes(td);
               }
             }
           }
+        }
+      }
 
-          if(e.target.checked) {
-            let color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], 1);
+      if(e.target.checked) {
+        let color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], 1);
 
-            let key = cell.getAttribute('id').replace('cell__','c');
-            fillBack[key] = color.replace('#','0x');
+        let key = cell.getAttribute('id').replace('cell__','c');
+        fillBack[key] = color.replace('#','0x');
 
-            if(fillCellsOnClick.checked) {
-              //e.target.parentNode.style.backgroundColor = `rgba(${fillColor[0]}, ${fillColor[1]}, ${fillColor[2]}, ${rgb_slider_a.value})`;
-              //e.target.parentNode.style.opacity = rgb_slider_a.value;
-              setRGBAttributes(e.target.parentNode);
-              setCellBorderFilterColor( e.target.parentNode.querySelector('label'), helpers.invertColor(helpers.rgbToHex(parseInt(e.target.parentNode.getAttribute('data-r')), parseInt(e.target.parentNode.getAttribute('data-g')), parseInt(e.target.parentNode.getAttribute('data-b')))) );
-            }
+        if(fillCellsOnClick.checked) {
+          setRGBAttributes(e.target.parentNode);
+          setCellBorderFilterColor( e.target.parentNode.querySelector('label'), helpers.invertColor(helpers.rgbToHex(parseInt(e.target.parentNode.getAttribute('data-r')), parseInt(e.target.parentNode.getAttribute('data-g')), parseInt(e.target.parentNode.getAttribute('data-b')))) );
+        }
 
+        pushState();
+      }
 
+      updateView();
+      //updateFavicon();
+      //updateDownloadLinks();
 
-            pushState();
-          }
-
-          updateView();
-          //updateFavicon();
-          //updateDownloadLinks();
-
-          lastClickedCellInput = e.target;
-        });
+      lastClickedCellInput = e.target;
     });
-
-
   }
 
+
+   /*                       __                                 __               __                     __                    __
+  /\ \                     /\ \                               /\ \             /\ \                   /\ \__                /\ \__
+  \ \ \/'\      __   __  __\ \ \____    ___      __     _ __  \_\ \        ____\ \ \___     ___   _ __\ \ ,_\   ___   __  __\ \ ,_\   ____
+   \ \ , <    /'__`\/\ \/\ \\ \ '__`\  / __`\  /'__`\  /\`'__\/'_` \      /',__\\ \  _ `\  / __`\/\`'__\ \ \/  /'___\/\ \/\ \\ \ \/  /',__\
+    \ \ \\`\ /\  __/\ \ \_\ \\ \ \L\ \/\ \L\ \/\ \L\.\_\ \ \//\ \L\ \    /\__, `\\ \ \ \ \/\ \L\ \ \ \/ \ \ \_/\ \__/\ \ \_\ \\ \ \_/\__, `\
+     \ \_\ \_\ \____\\/`____ \\ \_,__/\ \____/\ \__/.\_\\ \_\\ \___,_\   \/\____/ \ \_\ \_\ \____/\ \_\  \ \__\ \____\\ \____/ \ \__\/\____/
+      \/_/\/_/\/____/ `/___/> \\/___/  \/___/  \/__/\/_/ \/_/ \/__,_ /    \/___/   \/_/\/_/\/___/  \/_/   \/__/\/____/ \/___/   \/__/\/___/
+                         /\___/
+                         \/_*/
 
 
   document.getElementById('select_all_cells').addEventListener('click', function(e){
@@ -380,7 +340,7 @@ const MakeAnIco = function() {
     for(let i = 0; i < cellInputs.length; i++) cellInputs[i].checked = !cellInputs[i].checked;
   });
 
-  document.addEventListener('keydown', function(event) {
+  document.addEventListener('keyup', function(event) {
     //console.log(event);
     if (event.ctrlKey && event.which === 65) { // ctrl + a
         document.getElementById('select_all_cells').click();
@@ -394,9 +354,10 @@ const MakeAnIco = function() {
         document.getElementById('inverse_selection').click();
     }
 
-    if (event.ctrlKey && event.which === 8) { // ctrl + backspace
+    /*if (event.ctrlKey && event.which === 8) { // ctrl + backspace
         document.getElementById('inverse_selection').click();
-    }
+    }*/
+
   });
 
   function clearBoard() {
@@ -408,7 +369,6 @@ const MakeAnIco = function() {
   }
 
   function updateDownloadLinks() {
-    //console.log('updateDownloadLinks', location.search);
     let downloadAnchors = document.querySelectorAll('a[download]');
     for(let i = 0; i < downloadAnchors.length; i++) {
       let a = downloadAnchors[i];
@@ -432,7 +392,6 @@ const MakeAnIco = function() {
   document.querySelector('.instructions').innerHTML = `Select cells above to fill them with the color chosen&nbsp;below.`;
 
   fillCellsOnClick.addEventListener('change', function(e) {
-    //console.log(document.getElementById('fill-selected-cells'), e.target.checked);
     (e.target.checked) ? document.getElementById('fill-selected-cells').setAttribute('disabled','true') : document.getElementById('fill-selected-cells').removeAttribute('disabled');
   });
 
@@ -469,41 +428,17 @@ const MakeAnIco = function() {
     });
   }
 
-  let tds = document.querySelectorAll('#stage td');
-  for(let i = 0; i < tds.length; i++) {
-    let td = tds[i];
-    /*td.addEventListener('change', function(event){
-      if(!event.target.checked) {
-        let label = document.querySelector(`label[for="${event.target.getAttribute('id')}"]`);
-        label.style.removeProperty('boxShadow');
-        label.style.removeProperty('borderColor');
-      } else {
-        //console.log(event.target.parentNode.style.backgroundColor);
-      }
-    });*/
-
-    // td.querySelector('input[type="checkbox"]').addEventListener('change', function(event) {
-    //   console.log(event);
-    // });
-  }
-
-  // document.getElementById('makeanico').addEventListener("blur", function(event) {
-  //   console.log('blur');
-  // }, true);
-
   document.getElementById('stage').addEventListener("change", function(event) {
     console.log(event);
     unFocusTDCells();
     try {
       event.target.parentNode.querySelector('input[type="checkbox"]').focus();
-    } catch (e) {
-
-    }
+    } catch (e) {}
   });
 
-  document.getElementById("stage").addEventListener("keyup", function(event) {
+  /*document.getElementById("stage").addEventListener("keyup", function(event) {
     console.log(event);
-  });
+  });*/
 
   function unFocusTDCells() {
     //console.log('unFocusTDCells');
@@ -521,6 +456,153 @@ const MakeAnIco = function() {
   function unFocusTDCell(cell) {
     cell.style.removeProperty('box-shadow');
     cell.style.removeProperty('border-color');
+  }
+
+  function updateSwatchView() {
+    const comp = document.querySelector('.swatches').parentNode.parentNode.parentNode,
+    formButton = document.querySelector('#swatches-form button');
+    if(document.querySelectorAll('.swatch').length < 1) {
+      formButton.setAttribute('hidden','true');
+      comp.setAttribute('data-empty','true');
+    } else {
+      formButton.removeAttribute('hidden');
+      comp.removeAttribute('data-empty');
+    }
+  }
+
+  function elementToHex(element) {
+    return helpers.rgbaToHex(parseInt(element.getAttribute('data-r')), parseInt(element.getAttribute('data-g')), parseInt(element.getAttribute('data-b')), Number(element.getAttribute('data-a'))).replace('#','0x')
+  }
+
+
+                            /*           __                                           ___
+                           /\ \__       /\ \                                         /\_ \
+  ____  __  __  __     __  \ \ ,_\   ___\ \ \___       _____      __      ___      __\//\ \
+ /',__\/\ \/\ \/\ \  /'__`\ \ \ \/  /'___\ \  _ `\    /\ '__`\  /'__`\  /' _ `\  /'__`\\ \ \
+/\__, `\ \ \_/ \_/ \/\ \L\.\_\ \ \_/\ \__/\ \ \ \ \   \ \ \L\ \/\ \L\.\_/\ \/\ \/\  __/ \_\ \_
+\/\____/\ \___x___/'\ \__/.\_\\ \__\ \____\\ \_\ \_\   \ \ ,__/\ \__/.\_\ \_\ \_\ \____\/\____\
+ \/___/  \/__//__/   \/__/\/_/ \/__/\/____/ \/_/\/_/    \ \ \/  \/__/\/_/\/_/\/_/\/____/\/____/
+                                                         \ \_\
+                                                          \/*/
+
+
+  document.getElementById('swatches-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const swatches = e.target.querySelectorAll('.swatch input[type="radio"]'),
+    deletingSwatch = e.target.querySelector('.swatch input[type="radio"]:checked'),
+    hex = elementToHex(deletingSwatch),
+    swatchParents = document.querySelectorAll('.swatch');
+
+    try {
+      const previous = deletingSwatch.parentNode.previousElementSibling.querySelector('input[type="radio"]');
+      previous.checked = true;
+      previous.focus();
+    } catch(e) {}
+
+    deletingSwatch.parentNode.remove();
+
+    updateSwatchView();
+
+    let toSave = [];
+
+    swatchParents.forEach(function(element, index, array) {
+      toSave.push(elementToHex(element));
+    });
+
+    localStorage.setItem('swatchesStore', toSave.join(','));
+  });
+
+  document.querySelector('.swatches').addEventListener('change', function(e) {
+    updateColor(elementToHex(e.target.parentNode));
+    pushState(); // #janky
+  }, true);
+
+  const saveSwatchBtn = document.createElement('button');
+  saveSwatchBtn.innerHTML = 'Save Swatch';
+  document.querySelector('#cell-grid__container footer').appendChild(saveSwatchBtn);
+
+  saveSwatchBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    addSwatch([fillColor[0],fillColor[1],fillColor[2],Number(rgbASlider.value)]);
+  });
+
+  function getSwatchesStore() {
+    return (function(){
+      try {
+        return localStorage.getItem('swatchesStore').split(',')
+      } catch (e) {
+        return []
+      }
+    })().filter((value) => (
+      value.indexOf('0x') == 0
+    ));
+  }
+
+  let swatchesStore = getSwatchesStore();
+
+  function addSwatch(rgba, doLocalStorage = true) {
+    const swatches = document.querySelectorAll('.swatch');
+    document.querySelector('.swatches').innerHTML +=
+    `<li class="swatch" data-r="${rgba[0]}" data-g="${rgba[1]}" data-b="${rgba[2]}" data-a="${rgba[3]}" style="background:rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]})">
+      <input type="radio" name="swatch" id="swatch__${swatches.length}" />
+      <label for="swatch__${swatches.length}">
+        <span class="accessibly-hidden">Red ${rgba[0]}, Green ${rgba[1]}, Blue ${rgba[2]}, Alpha ${rgba[3]}</span>
+      </label>
+    </li>`;
+
+    if(doLocalStorage) {
+      let swatchesStore = getSwatchesStore();
+      swatchesStore.push(
+        helpers.rgbaToHex(
+          rgba[0],
+          rgba[1],
+          rgba[2],
+          (rgba[3] !== undefined) ? rgba[3] : 1
+        ).replace('#','0x')
+      );
+      swatchesStore.filter( (el, i, arr) => arr.indexOf(el) === i);
+      localStorage.setItem('swatchesStore', swatchesStore.join(','));
+    }
+
+    updateSwatchView();
+  }
+
+  swatchesStore.forEach(function(element, index, array) {
+    let rgba = helpers.hexToRGBA(element.replace('0x','#'));
+    addSwatch(rgba, false);
+  });
+
+  const swatches = document.querySelectorAll('.swatch');
+  if(swatches.length) {
+    swatches[swatches.length-1].querySelector('input[type="radio"]').checked = true;
+  }
+
+  updateSwatchView();
+
+
+ /*                   __
+/\ \      __         /\ \__
+\ \ \___ /\_\    ____\ \ ,_\   ___   _ __   __  __
+ \ \  _ `\/\ \  /',__\\ \ \/  / __`\/\`'__\/\ \/\ \
+  \ \ \ \ \ \ \/\__, `\\ \ \_/\ \L\ \ \ \/ \ \ \_\ \
+   \ \_\ \_\ \_\/\____/ \ \__\ \____/\ \_\  \/`____ \
+    \/_/\/_/\/_/\/___/   \/__/\/___/  \/_/   `/___/> \
+                                                /\___/
+                                                \/_*/
+
+  function pushState() {
+    let newURL = (function(){
+      let a = [];
+
+      Object.keys(fillBack).forEach(function(key) {
+        a.push(`${key}=${fillBack[key]}`);
+      });
+
+      return a.join('&');
+    })();
+
+    window.history.pushState(fillBack, 'Makeanico', `/?${newURL}`);
   }
 
   window.onpopstate = function(event) {

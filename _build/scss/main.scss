@@ -71,6 +71,11 @@ $topMost:999999;
   margin:0 auto;
 }
 
+%checked-label {
+  box-shadow: 0 0 5px #51cbee;
+  outline: 1px solid #51cbee;
+}
+
 body {
   margin:0;
 	font-family: sans-serif;
@@ -139,6 +144,10 @@ hr {
       @extend %dangerous;
     }
   }
+}
+
+.balanced {
+  @extend %balanced;
 }
 
 nav.button-bar {
@@ -249,15 +258,66 @@ fieldset, .fieldset {
   cursor:cell;
 }
 
+%no-apperance {
+  appearance: none;
+  background:transparent;
+  opacity:0;
+}
+
+.swatches {
+  display:flex;
+  list-style-type:none;
+  padding:0;
+  justify-content:center;
+  label {
+    @extend %topMost;
+    @extend %absolute-corners;
+    @extend %clickable;
+  }
+
+  input[type="radio"] {
+    @extend %topMost;
+    @extend %absolute-corners;
+    @extend %clickable;
+    @extend %no-apperance;
+    &:checked:focus + label {
+      @extend %checked-label;
+    }
+  }
+
+  > * {
+    position:relative;
+    min-height:2em;
+    max-width:2em;
+    flex:0 0 2em;
+    //outline:1px solid white;
+    margin-right:1px;
+    margin-bottom:1px;
+  }
+}
+
+#saved-swatches {
+  .havent-any {
+    display:none;
+  }
+}
+
+#saved-swatches[data-empty] {
+  .havent-any {
+    display:block;
+  }
+  .youve-saved {
+    display:none;
+  }
+}
+
 #stage {
   input[type="checkbox"] {
     @extend %topMost;
     @extend %absolute-corners;
     @extend %clickable;
     @extend %full-width-full-height;
-    appearance: none;
-    background:transparent;
-    opacity:0;
+    @extend %no-apperance;
   }
 
   input[type="checkbox"] + label {
@@ -269,8 +329,7 @@ fieldset, .fieldset {
 
   input[type="checkbox"]:checked + label {
     //outline:3px solid rgb(255,0,255);
-    box-shadow: 0 0 5px #51cbee;
-    outline: 1px solid #51cbee;
+    @extend %checked-label;
     //filter: hue-rotate(90deg);
   }
 

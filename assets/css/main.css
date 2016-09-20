@@ -7,13 +7,13 @@ html {
 #stage, table, #stage input[type="checkbox"], #stage table {
   width: 100%; }
 
-.button-bar a, #stage input[type="checkbox"], .widget.import button, .widget.import label[for="pic"], .widget.import .svg-preview__svg {
+.button-bar a, .swatches label, .swatches input[type="radio"], #stage input[type="checkbox"], .widget.import button, .widget.import label[for="pic"], .widget.import .svg-preview__svg {
   cursor: pointer; }
 
 #stage, .svg-preview, #cell-grid, .unaligned, #cell-grid h3, .async-btns, .canpx footer {
   text-align: center; }
 
-#stage input[type="checkbox"], #stage input[type="checkbox"] + label {
+.swatches label, .swatches input[type="radio"], #stage input[type="checkbox"], #stage input[type="checkbox"] + label {
   position: absolute;
   top: 0;
   left: 0;
@@ -49,7 +49,7 @@ http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
 .container {
   padding: 1em; }
 
-.widget > .container, footer, .widget.import button {
+.balanced, .widget > .container, footer, .widget.import button {
   text-align: center; }
 
 #start-over a:hover, #start-over a:focus, #start-over a:active {
@@ -68,7 +68,7 @@ http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
 #stage, table, #stage input[type="checkbox"] {
   height: 100%; }
 
-#stage input[type="checkbox"], #stage input[type="checkbox"] + label {
+.swatches label, .swatches input[type="radio"], #stage input[type="checkbox"], #stage input[type="checkbox"] + label {
   z-index: 99999; }
 
 #cell-grid > * {
@@ -82,6 +82,10 @@ fieldset {
 
 .svg-preview svg, #cell-grid > * {
   margin: 0 auto; }
+
+.swatches input[type="radio"]:checked:focus + label, #stage input[type="checkbox"]:checked + label {
+  box-shadow: 0 0 5px #51cbee;
+  outline: 1px solid #51cbee; }
 
 body {
   margin: 0;
@@ -184,19 +188,40 @@ fieldset, .fieldset {
 #stage input[type="checkbox"] + label {
   cursor: cell; }
 
-#stage input[type="checkbox"] {
+.swatches input[type="radio"], #stage input[type="checkbox"] {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
   background: transparent;
   opacity: 0; }
 
+.swatches {
+  display: -ms-flexbox;
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  -ms-flex-pack: center;
+      justify-content: center; }
+  .swatches > * {
+    position: relative;
+    min-height: 2em;
+    max-width: 2em;
+    -ms-flex: 0 0 2em;
+        flex: 0 0 2em;
+    margin-right: 1px;
+    margin-bottom: 1px; }
+
+#saved-swatches .havent-any {
+  display: none; }
+
+#saved-swatches[data-empty] .havent-any {
+  display: block; }
+
+#saved-swatches[data-empty] .youve-saved {
+  display: none; }
+
 #stage input[type="checkbox"] + label {
   text-indent: -99999em; }
-
-#stage input[type="checkbox"]:checked + label {
-  box-shadow: 0 0 5px #51cbee;
-  outline: 1px solid #51cbee; }
 
 #stage td {
   position: relative; }

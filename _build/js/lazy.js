@@ -18,9 +18,6 @@ let cssNamesOptGroup = createOptGroup('Color Names', CSS_COLOR_NAMES);
 cssNamesOptGroup.innerHTML = `<option value="">Hexadecimal</option>` + cssNamesOptGroup.innerHTML;
 let swatchOptGroup = createOptGroup('Swatches', ['#FF0000', '#00FF00', '#0000FF'], false);
 dataListSelect.appendChild(cssNamesOptGroup);
-console.log('optGroup',cssNamesOptGroup);
-
-
 
 /*let otherOptGroup = document.createElement('optgroup');
 let opt = document.createElement('option');
@@ -30,7 +27,6 @@ otherOptGroup.appendChild(opt);
 */
 
 //dataListSelect.appendChild(otherOptGroup);
-
 
 let colorLabel = (function(){
   let label = document.createElement('label');
