@@ -8,6 +8,7 @@ module.exports = function(grunt) {
       assets:'assets/',
       js:'./js/',
       css:'./css/',
+      img:'./img/',
       scss:'_build/scss/'
     },
     bower: {
@@ -35,6 +36,12 @@ module.exports = function(grunt) {
             cwd: '<%= dirs.lib %>spectacular',
             dest: '<%= dirs.scss %>',
             expand: true
+        }, {
+            src: '<%= dirs.theme %><%= dirs.assets %><%= dirs.img %>sprite.svg',
+            dest: '<%= dirs.theme %><%= dirs.assets %><%= dirs.img %>sprite.min.svg'
+        },{
+            src: '<%= dirs.build %><%= dirs.js %>globals.js',
+            dest: '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>globals.js'
         }]
       }
     },
@@ -80,6 +87,22 @@ module.exports = function(grunt) {
         }
       },
     },
+    svgmin: {
+        options: {
+            plugins: [
+                {
+                    removeViewBox: false
+                }, {
+                    removeUselessDefs: false
+                }
+            ]
+        },
+        dist: {
+            files: {
+                '<%= dirs.theme %><%= dirs.assets %><%= dirs.img %>sprite.min.svg': '<%= dirs.theme %><%= dirs.assets %><%= dirs.img %>sprite.svg'
+            }
+        }
+    },
     webpack:{
       options:webpackConfig,
       dist:{
@@ -90,8 +113,10 @@ module.exports = function(grunt) {
       js: {
         options:{report:"gzip"},
         files: {
-          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>app.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>app.js',
-          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>lazy.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>lazy.js'
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>app.min.js': ['<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>app.js'],
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>lazy.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>lazy.js',
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>globals.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>globals.js',
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>common.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>common.js'
         }
       }
     },
@@ -144,6 +169,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-webpack');
   grunt.loadNpmTasks('grunt-postcss');
+  grunt.loadNpmTasks('grunt-svgmin');
 
   grunt.registerTask('default',['growl:watch','watch']);
   grunt.registerTask('build',['bower','copy','webpack','uglify','sass','postcss','cssmin','growl:build']);

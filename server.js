@@ -18,27 +18,18 @@ rmdir = require('rimraf'),
 path = require('path'),
 app = express();
 
-
-const redirects = require('./_build/js/redirects');
-
-const util = require('util');
-
-const svg2png = require('svg2png');
-
-const toIco = require('to-ico');
-const tmpDir = './temp';
 //PNG = require('png-coder').PNG;
-
-const PNGPixel = require('png-pixel');
-
-const lwip = require('lwip');
-
-const PNG = require('pngjs').PNG;
-
-const transparent = {r: 255, g: 255, b: 255, a: 0};
-
-const hexToRgba = require('hex-and-rgba').hexToRgba;
-const rgbaToHex = require('hex-and-rgba').rgbaToHex;
+const redirects = require('./_build/js/redirects'),
+util = require('util'),
+svg2png = require('svg2png'),
+toIco = require('to-ico'),
+tmpDir = './temp',
+PNGPixel = require('png-pixel'),
+lwip = require('lwip'),
+PNG = require('pngjs').PNG,
+transparent = {r: 255, g: 255, b: 255, a: 0},
+hexToRgba = require('hex-and-rgba').hexToRgba,
+rgbaToHex = require('hex-and-rgba').rgbaToHex;
 
 if(process.env.NODE_ENV) {
   app.use(minifyHTML({
@@ -59,7 +50,7 @@ if(process.env.NODE_ENV) {
 app.use(express.static(__dirname));
 
 var CellDTO = function(index = 0, row = 0, column = 0, checked = false, fill = undefined) {
-  console.log(fill);
+  //console.log(fill);
   let rgba = [transparent.a, transparent.g, transparent.b, transparent.a];
   let opacity = undefined;
   let hex = '#FFFFFF';
@@ -76,7 +67,7 @@ var CellDTO = function(index = 0, row = 0, column = 0, checked = false, fill = u
 
     rgba = hexToRgba(hex);
     rgba[3] = opacity;
-    console.log(opacity);
+    //console.log(opacity);
 
   }
 
@@ -112,8 +103,8 @@ function getSelectedCells(fields) {
   for(let key in fields) {
     let value = fields[key];
 
-    if(key.includes('cell__')) {
-      let index = parseInt(key.replace('cell__',''));
+    if(key.includes('c__')) {
+      let index = parseInt(key.replace('c__',''));
       filledCells.push(index);
     }
   }
@@ -300,6 +291,12 @@ app.get('/png-coder', function(req, res) {
 
   });
 
+});
+
+app.get('/api/components/:component', function(req, res) {
+  res.render(`components/${req.params.component}.twig`, {
+    production: process.env.NODE_ENV == 'production'
+  });
 });
 
 app.get('/', function(req, res) {

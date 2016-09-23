@@ -1,5 +1,6 @@
 {% include 'header.twig' with { loadStyles:true } %}
 <body>
+  <aside aria-hidden hidden id="alert-banner"></aside>
   <div id="page-wrapper">
     <aside class="bottom-bar">
       <div class="quick-start widget">
@@ -7,7 +8,7 @@
           <div class="svg-preview">
             {% include 'favicon-preview.twig' with cells %}
           </div>
-          <h1>Make an <span aria-hidden="true">.</span>ICO <span class="accessibly-hidden">Graphic</span></h1>
+          <h1>Make an <span aria-hidden="true">.</span>ICO <span a11y-hidden>Graphic</span></h1>
           <p>
             Just getting started?<br>Check out our <a href="/howto">quick start&nbsp;guide</a>.
           </p>
@@ -20,9 +21,7 @@
       <div class="import widget">
         <form class="neat container" action="/png-coder" method="post" enctype="multipart/form-data">
           <div aria-hidden="true" class="svg-preview">
-            <svg width="16" height="16" class="svg-preview__svg" xmlns="http://www.w3.org/2000/svg">
-              <use xlink:href="assets/img/sprite.svg#icon-import"></use>
-            </svg>
+            <script>document.write('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="svg-preview__svg"><use xlink:href="assets/img/sprite{% if production %}.min{% endif %}.svg#icon-import"></use></svg>')</script>
           </div>
           <h2 id="import">Import</h2>
           <p>Fancy a shortcut?<br>Upload a PNG, JPG, GIF, or SVG image and we'll generate a favicon from your&nbsp;image.<br>Your image will be scaled down and cropped as a 16x16 square so square aspect ratios work&nbsp;best.</p>
@@ -33,102 +32,21 @@
           </div>
         </form>
       </div>
-      <div class="export widget">
-        <div class="neat container">
-          <div class="svg-preview">
-            {% include 'favicon-preview.twig' with cells %}
-          </div>
-          <h2 id="export">Export</h2>
-          <p>
-            Your <i><span class="filename">favicon</span>.<span class="extension">ico</span></i> icon is ready for&nbsp;download.
-          </p>
-          <div class="flexible">
-            <label for="filename__text">Filename:</label>
-            <input type="text" id="filename__text" name="filename__text" placeholder="favicon" />
-          </div>
-          <p></p>
-          <form class="download-as">
-            <fieldset>
-              <legend>Download As</legend>
-              <label for="download__ico">
-                ICO
-                <input type="radio" id="download__ico" name="download__as" checked value="ico">
-              </label>
-              <label for="download__svg">
-                SVG
-                <input type="radio" id="download__svg" name="download__as" value="svg">
-              </label>
-              <label for="download__png">
-                PNG
-                <input type="radio" id="download__png" name="download__as" value="png">
-              </label>
-            </fieldset>
-          </form>
-          <nav class="flexible unaligned button-bar">
-            <div>
-              <a href="/make/favicon.ico?dl=1&{{ cellURL }}" data-base-url="/make/favicon.ico" download="favicon.ico" class="comforatbly heavy btn" aria-label="ICO Graphic (ICO)" data-format="ico">Download <span class="filename">favicon</span>.<span class="extension">ico</span></a>
-            </div>
-            <div>
-              <a hidden href="/make/favicon.svg?dl=1&{{ cellURL }}" data-base-url="/make/favicon.svg" download="favicon.svg" class="comforatbly heavy btn" aria-label="Scalable Vector Graphic (SVG)" data-format="svg">Download <span class="filename">favicon</span>.<span class="extension">svg</span></a>
-            </div>
-            <div>
-              <a hidden href="/make/favicon.png?dl=1&{{ cellURL }}" data-base-url="/make/favicon.png" download="favicon.png" class="comforatbly heavy btn" aria-label="Portable Network Graphic (PNG)" data-format="png">Download <span class="filename">favicon</span>.<span class="extension">png</span></a>
-            </div>
-          </nav>
-        </div>
-      </div>
-      <div id="saved-swatches" class="export widget">
-        <div class="neat container">
-          <h2>Swatches</h2>
-          <p>
-            Keep your favorite colors within reach.<span class="havent-any"> You haven't saved any&nbsp;swatches.</span><span class="youve-saved"> Swatches you've saved appear&nbsp;here.</span>
-          </p>
-          <form id="swatches-form" method="post" data-empty="true">
-            <ol class="swatches">
-              <!--li class="swatch" style="background:rgba(255,0,0,1)">
-                <input type="radio" name="swatch" id="swatch__0" />
-                <label for="swatch__0">
-                  <span class="accessibly-hidden">Red 255, Green 0, Blue 0, Alpha 1</span>
-                </label>
-              </li>
-              <li class="swatch" style="background:rgba(0,255,0,1)">
-                <input type="radio" name="swatch" id="swatch__1" />
-                <label for="swatch__1">
-                  <span class="accessibly-hidden">Red 0, Green 255, Blue 0, Alpha 1</span>
-                </label>
-              </li>
-              <li class="swatch" style="background:rgba(0,0,255,1)">
-                <input type="radio" name="swatch" id="swatch__2" />
-                <label for="swatch__2">
-                  <span class="accessibly-hidden">Red 0, Green 0, Blue 255, Alpha 1</span>
-                </label>
-              </li-->
-            </ol>
-            <footer>
-              <button type="submit">Delete Selected Swatch</button>
-            </footer>
-          </form>
-        </div>
-      </div>
-      <div class="export widget">
-        <div class="neat container">
-          <div aria-hidden="true" class="svg-preview">
-            <svg width="16" height="16" class="svg-preview__svg" xmlns="http://www.w3.org/2000/svg">
-              <use xlink:href="assets/img/sprite.svg#icon-keyboard"></use>
-            </svg>
-            <!--svg width="16" height="16" viewBox="0 0 2048 2048" class="svg-preview__svg" xmlns="http://www.w3.org/2000/svg">
-              <path d="M448 1296v96q0 16-16 16h-96q-16 0-16-16v-96q0-16 16-16h96q16 0 16 16zm128-256v96q0 16-16 16h-224q-16 0-16-16v-96q0-16 16-16h224q16 0 16 16zm-128-256v96q0 16-16 16h-96q-16 0-16-16v-96q0-16 16-16h96q16 0 16 16zm1024 512v96q0 16-16 16h-864q-16 0-16-16v-96q0-16 16-16h864q16 0 16 16zm-640-256v96q0 16-16 16h-96q-16 0-16-16v-96q0-16 16-16h96q16 0 16 16zm-128-256v96q0 16-16 16h-96q-16 0-16-16v-96q0-16 16-16h96q16 0 16 16zm384 256v96q0 16-16 16h-96q-16 0-16-16v-96q0-16 16-16h96q16 0 16 16zm-128-256v96q0 16-16 16h-96q-16 0-16-16v-96q0-16 16-16h96q16 0 16 16zm384 256v96q0 16-16 16h-96q-16 0-16-16v-96q0-16 16-16h96q16 0 16 16zm384 256v96q0 16-16 16h-96q-16 0-16-16v-96q0-16 16-16h96q16 0 16 16zm-512-512v96q0 16-16 16h-96q-16 0-16-16v-96q0-16 16-16h96q16 0 16 16zm256 0v96q0 16-16 16h-96q-16 0-16-16v-96q0-16 16-16h96q16 0 16 16zm256 0v352q0 16-16 16h-224q-16 0-16-16v-96q0-16 16-16h112v-240q0-16 16-16h96q16 0 16 16zm128 752v-896h-1664v896h1664zm128-896v896q0 53-37.5 90.5t-90.5 37.5h-1664q-53 0-90.5-37.5t-37.5-90.5v-896q0-53 37.5-90.5t90.5-37.5h1664q53 0 90.5 37.5t37.5 90.5z"/>
-            </svg-->
-          </div>
-          <h2>Keyboard Shortcuts</h2>
-          <p>
-            Keyboard users can use the <code>Control&nbsp;+&nbsp;a</code> shortcut to select all&nbsp;cells and the <code>Control&nbsp;+&nbsp;i</code> shortcut to invert the current&nbsp;selection.
-          </p>
-          <p>
-            Mouse users can click a cell, hold the <code>Alt/Option</code> key, and click another cell to range select. Firefox users use the 's'&nbsp;key.
-          </p>
-        </div>
-      </div>
+
+      {% if startOver %}
+        {% include 'components/export.twig' %}
+      {% else %}
+        <div hidden id="lazy__export"></div>
+      {% endif %}
+
+      <div hidden id="lazy__swatches"></div>
+
+      {% if startOver %}
+        {% include 'components/keyboard.twig' %}
+      {% else %}
+        <div hidden id="lazy__keyboard"></div>
+      {% endif %}
+      
     </aside>
     <form id="makeanico" action="/" method="post">
     <div id="canvas">
@@ -136,16 +54,16 @@
         <table cellspacing="0" cellpadding="0">
           <thead>
             <tr>
-              <th class="accessibly-hidden"><span>Row</span></th>
+              <th a11y-hidden><span>Row</span></th>
               {% for row in cells %}
-                <th class="accessibly-hidden">Column {{ loop.index0 }}</th>
+                <th a11y-hidden>Column {{ loop.index0 }}</th>
               {% endfor %}
             </tr>
           </thead>
           <tbody>
             {% for row in cells %}
               <tr>
-                <td class="accessibly-hidden row-col">Row {{loop.index0}}</td>
+                <td a11y-hidden class="row-col">Row {{loop.index0}}</td>
                 {% for cell in row %}
                   {% include 'cp-check-cell.twig' with cell %}
                 {% endfor %}

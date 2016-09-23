@@ -1,4 +1,7 @@
-var invertColor = function (hexTripletColor) { // http://jsfiddle.net/salman/f9Re3/
+const hexToRgba = require('hex-and-rgba').hexToRgba,
+rgbaToHex = require('hex-and-rgba').rgbaToHex,
+
+invertColor = function (hexTripletColor) { // http://jsfiddle.net/salman/f9Re3/
     var color = hexTripletColor;
     color = color.substring(1); // remove #
     color = parseInt(color, 16); // convert to integer
@@ -7,12 +10,8 @@ var invertColor = function (hexTripletColor) { // http://jsfiddle.net/salman/f9R
     color = ("000000" + color).slice(-6); // pad with leading zeros
     color = "#" + color; // prepend #
     return color;
-}
-
-const hexToRgba = require('hex-and-rgba').hexToRgba;
-const rgbaToHex = require('hex-and-rgba').rgbaToHex;
-
-var cssColorNameToRGB = function(colorName, returnArray = false) { // http://stackoverflow.com/a/1573154/4671250
+},
+cssColorNameToRGB = function(colorName, returnArray = false) { // http://stackoverflow.com/a/1573154/4671250
     var d = document.createElement("div");
     d.style.color = colorName;
     d.style.display = 'none';
@@ -28,31 +27,7 @@ var cssColorNameToRGB = function(colorName, returnArray = false) { // http://sta
     return rgb.split(',').map((color) => (
       parseInt(color)
     ));
-}
-
-/*var hexToRGB = function(hexo, returnArray = false) {
-  if(!hexo) return undefined;
-  var hex = hexo.toString();
-  if(!hex.includes('0x')) return hexo;
-  var rgb = parseInt(hex, 16); // value is 1675421
-
-  var red   = (rgb >> 16) & 0xFF; // returns 255
-  var green = (rgb >> 8) & 0xFF;  // 170
-  var blue  = rgb & 0xFF;     // 221
-
-  if(returnArray) return [red,green,blue];
-
-  return `rgb(${[red,green,blue].join(',')})`;
-}*/
-
-/*
-const rgbToHex = (r, g, b) => '#' + [r, g, b].map((c) => {
-  const hex = c.toString(16);
-  return hex.length === 1 ? '0' + hex : hex;
-}).join(''); // http://stackoverflow.com/a/5624139/4671250
-*/
-
-
+};
 
 module.exports = {
   invertColor: invertColor,

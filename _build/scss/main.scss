@@ -2,78 +2,12 @@
 @import "neat/neat";
 @import "spec/tacular";
 
-$dangerous:rgb(201, 0, 5);
+@import "global/global";
 
-$square: min-aspect-ratio #{1}/#{1};
+@import "components/swatches";
 
-%flexible {
-  display:flex;
-}
-
-%outer-container {
-  @include outer-container;
-}
-
-%container {
-  padding:1em;
-}
-
-%balanced {
-  text-align:center;
-}
-
-%dangerous {
-  color:$dangerous;
-}
-
-%bright-container {
-  @extend %container;
-  background:white;
-  border:1px solid rgb(220, 220, 220);
-}
-
-%cell {
-  background:white;
-  max-width:30em;
-  header {
-    p {
-      text-align:center;
-    }
-  }
-}
-
-%full-width-full-height {
-  @extend %very-greedy;
-  height:100%;
-}
-
-$topMost:999999;
-%topMost {
-  z-index:99999;
-}
-
-%padded-cell {
-  @extend %cell;
-  padding:.5em .5em 1em .5em;
-}
-
-%easy {
-  html.do-transitions & {
-    transition:all 240ms ease;
-  }
-}
-
-%bordered {
-  border:1px solid rgb(220, 220, 220);
-}
-
-%margin-center {
-  margin:0 auto;
-}
-
-%checked-label {
-  box-shadow: 0 0 5px #51cbee;
-  outline: 1px solid #51cbee;
+[hidden] {
+  display: none !important;
 }
 
 body {
@@ -85,11 +19,11 @@ body {
 fieldset {
   @extend %bordered;
   &.rgb {
-    margin-top:1em;
+    @extend %margin-top-1em;
   }
   .fieldset {
     &:last-of-type {
-      margin-bottom:0;
+      @extend %bottom-less;
     }
   }
 }
@@ -106,6 +40,7 @@ hr {
 }
 
 %button {
+  @extend %easy;
   font-family:BlinkMacSystemFont, sans-serif;
   color:black;
   color: buttontext;
@@ -117,14 +52,12 @@ hr {
   border-color:rgb(192, 192, 192);
   //border-color: buttonface;
 
-  @extend %easy;
-
   &.heavy {
-    display:inline-block;
+    @extend %inline-block;
     @extend %heavy-btn;
 
     &[hidden] {
-      display:none;
+      @extend %hidden;
     }
 
     &:focus, &:active, &:hover {
@@ -150,6 +83,31 @@ hr {
   @extend %balanced;
 }
 
+#alert-banner {
+  @extend %balanced;
+  background:green;
+  padding:.5em;
+  border:1px solid darken(green,12%);
+  border-left:none;
+  border-right:none;
+  color:white;
+  font-size:1.4em;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:$topMost;
+  transition:top 240ms ease;
+  &[hidden] {
+    top:-12em;
+    display:block !important;
+  }
+  p {
+    margin:0;
+    font-weight:normal;
+  }
+}
+
 nav.button-bar {
   padding:1em 0;
 }
@@ -167,32 +125,51 @@ a.btn {
   font-size:13px;
 
   label {
-    margin-right:1em;
+    @extend %margin-right-1em;
     &:last-of-type {
-      margin-right:0;
+      @extend %margin-right-0;
     }
   }
 
   a {
     @extend %clickable;
-    margin-right:1em;
+    @extend %margin-right-1em;
     text-transform:lowercase;
 
     &:last-of-type {
-      margin-right:0;
+      @extend %margin-right-0;
     }
   }
 }
 
-.accessibly-hidden {
+[a11y-hidden] {
   @extend %accessibly-hidden;
 }
 
-#makeanico {
-  display:flex;
+%flex-wrap {
   flex-wrap:wrap;
+}
+
+%oblique {
+  font-style: italic;
+}
+
+#makeanico {
+  @extend %flexible;
+  @extend %flex-wrap;
   align-items:center;
   justify-content: space-around;
+}
+
+#load-enhancements {
+  @extend %margin-bottom-1em;
+  .balanced {
+    @extend %margin-bottom-1em;
+    //@extend %oblique;
+  }
+  fieldset {
+    margin:1em auto;
+  }
 }
 
 #canvas {
@@ -228,8 +205,9 @@ a.btn {
   }
   td {
     @extend %cell;
-    border-right:1px solid rgb(240,240,240);
-    border-bottom:1px solid rgb(240,240,240);
+    border:1px solid rgb(240,240,240);
+    border-top:none;
+    border-left:none;
   }
 }
 
@@ -241,7 +219,8 @@ a.btn {
 }
 
 fieldset, .fieldset {
-  margin-bottom:1em;
+
+  @extend %margin-bottom-1em;
 }
 
 #cell-grid {
@@ -258,57 +237,18 @@ fieldset, .fieldset {
   cursor:cell;
 }
 
+%relative {
+  position:relative;
+}
+
 %no-apperance {
   appearance: none;
   background:transparent;
   opacity:0;
 }
 
-.swatches {
-  display:flex;
-  list-style-type:none;
-  padding:0;
-  justify-content:center;
-  label {
-    @extend %topMost;
-    @extend %absolute-corners;
-    @extend %clickable;
-  }
-
-  input[type="radio"] {
-    @extend %topMost;
-    @extend %absolute-corners;
-    @extend %clickable;
-    @extend %no-apperance;
-    &:checked:focus + label {
-      @extend %checked-label;
-    }
-  }
-
-  > * {
-    position:relative;
-    min-height:2em;
-    max-width:2em;
-    flex:0 0 2em;
-    //outline:1px solid white;
-    margin-right:1px;
-    margin-bottom:1px;
-  }
-}
-
-#saved-swatches {
-  .havent-any {
-    display:none;
-  }
-}
-
-#saved-swatches[data-empty] {
-  .havent-any {
-    display:block;
-  }
-  .youve-saved {
-    display:none;
-  }
+%hidden {
+  display:none;
 }
 
 #stage {
@@ -334,7 +274,7 @@ fieldset, .fieldset {
   }
 
   td {
-    position:relative;
+    @extend %relative;
     &.row-col {
       position:absolute;
     }
@@ -347,20 +287,20 @@ fieldset, .fieldset {
 .flexible {
   @extend %flexible;
   &.unaligned {
-    justify-content: center;
+    @extend %justify-content-center;
   }
   &.fieldset {
     label[for*="rgb_slider_"] {
       flex:0 0 3em;
     }
     input[type="text"], input[type="range"] {
-      flex-grow:1;
+      @extend %flex-grow-1;
     }
     > * {
-      margin-right:1em;
+      @extend %margin-right-1em;
     }
     > *:last-child {
-      margin-right:0;
+      @extend %margin-right-0;
     }
   }
 }
@@ -374,11 +314,11 @@ fieldset, .fieldset {
 footer {
   p {
     &:last-of-type {
-      margin-bottom:0;
+      @extend %bottom-less;
     }
   }
   button {
-    margin-right:1em;
+    @extend %margin-right-1em;
     &:last-of-type {
       margin-right:0;
     }
@@ -388,9 +328,9 @@ footer {
 .subtle {
   font-size:.8em;
   a {
-    color:currentColor;
+    @extend %current-color;
     &:visited {
-      color:currentColor;
+      @extend %current-color;
     }
   }
 }
@@ -419,10 +359,10 @@ footer {
 }
 
 %widget {
-  margin-top:1em;
+  @extend %margin-top-1em;
   > .container {
     @extend %balanced;
-    position:relative;
+    @extend %relative;
     max-width:30em;
     flex-basis:30em;
   }
@@ -430,16 +370,18 @@ footer {
 
 .export {
   button {
-    margin-right:1em;
+    @extend %margin-right-1em;
   }
 }
 
 .bottom-bar {
-  padding-bottom:1em;
+  @extend %padding-bottom-1em;
+  @extend %flex-wrap;
+  @extend %justify-content-center;
   @include media($gtMobile) {
     display:flex;
     justify-content:center;
-    flex-wrap:wrap;
+
     > * {
       display: flex;
       flex-grow: 0;
@@ -456,7 +398,7 @@ footer {
 }
 
 label[for="filename__text"] {
-  margin-right:1em;
+  @extend %margin-right-1em;
 }
 
 footer {
@@ -468,12 +410,12 @@ footer {
 }
 
 body {
-  padding-bottom:1em;
+  @extend %padding-bottom-1em;
 }
 
 .flexible {
   input[type="text"] {
-    flex-grow:1;
+    @extend %flex-grow-1;
   }
 }
 
@@ -498,9 +440,9 @@ body {
     }
     label[for="pic"] {
       @extend %clickable;
-      margin-bottom:1em;
-      margin-right:1em;
-      display:inline-block;
+      @extend %margin-bottom-1em;
+      @extend %margin-right-1em;
+      @extend %inline-block;
     }
     .svg-preview__svg {
       @extend %clickable;
@@ -515,18 +457,17 @@ body {
       padding-bottom:4em;
     }
     .button-bar {
-      position:absolute;
+      @extend %absolute-corners;
+      top:auto;
       bottom:1em;
-      left:0;
-      right:0;
       padding:0;
     }
   }
 }
 
 #page-wrapper {
-  display:flex;
-  flex-wrap:wrap;
+  @extend %flexible;
+  @extend %flex-wrap;
   flex-direction:column-reverse;
   > * {
     width:100vw;
@@ -543,10 +484,10 @@ body {
 
 .canpx {
   fieldset:last-child {
-    margin-bottom:0;
+    @extend %bottom-less;
   }
   footer {
     @extend %unaligned; // text-align:center
-    margin-top:1em;
+    @extend %margin-top-1em;
   }
 }

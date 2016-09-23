@@ -1,0 +1,44 @@
+<div class="export widget">
+  <div class="neat container">
+    <div class="svg-preview">
+      {% include '../favicon-preview.twig' with cells %}
+    </div>
+    <h2 id="export">Export</h2>
+    <p>
+      Your <i><span class="filename">favicon</span>.<span class="extension">ico</span></i> icon is ready for&nbsp;download.
+    </p>
+    <div class="flexible">
+      <label for="filename__text">Filename:</label>
+      <input type="text" id="filename__text" name="filename__text" placeholder="favicon" />
+    </div>
+    <p></p>
+    <form class="download-as">
+      <fieldset>
+        <legend>Download As</legend>
+        <label for="download__ico">
+          ICO
+          <input type="radio" id="download__ico" name="download__as" checked value="ico">
+        </label>
+        <label for="download__svg">
+          SVG
+          <input type="radio" id="download__svg" name="download__as" value="svg">
+        </label>
+        <label for="download__png">
+          PNG
+          <input type="radio" id="download__png" name="download__as" value="png">
+        </label>
+      </fieldset>
+    </form>
+    <nav class="flexible unaligned button-bar">
+      <div>
+        <a href="/make/favicon.ico?dl=1&{{ cellURL }}" data-base-url="/make/favicon.ico" download="favicon.ico" class="comforatbly heavy btn" aria-label="ICO Graphic (ICO)" data-format="ico">Download <span class="filename">favicon</span>.<span class="extension">ico</span></a>
+      </div>
+      <div>
+        <a hidden href="/make/favicon.svg?dl=1&{{ cellURL }}" data-base-url="/make/favicon.svg" download="favicon.svg" class="comforatbly heavy btn" aria-label="Scalable Vector Graphic (SVG)" data-format="svg">Download <span class="filename">favicon</span>.<span class="extension">svg</span></a>
+      </div>
+      <div>
+        <a hidden href="/make/favicon.png?dl=1&{{ cellURL }}" data-base-url="/make/favicon.png" download="favicon.png" class="comforatbly heavy btn" aria-label="Portable Network Graphic (PNG)" data-format="png">Download <span class="filename">favicon</span>.<span class="extension">png</span></a>
+      </div>
+    </nav>
+  </div>
+</div>

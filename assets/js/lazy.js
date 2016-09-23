@@ -1,80 +1,26 @@
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
+webpackJsonp([3],{
 
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
-/******/ 			return installedModules[moduleId].exports;
-
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			exports: {},
-/******/ 			id: moduleId,
-/******/ 			loaded: false
-/******/ 		};
-
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
-/******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
-
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-
-
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(0);
-/******/ })
-/************************************************************************/
-/******/ ([
-/* 0 */
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	__webpack_require__(5);
 
-	var helpers = __webpack_require__(3);
+	var helpers = __webpack_require__(3),
+	    inputColorByTextColor = document.getElementById('input_color_by__text__color'),
+	    CSS_COLOR_NAMES = ["AliceBlue", "AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "Black", "BlanchedAlmond", "Blue", "BlueViolet", "Brown", "BurlyWood", "CadetBlue", "Chartreuse", "Chocolate", "Coral", "CornflowerBlue", "Cornsilk", "Crimson", "Cyan", "DarkBlue", "DarkCyan", "DarkGoldenRod", "DarkGray", "DarkGrey", "DarkGreen", "DarkKhaki", "DarkMagenta", "DarkOliveGreen", "Darkorange", "DarkOrchid", "DarkRed", "DarkSalmon", "DarkSeaGreen", "DarkSlateBlue", "DarkSlateGray", "DarkSlateGrey", "DarkTurquoise", "DarkViolet", "DeepPink", "DeepSkyBlue", "DimGray", "DimGrey", "DodgerBlue", "FireBrick", "FloralWhite", "ForestGreen", "Fuchsia", "Gainsboro", "GhostWhite", "Gold", "GoldenRod", "Gray", "Grey", "Green", "GreenYellow", "HoneyDew", "HotPink", "IndianRed", "Indigo", "Ivory", "Khaki", "Lavender", "LavenderBlush", "LawnGreen", "LemonChiffon", "LightBlue", "LightCoral", "LightCyan", "LightGoldenRodYellow", "LightGray", "LightGrey", "LightGreen", "LightPink", "LightSalmon", "LightSeaGreen", "LightSkyBlue", "LightSlateGray", "LightSlateGrey", "LightSteelBlue", "LightYellow", "Lime", "LimeGreen", "Linen", "Magenta", "Maroon", "MediumAquaMarine", "MediumBlue", "MediumOrchid", "MediumPurple", "MediumSeaGreen", "MediumSlateBlue", "MediumSpringGreen", "MediumTurquoise", "MediumVioletRed", "MidnightBlue", "MintCream", "MistyRose", "Moccasin", "NavajoWhite", "Navy", "OldLace", "Olive", "OliveDrab", "Orange", "OrangeRed", "Orchid", "PaleGoldenRod", "PaleGreen", "PaleTurquoise", "PaleVioletRed", "PapayaWhip", "PeachPuff", "Peru", "Pink", "Plum", "PowderBlue", "Purple", "Red", "RebeccaPurple", "RosyBrown", "RoyalBlue", "SaddleBrown", "Salmon", "SandyBrown", "SeaGreen", "SeaShell", "Sienna", "Silver", "SkyBlue", "SlateBlue", "SlateGray", "SlateGrey", "Snow", "SpringGreen", "SteelBlue", "Tan", "Teal", "Thistle", "Tomato", "Turquoise", "Violet", "Wheat", "White", "WhiteSmoke", "Yellow", "YellowGreen"];
 
-	var inputColorByTextColor = document.getElementById('input_color_by__text__color');
-
-	var datalist = document.createElement('datalist');
-	var dataListSelect = document.createElement('select');
+	var datalist = document.createElement('datalist'),
+	    dataListSelect = document.createElement('select'),
+	    cssNamesOptGroup = createOptGroup('Color Names', CSS_COLOR_NAMES);
 
 	datalist.setAttribute('id', 'input_color_by__text__datalist');
 	datalist.setAttribute('name', 'input_color_by__text__datalist');
 	dataListSelect.setAttribute('id', 'input_color_by__text__select');
 	dataListSelect.setAttribute('name', 'input_color_by__text__color');
 
-	var CSS_COLOR_NAMES = ["AliceBlue", "AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "Black", "BlanchedAlmond", "Blue", "BlueViolet", "Brown", "BurlyWood", "CadetBlue", "Chartreuse", "Chocolate", "Coral", "CornflowerBlue", "Cornsilk", "Crimson", "Cyan", "DarkBlue", "DarkCyan", "DarkGoldenRod", "DarkGray", "DarkGrey", "DarkGreen", "DarkKhaki", "DarkMagenta", "DarkOliveGreen", "Darkorange", "DarkOrchid", "DarkRed", "DarkSalmon", "DarkSeaGreen", "DarkSlateBlue", "DarkSlateGray", "DarkSlateGrey", "DarkTurquoise", "DarkViolet", "DeepPink", "DeepSkyBlue", "DimGray", "DimGrey", "DodgerBlue", "FireBrick", "FloralWhite", "ForestGreen", "Fuchsia", "Gainsboro", "GhostWhite", "Gold", "GoldenRod", "Gray", "Grey", "Green", "GreenYellow", "HoneyDew", "HotPink", "IndianRed", "Indigo", "Ivory", "Khaki", "Lavender", "LavenderBlush", "LawnGreen", "LemonChiffon", "LightBlue", "LightCoral", "LightCyan", "LightGoldenRodYellow", "LightGray", "LightGrey", "LightGreen", "LightPink", "LightSalmon", "LightSeaGreen", "LightSkyBlue", "LightSlateGray", "LightSlateGrey", "LightSteelBlue", "LightYellow", "Lime", "LimeGreen", "Linen", "Magenta", "Maroon", "MediumAquaMarine", "MediumBlue", "MediumOrchid", "MediumPurple", "MediumSeaGreen", "MediumSlateBlue", "MediumSpringGreen", "MediumTurquoise", "MediumVioletRed", "MidnightBlue", "MintCream", "MistyRose", "Moccasin", "NavajoWhite", "Navy", "OldLace", "Olive", "OliveDrab", "Orange", "OrangeRed", "Orchid", "PaleGoldenRod", "PaleGreen", "PaleTurquoise", "PaleVioletRed", "PapayaWhip", "PeachPuff", "Peru", "Pink", "Plum", "PowderBlue", "Purple", "Red", "RebeccaPurple", "RosyBrown", "RoyalBlue", "SaddleBrown", "Salmon", "SandyBrown", "SeaGreen", "SeaShell", "Sienna", "Silver", "SkyBlue", "SlateBlue", "SlateGray", "SlateGrey", "Snow", "SpringGreen", "SteelBlue", "Tan", "Teal", "Thistle", "Tomato", "Turquoise", "Violet", "Wheat", "White", "WhiteSmoke", "Yellow", "YellowGreen"];
-
-	var cssNamesOptGroup = createOptGroup('Color Names', CSS_COLOR_NAMES);
-	cssNamesOptGroup.innerHTML = '<option value="">Hexadecimal</option>' + cssNamesOptGroup.innerHTML;
-	var swatchOptGroup = createOptGroup('Swatches', ['#FF0000', '#00FF00', '#0000FF'], false);
-	dataListSelect.appendChild(cssNamesOptGroup);
-
-	/*let otherOptGroup = document.createElement('optgroup');
-	let opt = document.createElement('option');
-	otherOptGroup.setAttribute('label', ' Other');
-	opt.innerHTML = 'Other';
-	otherOptGroup.appendChild(opt);
-	*/
-
-	//dataListSelect.appendChild(otherOptGroup);
+	cssNamesOptGroup.innerHTML = '<option value="">Hexadecimal</option>' + cssNamesOptGroup.innerHTML, dataListSelect.appendChild(cssNamesOptGroup);
 
 	var colorLabel = function () {
 	  var label = document.createElement('label');
@@ -85,18 +31,12 @@
 
 	datalist.appendChild(colorLabel);
 	datalist.appendChild(dataListSelect);
-	datalist.appendChild(swatchOptGroup);
+	datalist.appendChild(createOptGroup('Swatches', ['#FF0000', '#00FF00', '#0000FF'], false));
 
 	dataListSelect.addEventListener('change', function (event) {
 	  inputColorByTextColor.value = event.target.value;
 	  inputColorByTextColor.dispatchEvent(new Event('change'));
 	});
-
-	document.querySelector('.widget.import .svg-preview__svg').addEventListener('click', function (e) {
-	  document.getElementById('pic').click();
-	});
-
-	//inputColorByTextColor.parentNode.appendChild(dataListSelect);
 
 	inputColorByTextColor.setAttribute('list', datalist.getAttribute('id'));
 	inputColorByTextColor.parentNode.appendChild(datalist);
@@ -123,125 +63,8 @@
 	}
 
 /***/ },
-/* 1 */,
-/* 2 */,
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
-
-	var invertColor = function invertColor(hexTripletColor) {
-	  // http://jsfiddle.net/salman/f9Re3/
-	  var color = hexTripletColor;
-	  color = color.substring(1); // remove #
-	  color = parseInt(color, 16); // convert to integer
-	  color = 0xFFFFFF ^ color; // invert three bytes
-	  color = color.toString(16); // convert to hex
-	  color = ("000000" + color).slice(-6); // pad with leading zeros
-	  color = "#" + color; // prepend #
-	  return color;
-	};
-
-	var hexToRgba = __webpack_require__(4).hexToRgba;
-	var rgbaToHex = __webpack_require__(4).rgbaToHex;
-
-	var cssColorNameToRGB = function cssColorNameToRGB(colorName) {
-	  var returnArray = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-	  // http://stackoverflow.com/a/1573154/4671250
-	  var d = document.createElement("div");
-	  d.style.color = colorName;
-	  d.style.display = 'none';
-	  document.body.appendChild(d);
-	  //Color in RGB
-
-	  var rgb = window.getComputedStyle(d).color;
-	  d.remove();
-	  if (!returnArray) return rgb;
-
-	  rgb = rgb.replace('rgb(', '');
-	  rgb = rgb.replace(')', '');
-	  return rgb.split(',').map(function (color) {
-	    return parseInt(color);
-	  });
-	};
-
-	/*var hexToRGB = function(hexo, returnArray = false) {
-	  if(!hexo) return undefined;
-	  var hex = hexo.toString();
-	  if(!hex.includes('0x')) return hexo;
-	  var rgb = parseInt(hex, 16); // value is 1675421
-
-	  var red   = (rgb >> 16) & 0xFF; // returns 255
-	  var green = (rgb >> 8) & 0xFF;  // 170
-	  var blue  = rgb & 0xFF;     // 221
-
-	  if(returnArray) return [red,green,blue];
-
-	  return `rgb(${[red,green,blue].join(',')})`;
-	}*/
-
-	/*
-	const rgbToHex = (r, g, b) => '#' + [r, g, b].map((c) => {
-	  const hex = c.toString(16);
-	  return hex.length === 1 ? '0' + hex : hex;
-	}).join(''); // http://stackoverflow.com/a/5624139/4671250
-	*/
-
-	module.exports = {
-	  invertColor: invertColor,
-	  cssColorNameToRGB: cssColorNameToRGB,
-	  hexToRGB: hexToRgba,
-	  hexToRGBA: hexToRgba,
-	  rgbToHex: rgbaToHex,
-	  rgbaToHex: rgbaToHex
-	};
-
-/***/ },
-/* 4 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-
-	module.exports.rgbaToHex = function rgbaToHex(rgba_params_here)
-	{
-	    var arraytoHex = function(args) {
-	        return args.map(function(e){ var r = (+e).toString(16); r.length==1 && (r='0'+r); return r; }).join('');
-	    }
-
-	    var args = Array.prototype.slice.call(arguments);       // Arguments to Array conversion
-	    
-	    if (args.length == 4)                                   // is with optional alpha value
-	        args[3] = Math.floor(255 * args[3]);                // opacity float to 255-based value
-
-	    return '#' + arraytoHex(args);
-	}
-
-
-	module.exports.hexToRgba = function hexToRgba(hex)
-	{
-	    var valid = new RegExp(/^#([0-9a-f]{8}|[0-9a-f]{6}|[0-9a-f]{4}|[0-9a-f]{3})$/i);
-
-	    if (! valid.test(hex))
-	        return false;
-
-	    var code = hex.match(valid)[1];
-
-	    if (code.length == 3 || code.length == 4)               // fix 3 and 4 letter codes
-	        code = code.match(/./g).reduce( function(i,e) { return i+e+e; }, '');
-
-	    var codePairs = code.match(/.{1,2}/g).map( function(e) { return parseInt(e, 16); });
-
-	    if (codePairs.length == 4)
-	        codePairs[3] = codePairs[3] / 255;
-	    else
-	        codePairs[3] = 1.0;
-
-	    return codePairs;
-	}
-
-/***/ },
-/* 5 */
+/***/ 5:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -295,4 +118,5 @@
 	}(window, document);
 
 /***/ }
-/******/ ]);
+
+});
