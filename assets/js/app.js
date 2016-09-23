@@ -98,6 +98,7 @@ webpackJsonp([0],[
 	  })();
 
 	  function updateView() {
+	    console.log('updateView');
 	    updateFavicon();
 	    updateDownloadLinks();
 
@@ -108,7 +109,8 @@ webpackJsonp([0],[
 	  }
 
 	  if (!isNaN(localStorage.getItem('fillColor'))) {
-	    updateColor(localStorage.getItem('fillColor').replace('0x', '#'));
+	    console.log('updating color from localStorage yo');
+	    updateColor(localStorage.getItem('fillColor').replace('0x', '#'), true, fillCellsOnClick.checked);
 	  }
 
 	  document.addEventListener('swatchselected', function (event) {
@@ -120,11 +122,12 @@ webpackJsonp([0],[
 	    var updateTextField = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
 	    var doUpdateColorGrid = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
 
+	    console.log('updateColor', doUpdateColorGrid);
 	    fillColor = helpers.hexToRGBA(color);
 	    var wasHex = color.charAt(0) == '#',
 	        wasBlack = wasHex ? color == '#000000' || color == '#000' : color.toLowerCase() == 'black';
 
-	    if (!wasHex && !wasBlack && color == '#000000') return;
+	    //if(!wasHex && !wasBlack && color == '#000000') return;
 
 	    cellGridContainer.classList.add('dirty');
 	    cellGridContainer.style.borderColor = 'rgba(' + fillColor[0] + ',' + fillColor[1] + ',' + fillColor[2] + ',' + (fillColor[3] == undefined ? 1 : fillColor[3]) + ')';
@@ -149,6 +152,7 @@ webpackJsonp([0],[
 	  function setRGBAttributes(element) {
 	    var color = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 
+	    console.log('setRGBAttributes', element, color);
 	    var alpha = rgbaSlider.value;
 
 	    if (color) {
@@ -167,6 +171,7 @@ webpackJsonp([0],[
 	  }
 
 	  function updateColorGrid(color) {
+	    console.log('updateColorGrid', color);
 	    var alphaArray = helpers.hexToRGBA(color);
 
 	    var checkedInputs = document.querySelectorAll('#stage input[type="checkbox"]:checked');
@@ -260,6 +265,7 @@ webpackJsonp([0],[
 	  });
 
 	  function handleInputColorByTextColorChange(e) {
+	    console.log('handleInputColorByTextColorChange');
 	    document.getElementById('input_color_by__text').checked = true;
 	    updateColor(e.target.value, false);
 	    pushState();
@@ -273,6 +279,7 @@ webpackJsonp([0],[
 
 	  cellInputs.forEach(function (cell, index) {
 	    cell.addEventListener('click', function (e) {
+	      console.log(e);
 	      if ((e.altKey || sKeyDown) && lastClickedCellInput) {
 	        var rows = document.querySelectorAll('#stage tbody tr'),
 	            start = Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row'));
@@ -380,7 +387,14 @@ webpackJsonp([0],[
 	  document.querySelector('.instructions').innerHTML = 'Select cells above to fill them with the color chosen&nbsp;below.';
 
 	  fillCellsOnClick.addEventListener('change', function (e) {
-	    e.target.checked ? document.getElementById('fill-selected-cells').setAttribute('disabled', 'true') : document.getElementById('fill-selected-cells').removeAttribute('disabled');
+	    e.target.checked ? fillSelectedCells.setAttribute('disabled', 'true') : fillSelectedCells.removeAttribute('disabled');
+	  });
+
+	  fillCellsOnClick.checked ? fillSelectedCells.setAttribute('disabled', 'true') : fillSelectedCells.removeAttribute('disabled');
+
+	  fillSelectedCells.addEventListener('click', function (event) {
+	    event.preventDefault();
+	    updateColorGrid(helpers.rgbaToHex(fillColor[0], fillColor[1], fillColor[2], fillColor[3]));
 	  });
 
 	  stage.addEventListener("change", function (event) {
@@ -428,6 +442,7 @@ webpackJsonp([0],[
 	  }
 
 	  window.onpopstate = function (event) {
+	    console.log('popstate');
 	    clearBoard(); // clear the art board
 
 	    fillBack = event.state; // set the new state

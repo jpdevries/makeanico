@@ -1,6 +1,6 @@
 {% include 'header.twig' with { loadStyles:true } %}
 <body>
-  <aside aria-hidden hidden id="alert-banner"></aside>
+  <aside aria-hidden aria-live="assertive" hidden id="alert-banner"></aside>
   <div id="page-wrapper">
     <aside class="bottom-bar">
       <div class="quick-start widget">
@@ -46,7 +46,7 @@
       {% else %}
         <div hidden id="lazy__keyboard"></div>
       {% endif %}
-      
+
     </aside>
     <form id="makeanico" action="/" method="post">
     <div id="canvas">
