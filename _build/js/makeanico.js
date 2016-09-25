@@ -2,15 +2,40 @@ const helpers = require('./helpers');
 
 
 const MakeAnIco = function() {
-  console.log('helpers', helpers.hexToRGBA('#FF0'));
+  //console.log('helpers', helpers.hexToRGBA('bl'));
+  const inputColorSupport = (function(){
+    const i = document.createElement("input");
+    i.setAttribute("type", "color");
+    return i.type !== "text";
+  })();
 
+  const icons = document.querySelectorAll('[data-icon]');
+  icons.forEach((icon) => {
+    icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="svg-preview__svg"><use xlink:href="assets/img/sprite${min}.svg#${icon.getAttribute('data-icon')}"></use></svg>`;
+    icon.removeAttribute('data-icon');
+  })
 
 
   if(inputColorSupport) { // only add colorpicker option if the browser supports <input type="color">, auto select colorpicker option if no others are selected
+    (function(fieldset){
+      fieldset.innerHTML = `<label for="input_color_by__colorpicker">Colorpicker:</label>
+      <input type="color" id="input_color_by__colorpicker" name="input_color_by__colorpicker" value="#FFFFFF" />`;
+      fieldset.removeAttribute('hidden');
+    })(document.querySelector('.colorpicker.fieldset'));
+
+    (function(colorOption){
+      colorOption.innerHTML = `<label for="input_color_by__text__colorpicker">Colorpicker: </label>
+      <input type="radio" id="input_color_by__text__colorpicker" name="input_color_by" value="colorpicker" />`;
+      colorOption.removeAttribute('hidden');
+    })(document.querySelector('.color.option'));
+
+    if(!(inputColorByTextRadio.checked || document.getElementById('input_color_by__rgb').checked)) document.getElementById('input_color_by__colorpicker').checked = true;
+
+
     try {
       document.getElementById('input_color_by__colorpicker').addEventListener('input',function(e){
         document.getElementById('input_color_by__text__colorpicker').checked = true;
-        updateColor(e.target.value);
+        updateColor();
         updateDownloadLinks();
       });
 
@@ -68,7 +93,10 @@ const MakeAnIco = function() {
     ))
   }
 
-  if(!isNaN(localStorage.getItem('fillColor'))) {
+  if(inputColorByTextColor.value) {
+    let rgb = helpers.cssColorNameToRGB(inputColorByTextColor.value, true);
+    updateColor(helpers.rgbaToHex(rgb[0], rgb[1], rgb[2]), false, fillCellsOnClick.checked);
+  } else if(localStorage.getItem('fillColor') && !isNaN(localStorage.getItem('fillColor'))) {
     console.log('updating color from localStorage yo');
     updateColor(localStorage.getItem('fillColor').replace('0x','#'), true, fillCellsOnClick.checked);
   }
@@ -79,10 +107,13 @@ const MakeAnIco = function() {
   });
 
   function updateColor(color, updateTextField = true, doUpdateColorGrid = true) {
-    console.log('updateColor', doUpdateColorGrid);
-    fillColor = helpers.hexToRGBA(color);
-    let wasHex = color.charAt(0) == '#',
-    wasBlack = (wasHex) ? color == '#000000' || color == '#000' : color.toLowerCase() == 'black';
+    let h = helpers.hexToRGBA(color);
+    console.log('updateColor', doUpdateColorGrid, h);
+
+    if(!h) return false;
+    fillColor = h;
+    //let wasHex = color.charAt(0) == '#',
+    //wasBlack = (wasHex) ? color == '#000000' || color == '#000' : color.toLowerCase() == 'black';
 
     //if(!wasHex && !wasBlack && color == '#000000') return;
 
@@ -107,7 +138,7 @@ const MakeAnIco = function() {
   }
 
   function setRGBAttributes(element, color = undefined) {
-    console.log('setRGBAttributes', element, color);
+    //console.log('setRGBAttributes', element, color);
     let alpha = rgbaSlider.value;
 
     if(color) {
@@ -160,13 +191,13 @@ const MakeAnIco = function() {
       function drawRow(row, rowIndex) {
         let rects = [];
 
-        row.querySelectorAll('td:not(.row-col)').forEach((cell) => {
+        row.querySelectorAll('td:not(.row-col)').forEach((cell, x) => {
           if(cell.getAttribute('data-dirty') == 'true') {
             let rgb = [cell.getAttribute('data-r'), cell.getAttribute('data-g'), cell.getAttribute('data-b')],
             opacity = cell.getAttribute('data-a') ? ` opacity="${cell.getAttribute('data-a')}"` : '',
             color = helpers.rgbToHex(rgb[0], rgb[1], rgb[2]);
 
-            rects.push(`<rect x="${i}" y="${rowIndex}" width="1" height="1" fill="${color}"${opacity}></rect>`);
+            rects.push(`<rect x="${x}" y="${rowIndex}" width="1" height="1" fill="${color}"${opacity}></rect>`);
           }
         });
 
@@ -199,7 +230,7 @@ const MakeAnIco = function() {
   }
 
   ranges.forEach((range, index) => {
-    console.log(fillColor, range);
+    //console.log(fillColor, range);
     fillColor[index] = parseInt(range.value);
 
     range.addEventListener('input',function(e){
@@ -217,9 +248,14 @@ const MakeAnIco = function() {
   });
 
   function handleInputColorByTextColorChange(e) {
-    console.log('handleInputColorByTextColorChange');
-    document.getElementById('input_color_by__text').checked = true;
-    updateColor(e.target.value, false);
+    let color = helpers.cssColorNameToRGB(e.target.value, true),
+    wasHex = e.target.value.charAt(0) == '#',
+    wasBlack = (wasHex) ? color == '#000000' || color == '#000' : e.target.value.toLowerCase() == 'black';
+
+    // detect if invalid color (black when it shouldn't be)
+    if(!wasHex && !wasBlack && color[0] == 0 && color[1] == 0 && color[2] == 0) return;
+
+    updateColor(helpers.rgbToHex(color[0],color[1],color[2]), false);
     pushState();
     updateDownloadLinks();
   }

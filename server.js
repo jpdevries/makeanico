@@ -71,6 +71,8 @@ var CellDTO = function(index = 0, row = 0, column = 0, checked = false, fill = u
 
   }
 
+  rowLabel = String.fromCharCode(65 + row);
+
 
 
   return {
@@ -81,7 +83,8 @@ var CellDTO = function(index = 0, row = 0, column = 0, checked = false, fill = u
     fill:fill,
     rgba:rgba,
     hex:hex,
-    opacity:opacity
+    opacity:opacity,
+    rowLabel:rowLabel
   };
 }
 
@@ -239,8 +242,25 @@ app.post('/png-coder', function(req, res) {
 /* redirects */
 
 Object.keys(redirects).forEach(function(key) {
+  //http://localhost:1188/icos/modx
   app.get(key, function(req, res) {
     res.redirect(redirects[key]);
+    res.end();
+  });
+  //http://localhost:1188/get/svg/icos/modx
+  //http://localhost:1188/get/svg/icos/flags/zw
+  app.get(`/get/svg${key}`, function(req, res) {
+    res.redirect(`/make/favicon.svg${redirects[key]}`);
+    res.end();
+  });
+  //http://localhost:1188/get/png/icos/flags/nl
+  app.get(`/get/png${key}`, function(req, res) {
+    res.redirect(`/make/favicon.png${redirects[key]}`);
+    res.end();
+  });
+  //http://localhost:1188/get/ico/icos/flags/zw
+  app.get(`/get/ico${key}`, function(req, res) {
+    res.redirect(`/make/favicon.ico${redirects[key]}`);
     res.end();
   });
 });
@@ -310,7 +330,14 @@ app.get('/', function(req, res) {
     startOver: filledCells.length > 0,
     cellURL: getCellURLString(req.query),
     baseUrl: baseUrl,
-    production: process.env.NODE_ENV == 'production'
+    production: process.env.NODE_ENV == 'production',
+    rowLabels:(function(){
+      let a = [];
+      for(let i = 65; i <= 81; i++) {
+        a.push(String.fromCharCode(i));
+      }
+      return a;
+    })()
   });
 });
 

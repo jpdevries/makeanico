@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   {% if loadStyles|default(true) %}
-  <link rel="stylesheet" href="assets/css/main.min.css">
+  <link rel="stylesheet" href="assets/css/main{% if production %}.min{% endif %}.css">
   {% endif %}
 
   <link id="favicon" rel="icon" type="image/png" href="/make/favicon.png?{{ cellURL }}" />

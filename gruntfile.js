@@ -109,14 +109,34 @@ module.exports = function(grunt) {
 
       }
     },
+    babel: {
+        options: {
+            sourceMap: false,
+            presets: ['es2015']
+        },
+        dist: {
+            files: {
+                '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>init.js': '<%= dirs.build %><%= dirs.js %>init.js',
+                '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/export.js': '<%= dirs.build %><%= dirs.js %>components/export.js',
+                '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/shortcuts.js': '<%= dirs.build %><%= dirs.js %>components/shortcuts.js'
+            }
+        }
+    },
     uglify: {
       js: {
-        options:{report:"gzip"},
+        options:{
+          report:"gzip"
+        },
         files: {
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>app.min.js': ['<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>app.js'],
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>lazy.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>lazy.js',
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>globals.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>globals.js',
-          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>common.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>common.js'
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>common.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>common.js',
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>init.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>init.js',
+
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/export.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/export.js',
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/shortcuts.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/shortcuts.js',
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/swatches.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/swatches.js'
         }
       }
     },
@@ -155,7 +175,7 @@ module.exports = function(grunt) {
       },
       js: {
           files: ['<%= dirs.build %><%= dirs.js %>**/*.js'],
-          tasks: ['webpack', 'uglify', 'growl:uglify']
+          tasks: ['webpack', 'babel', 'uglify', 'growl:uglify']
       }
     },
   });
@@ -170,7 +190,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-webpack');
   grunt.loadNpmTasks('grunt-postcss');
   grunt.loadNpmTasks('grunt-svgmin');
+  grunt.loadNpmTasks('grunt-babel');
 
   grunt.registerTask('default',['growl:watch','watch']);
-  grunt.registerTask('build',['bower','copy','webpack','uglify','sass','postcss','cssmin','growl:build']);
+  grunt.registerTask('build',['bower','copy','babel','webpack','uglify','sass','postcss','cssmin','growl:build']);
 };

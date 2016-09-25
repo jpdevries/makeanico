@@ -23,7 +23,7 @@ html {
 /*
 http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
 */
-[a11y-hidden] {
+[a11y-hidden], #stage input[type="checkbox"] + label span {
   position: absolute;
   height: 1px;
   width: 1px;
@@ -195,13 +195,11 @@ nav.button-bar {
 a.btn {
   text-decoration: none; }
 
-.download-as {
+.download-as, .button-bar {
   font-size: 13px; }
 
-.button-bar {
-  font-size: 13px; }
-  .button-bar a {
-    text-transform: lowercase; }
+.button-bar a {
+  text-transform: lowercase; }
 
 #makeanico, .bottom-bar, #page-wrapper {
   -ms-flex-wrap: wrap;
@@ -258,8 +256,9 @@ a.btn {
 #saved-swatches .havent-any, #saved-swatches[data-empty] .youve-saved, a.heavy[hidden].btn, .widget.import button.heavy[hidden] {
   display: none; }
 
-#stage input[type="checkbox"] + label {
-  text-indent: -99999em; }
+[data-icon] {
+  width: 16px;
+  height: 16px; }
 
 #stage td.row-col {
   position: absolute; }

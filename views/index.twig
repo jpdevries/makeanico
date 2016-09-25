@@ -20,8 +20,7 @@
       </div>
       <div class="import widget">
         <form class="neat container" action="/png-coder" method="post" enctype="multipart/form-data">
-          <div aria-hidden="true" class="svg-preview">
-            <script>document.write('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="svg-preview__svg"><use xlink:href="assets/img/sprite{% if production %}.min{% endif %}.svg#icon-import"></use></svg>')</script>
+          <div aria-hidden="true" class="svg-preview" data-icon="icon-import">
           </div>
           <h2 id="import">Import</h2>
           <p>Fancy a shortcut?<br>Upload a PNG, JPG, GIF, or SVG image and we'll generate a favicon from your&nbsp;image.<br>Your image will be scaled down and cropped as a 16x16 square so square aspect ratios work&nbsp;best.</p>
@@ -48,7 +47,8 @@
       {% endif %}
 
     </aside>
-    <form id="makeanico" action="/" method="post">
+    <form id="makeanico" action="/" method="post" aria-labledby="artboard">
+      <h1 a11y-hidden id="artboard">Artboard</h1>
     <div id="canvas">
       <div id="stage">
         <table cellspacing="0" cellpadding="0">
@@ -63,7 +63,7 @@
           <tbody>
             {% for row in cells %}
               <tr>
-                <td a11y-hidden class="row-col">Row {{loop.index0}}</td>
+                <td a11y-hidden class="row-col">Row {{rowLabels[loop.index0]}}</td>
                 {% for cell in row %}
                   {% include 'cp-check-cell.twig' with cell %}
                 {% endfor %}

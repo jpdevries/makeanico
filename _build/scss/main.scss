@@ -117,13 +117,11 @@ a.btn {
   text-decoration:none;
 }
 
-.download-as {
+.download-as, .button-bar {
   font-size:13px;
 }
 
 .button-bar {
-  font-size:13px;
-
   label {
     @extend %margin-right-1em;
     &:last-of-type {
@@ -219,7 +217,6 @@ a.btn {
 }
 
 fieldset, .fieldset {
-
   @extend %margin-bottom-1em;
 }
 
@@ -251,6 +248,11 @@ fieldset, .fieldset {
   display:none;
 }
 
+[data-icon] {
+  width:16px;
+  height:16px;
+}
+
 #stage {
   input[type="checkbox"] {
     @extend %topMost;
@@ -264,7 +266,9 @@ fieldset, .fieldset {
     @extend %topMost;
     @extend %absolute-corners;
     @extend %selectable;
-    text-indent:-99999em;
+    span {
+      @extend %accessibly-hidden;
+    }
   }
 
   input[type="checkbox"]:checked + label {

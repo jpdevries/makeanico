@@ -1,16 +1,15 @@
-var form = document.getElementById('makeanico'),
+var form = makeanico,
 ranges = document.querySelectorAll('input[type="range"]'),
 cellInputs = document.querySelectorAll('#stage input[type="checkbox"]'),
 cellGridContainer = document.getElementById('cell-grid__container'),
 inputColorByRGBRadio = document.getElementById('input_color_by__rgb'),
-inputColorByTextColor = document.getElementById('input_color_by__text__color'),
 //inputColorByColorpicker = document.getElementById('input_color_by__colorpicker'),
 fillCellsOnClick = document.getElementById('fill-cells-on-click'),
 fillSelectedCells = document.getElementById('fill-selected-cells'),
 rgbaSlider = document.getElementById('rgb_slider_a'),
 stage = document.getElementById('stage'),
 startOver = document.getElementById('start-over'),
-
+makeanico = document.getElementById('makeanico'),
 sKeyDown = false,
 lastClickedCellInput;
 

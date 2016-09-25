@@ -36,19 +36,42 @@ webpackJsonp([0],[
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var helpers = __webpack_require__(3);
 
 	var MakeAnIco = function MakeAnIco() {
-	  console.log('helpers', helpers.hexToRGBA('#FF0'));
+	  //console.log('helpers', helpers.hexToRGBA('bl'));
+	  var inputColorSupport = function () {
+	    var i = document.createElement("input");
+	    i.setAttribute("type", "color");
+	    return i.type !== "text";
+	  }();
+
+	  var icons = document.querySelectorAll('[data-icon]');
+	  icons.forEach(function (icon) {
+	    icon.innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" class=\"svg-preview__svg\"><use xlink:href=\"assets/img/sprite" + min + ".svg#" + icon.getAttribute('data-icon') + "\"></use></svg>";
+	    icon.removeAttribute('data-icon');
+	  });
 
 	  if (inputColorSupport) {
 	    // only add colorpicker option if the browser supports <input type="color">, auto select colorpicker option if no others are selected
+	    (function (fieldset) {
+	      fieldset.innerHTML = "<label for=\"input_color_by__colorpicker\">Colorpicker:</label>\n      <input type=\"color\" id=\"input_color_by__colorpicker\" name=\"input_color_by__colorpicker\" value=\"#FFFFFF\" />";
+	      fieldset.removeAttribute('hidden');
+	    })(document.querySelector('.colorpicker.fieldset'));
+
+	    (function (colorOption) {
+	      colorOption.innerHTML = "<label for=\"input_color_by__text__colorpicker\">Colorpicker: </label>\n      <input type=\"radio\" id=\"input_color_by__text__colorpicker\" name=\"input_color_by\" value=\"colorpicker\" />";
+	      colorOption.removeAttribute('hidden');
+	    })(document.querySelector('.color.option'));
+
+	    if (!(inputColorByTextRadio.checked || document.getElementById('input_color_by__rgb').checked)) document.getElementById('input_color_by__colorpicker').checked = true;
+
 	    try {
 	      document.getElementById('input_color_by__colorpicker').addEventListener('input', function (e) {
 	        document.getElementById('input_color_by__text__colorpicker').checked = true;
-	        updateColor(e.target.value);
+	        updateColor();
 	        updateDownloadLinks();
 	      });
 
@@ -108,7 +131,10 @@ webpackJsonp([0],[
 	    });
 	  }
 
-	  if (!isNaN(localStorage.getItem('fillColor'))) {
+	  if (inputColorByTextColor.value) {
+	    var rgb = helpers.cssColorNameToRGB(inputColorByTextColor.value, true);
+	    updateColor(helpers.rgbaToHex(rgb[0], rgb[1], rgb[2]), false, fillCellsOnClick.checked);
+	  } else if (localStorage.getItem('fillColor') && !isNaN(localStorage.getItem('fillColor'))) {
 	    console.log('updating color from localStorage yo');
 	    updateColor(localStorage.getItem('fillColor').replace('0x', '#'), true, fillCellsOnClick.checked);
 	  }
@@ -122,15 +148,18 @@ webpackJsonp([0],[
 	    var updateTextField = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
 	    var doUpdateColorGrid = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
 
-	    console.log('updateColor', doUpdateColorGrid);
-	    fillColor = helpers.hexToRGBA(color);
-	    var wasHex = color.charAt(0) == '#',
-	        wasBlack = wasHex ? color == '#000000' || color == '#000' : color.toLowerCase() == 'black';
+	    var h = helpers.hexToRGBA(color);
+	    console.log('updateColor', doUpdateColorGrid, h);
+
+	    if (!h) return false;
+	    fillColor = h;
+	    //let wasHex = color.charAt(0) == '#',
+	    //wasBlack = (wasHex) ? color == '#000000' || color == '#000' : color.toLowerCase() == 'black';
 
 	    //if(!wasHex && !wasBlack && color == '#000000') return;
 
 	    cellGridContainer.classList.add('dirty');
-	    cellGridContainer.style.borderColor = 'rgba(' + fillColor[0] + ',' + fillColor[1] + ',' + fillColor[2] + ',' + (fillColor[3] == undefined ? 1 : fillColor[3]) + ')';
+	    cellGridContainer.style.borderColor = "rgba(" + fillColor[0] + "," + fillColor[1] + "," + fillColor[2] + "," + (fillColor[3] == undefined ? 1 : fillColor[3]) + ")";
 
 	    if (updateTextField) inputColorByTextColor.value = color;
 
@@ -152,7 +181,7 @@ webpackJsonp([0],[
 	  function setRGBAttributes(element) {
 	    var color = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 
-	    console.log('setRGBAttributes', element, color);
+	    //console.log('setRGBAttributes', element, color);
 	    var alpha = rgbaSlider.value;
 
 	    if (color) {
@@ -167,7 +196,7 @@ webpackJsonp([0],[
 	    element.setAttribute('data-g', color[1]);
 	    element.setAttribute('data-b', color[2]);
 	    element.setAttribute('data-a', rgbaSlider.value);
-	    element.style.backgroundColor = 'rgba(' + color[0] + ', ' + color[1] + ', ' + color[2] + ', ' + alpha + ')';
+	    element.style.backgroundColor = "rgba(" + color[0] + ", " + color[1] + ", " + color[2] + ", " + alpha + ")";
 	  }
 
 	  function updateColorGrid(color) {
@@ -190,8 +219,8 @@ webpackJsonp([0],[
 	  }
 
 	  function setCellBorderFilterColor(label, color) {
-	    label.style.boxShadow = '0 0 5px ' + color;
-	    label.style.outlineColor = '' + color;
+	    label.style.boxShadow = "0 0 5px " + color;
+	    label.style.outlineColor = "" + color;
 	  }
 
 	  function updateFaviconPreview() {
@@ -205,13 +234,13 @@ webpackJsonp([0],[
 	      function drawRow(row, rowIndex) {
 	        var rects = [];
 
-	        row.querySelectorAll('td:not(.row-col)').forEach(function (cell) {
+	        row.querySelectorAll('td:not(.row-col)').forEach(function (cell, x) {
 	          if (cell.getAttribute('data-dirty') == 'true') {
-	            var rgb = [cell.getAttribute('data-r'), cell.getAttribute('data-g'), cell.getAttribute('data-b')],
-	                opacity = cell.getAttribute('data-a') ? ' opacity="' + cell.getAttribute('data-a') + '"' : '',
-	                color = helpers.rgbToHex(rgb[0], rgb[1], rgb[2]);
+	            var _rgb = [cell.getAttribute('data-r'), cell.getAttribute('data-g'), cell.getAttribute('data-b')],
+	                opacity = cell.getAttribute('data-a') ? " opacity=\"" + cell.getAttribute('data-a') + "\"" : '',
+	                color = helpers.rgbToHex(_rgb[0], _rgb[1], _rgb[2]);
 
-	            rects.push('<rect x="' + i + '" y="' + rowIndex + '" width="1" height="1" fill="' + color + '"' + opacity + '></rect>');
+	            rects.push("<rect x=\"" + x + "\" y=\"" + rowIndex + "\" width=\"1\" height=\"1\" fill=\"" + color + "\"" + opacity + "></rect>");
 	          }
 	        });
 
@@ -242,12 +271,12 @@ webpackJsonp([0],[
 	        ctx.drawImage(this, 0, 0);
 	        link.href = canvas.toDataURL('image/png');
 	      };
-	      img.src = 'data:image/svg+xml,' + svgHTML;
+	      img.src = "data:image/svg+xml," + svgHTML;
 	    }
 	  }
 
 	  ranges.forEach(function (range, index) {
-	    console.log(fillColor, range);
+	    //console.log(fillColor, range);
 	    fillColor[index] = parseInt(range.value);
 
 	    range.addEventListener('input', function (e) {
@@ -265,9 +294,14 @@ webpackJsonp([0],[
 	  });
 
 	  function handleInputColorByTextColorChange(e) {
-	    console.log('handleInputColorByTextColorChange');
-	    document.getElementById('input_color_by__text').checked = true;
-	    updateColor(e.target.value, false);
+	    var color = helpers.cssColorNameToRGB(e.target.value, true),
+	        wasHex = e.target.value.charAt(0) == '#',
+	        wasBlack = wasHex ? color == '#000000' || color == '#000' : e.target.value.toLowerCase() == 'black';
+
+	    // detect if invalid color (black when it shouldn't be)
+	    if (!wasHex && !wasBlack && color[0] == 0 && color[1] == 0 && color[2] == 0) return;
+
+	    updateColor(helpers.rgbToHex(color[0], color[1], color[2]), false);
 	    pushState();
 	    updateDownloadLinks();
 	  }
@@ -275,7 +309,7 @@ webpackJsonp([0],[
 	  inputColorByTextColor.addEventListener('input', handleInputColorByTextColorChange);
 	  inputColorByTextColor.addEventListener('change', handleInputColorByTextColorChange);
 
-	  document.querySelector('#cell-grid__container header').innerHTML += '<h3>Select Cells</h3><div class="async-btns flexible unaligned fieldset">\n    <button id="select_all_cells">Select all Cells</button>\n    <button id="unselect_all_cells">Unselect all Cells</button>\n    <button id="inverse_selection">Inverse Selection</button>\n  </div>';
+	  document.querySelector('#cell-grid__container header').innerHTML += "<h3>Select Cells</h3><div class=\"async-btns flexible unaligned fieldset\">\n    <button id=\"select_all_cells\">Select all Cells</button>\n    <button id=\"unselect_all_cells\">Unselect all Cells</button>\n    <button id=\"inverse_selection\">Inverse Selection</button>\n  </div>";
 
 	  cellInputs.forEach(function (cell, index) {
 	    cell.addEventListener('click', function (e) {
@@ -374,7 +408,7 @@ webpackJsonp([0],[
 	  startOver.querySelector('a').addEventListener('click', function (e) {
 	    e.preventDefault();
 
-	    window.history.pushState({}, 'Makeanico', '/');
+	    window.history.pushState({}, 'Makeanico', "/");
 	    clearBoard();
 
 	    form.reset();
@@ -384,7 +418,7 @@ webpackJsonp([0],[
 	    window.scrollTo(0, 0);
 	  });
 
-	  document.querySelector('.instructions').innerHTML = 'Select cells above to fill them with the color chosen&nbsp;below.';
+	  document.querySelector('.instructions').innerHTML = "Select cells above to fill them with the color chosen&nbsp;below.";
 
 	  fillCellsOnClick.addEventListener('change', function (e) {
 	    e.target.checked ? fillSelectedCells.setAttribute('disabled', 'true') : fillSelectedCells.removeAttribute('disabled');
@@ -432,13 +466,13 @@ webpackJsonp([0],[
 	      var a = [];
 
 	      Object.keys(fillBack).forEach(function (key) {
-	        a.push(key + '=' + fillBack[key]);
+	        a.push(key + "=" + fillBack[key]);
 	      });
 
 	      return a.join('&');
 	    }();
 
-	    window.history.pushState(fillBack, 'Makeanico', '/?' + newURL);
+	    window.history.pushState(fillBack, 'Makeanico', "/?" + newURL);
 	  }
 
 	  window.onpopstate = function (event) {

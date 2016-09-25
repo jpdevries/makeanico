@@ -30,8 +30,7 @@ document.getElementById('swatches-form').addEventListener('submit', function(e) 
 
   const swatches = e.target.querySelectorAll('.swatch input[type="radio"]'),
   deletingSwatch = e.target.querySelector('.swatch input[type="radio"]:checked'),
-  hex = elementToHex(deletingSwatch),
-  swatchParents = document.querySelectorAll('.swatch');
+  hex = elementToHex(deletingSwatch);
 
   try {
     const previous = deletingSwatch.parentNode.previousElementSibling.querySelector('input[type="radio"]');
@@ -45,7 +44,7 @@ document.getElementById('swatches-form').addEventListener('submit', function(e) 
 
   let toSave = [];
 
-  swatchParents.forEach(function(element, index, array) {
+  document.querySelectorAll('.swatch').forEach(function(element, index, array) {
     toSave.push(elementToHex(element));
   });
 

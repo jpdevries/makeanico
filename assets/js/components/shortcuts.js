@@ -1,3 +1,5 @@
+'use strict';
+
 /*                       __                                 __               __                     __                    __
 /\ \                     /\ \                               /\ \             /\ \                   /\ \__                /\ \__
 \ \ \/'\      __   __  __\ \ \____    ___      __     _ __  \_\ \        ____\ \ \___     ___   _ __\ \ ,_\   ___   __  __\ \ ,_\   ____
@@ -8,23 +10,24 @@
                       /\___/
                       \/_*/
 
+document.addEventListener('keyup', function (event) {
+    //console.log(event);
+    if (event.ctrlKey && event.which === 65) {
+        // ctrl + a
+        document.getElementById('select_all_cells').click();
+    }
 
-document.addEventListener('keyup', function(event) {
-//console.log(event);
-if (event.ctrlKey && event.which === 65) { // ctrl + a
-    document.getElementById('select_all_cells').click();
-}
+    if (event.ctrlKey && event.which === 68) {
+        // ctrl + d
+        document.getElementById('unselect_all_cells').click();
+    }
 
-if (event.ctrlKey && event.which === 68) { // ctrl + d
-    document.getElementById('unselect_all_cells').click();
-}
+    if (event.ctrlKey && event.which === 73) {
+        // ctrl + i
+        document.getElementById('inverse_selection').click();
+    }
 
-if (event.ctrlKey && event.which === 73) { // ctrl + i
-    document.getElementById('inverse_selection').click();
-}
-
-/*if (event.ctrlKey && event.which === 8) { // ctrl + backspace
-    document.getElementById('inverse_selection').click();
-}*/
-
+    /*if (event.ctrlKey && event.which === 8) { // ctrl + backspace
+        document.getElementById('inverse_selection').click();
+    }*/
 });

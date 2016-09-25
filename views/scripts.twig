@@ -1,176 +1,35 @@
-<script>
-  var startOver = {% if startOver %}true{% else %}false{% endif %};
-</script>
-
 <script defer>
-const doEnhancments = document.addEventListener ? true : false,
-production = {% if production %}true{% else %}false{% endif %},
-alertBanner = document.getElementById('alert-banner'),
-inputColorSupport = (function(){
-  const i = document.createElement("input");
-  i.setAttribute("type", "color");
-  return i.type !== "text";
-})(),
-saveSwatchBtn = document.createElement('button');
+  var doEnhancments = document.addEventListener ? true : false,
+  production = {% if production %}true{% else %}false{% endif %},
+  alertBanner = document.getElementById('alert-banner'),
+  saveSwatchBtn = document.createElement('button'),
+  fillColor = [255, 255, 255, 100],
+  initSwatch,
+  min = '{% if production %}.min{% endif %}',
+  inputColorByTextColor = document.getElementById('input_color_by__text__color'),
+  so = {% if startOver %}true{% else %}false{% endif %},
+  inputColorByTextRadio = document.getElementById('input_color_by__text');
 
-var fillColor = [255, 255, 255, 100],
-initSwatch;
-
-if(doEnhancments) {
-  document.querySelectorAll('[no-js]').forEach((element) => (element.remove()));
-  document.getElementById('fill-cells-on-click').removeAttribute('disabled');
-
-  if ('serviceWorker' in navigator && false) {
-    navigator.serviceWorker.register('/serviceWorker.js').then(function(registration) {
-      // Registration was successful
-      console.log('ServiceWorker registration successful with scope: ',    registration.scope);
-    }).catch(function(err) {
-      // registration failed :(
-      console.log('ServiceWorker registration failed: ', err);
-    });
-  }
-
-  if(inputColorSupport) {
-    (function(fieldset){
-      fieldset.innerHTML = `<label for="input_color_by__colorpicker">Colorpicker:</label>
-      <input type="color" id="input_color_by__colorpicker" name="input_color_by__colorpicker" value="#FFFFFF" />`;
-      fieldset.removeAttribute('hidden');
-    })(document.querySelector('.colorpicker.fieldset'));
-
-    (function(colorOption){
-      colorOption.innerHTML = `<label for="input_color_by__text__colorpicker">Colorpicker: </label>
-      <input type="radio" id="input_color_by__text__colorpicker" name="input_color_by" value="colorpicker" />`;
-      colorOption.removeAttribute('hidden');
-    })(document.querySelector('.color.option'));
-
-    if(!(document.getElementById('input_color_by__text').checked || document.getElementById('input_color_by__rgb').checked)) document.getElementById('input_color_by__colorpicker').checked = true;
-  }
-
-  function addComponent(slug) {
-    return new Promise(function(resolve, reject) {
-      if(!document.getElementById(`lazy__${slug}`)) {
-        reject();
-        return;
-      }
-      fetch(`/api/components/${slug}`, {
-      	method: 'get'
-      }).then(function(response) {
-        response.text().then((text) => {
-          try {
-            console.log(document.getElementById(`lazy__${slug}`));
-            document.getElementById(`lazy__${slug}`).outerHTML = text;
-          } catch(err) {}
-          resolve(text);
-        })
-      }).catch((err) => (
-        console.log(err)
-      ));
-    });
-  }
-
-  function addScript(src, id = undefined) {
-    return new Promise(function(resolve, reject) {
-      var script = document.createElement('script');
-      script.src = src;
-      if(id) {
-        script.setAttribute('id','scripts__' + id);
-        if(document.getElementById('scripts__' + id)) {
-          resolve();
-          return;
-        }
-      }
-      script.onload = function(event) {
-        resolve();
-      }
-      script.onerror = function(event) {
-        reject();
-      }
-      document.body.appendChild(script);
-    });
-
-  }
-
-  // lazy load the HTML5 <datalist> component that offers CSS color name suggestions to both datalist and non datalist compatible browsers
-  document.getElementById('input_color_by__text').addEventListener('change', function(event) {
-    console.log(event);
-    event.stopPropagation();
-    addScript('/assets/js/common{% if production %}.min{% endif %}.js', 'common').then(() => (
-      addScript('/assets/js/lazy{% if production %}.min{% endif %}.js', 'lazy')
-    ));
-  });
-
-  function handleCellChange(event) {
-    document.getElementById('makeanico').removeEventListener('change', handleCellChange);
-
-    addScript('/assets/js/globals{% if production %}.min{% endif %}.js', 'globals').then(() => (
-      addScript('/assets/js/common{% if production %}.min{% endif %}.js', 'common')
-    )).then(() => (
-      addScript('/assets/js/app{% if production %}.min{% endif %}.js', 'app')
-    )).then(() => {
-      return Promise.all([
-        addComponent('export'),
-        addComponent('keyboard')//,
-        //addComponent('swatches')
-      ])
-    }).then(() => {
-      return Promise.all([
-        addScript('/assets/js/components/export{% if production %}.min{% endif %}.js', 'export'),
-        addScript('/assets/js/components/shortcuts{% if production %}.min{% endif %}.js', 'shortcuts')//,
-        //addScript('/assets/js/components/swatches{% if production %}.min{% endif %}.js', 'swatches')
-      ]);
-    }).then(() => {
-      alertBanner.innerHTML = '<p>Live Preview, Export, and Keyboard Shortcut enhancements loaded</p>';
-      alertBanner.removeAttribute('hidden');
-      alertBanner.removeAttribute('aria-hidden');
-      setTimeout(function(event) {
-        alertBanner.setAttribute('hidden','true');
-        alertBanner.setAttribute('aria-hidden','true');
-      }, 5000)
-    });
-  }
-
-  function supportsLocalStorage() {
-    const ico = 'icotecht';
-    try {
-        localStorage.setItem(ico, ico);
-        localStorage.removeItem(ico);
-        return true;
-    } catch(e) {
-        return false;
-    }
-  }
-
-  if(supportsLocalStorage()) {
-    saveSwatchBtn.innerHTML = 'Save Swatch';
-    document.querySelector('#cell-grid__container footer').appendChild(saveSwatchBtn);
-
-    saveSwatchBtn.addEventListener('click', handleSaveSwatchBtnClicked);
-
-    function handleSaveSwatchBtnClicked(event) {
-      event.preventDefault();
-      saveSwatchBtn.removeEventListener('click', handleSaveSwatchBtnClicked);
-
-      initSwatch = fillColor;
-
-      addComponent('swatches').then(() => (
-        addScript('/assets/js/common{% if production %}.min{% endif %}.js', 'common').then(() => (
-          addScript('/assets/js/components/swatches{% if production %}.min{% endif %}.js', 'swatches')
-        ))
-      ));
-    }
-  }
-
-  // generic user input detected. lazy load the async enhancements for live preview, swatches, ect
-  document.getElementById('makeanico').addEventListener('change', handleCellChange);
-
-  if(startOver) { // there is art on the canvas so load enhancements
-    addScript('/assets/js/globals{% if production %}.min{% endif %}.js', 'global');
-    addScript('/assets/js/common{% if production %}.min{% endif %}.js', 'common');
-    addScript('/assets/js/app{% if production %}.min{% endif %}.js', 'app');
-    addScript('/assets/js/components/export{% if production %}.min{% endif %}.js', 'export');
-    addScript('/assets/js/components/shortcuts{% if production %}.min{% endif %}.js', 'shortcuts');
-    //addScript('/assets/js/components/swatches{% if production %}.min{% endif %}.js', 'swatches');
-  }
-
-}
+  if(!(typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]") !== -1)) document.write('<script src="assets/js/polyfills/es6-promise{% if production %}.min{% endif %}.js"><\/script>');
 </script>
+
+{% if startOver %}
+  <script defer>
+    if(doEnhancments) {
+      document.write('<script id="scripts__init" src="assets/js/init{% if production %}.min{% endif %}.js"><\/script>');
+      document.write('<script id="scripts__globals" src="assets/js/globals{% if production %}.min{% endif %}.js"><\/script>');
+      document.write('<script id="scripts__common" src="assets/js/common{% if production %}.min{% endif %}.js"><\/script>');
+      document.write('<script id="scripts__app" src="assets/js/app{% if production %}.min{% endif %}.js"><\/script>');
+      document.write('<script id="scripts__export" src="assets/js/components/export{% if production %}.min{% endif %}.js"><\/script>');
+      document.write('<script id="scripts__shortcuts" src="assets/js/components/shortcuts{% if production %}.min{% endif %}.js"><\/script>');
+    }
+  </script>
+{% else %}
+  <script defer>
+    if(doEnhancments) {
+      document.write('<script id="scripts__init" src="assets/js/init{% if production %}.min{% endif %}.js"><\/script>');
+      // generic user input detected. lazy load the async enhancements for live preview, swatches, ect
+
+    }
+  </script>
+{% endif %}

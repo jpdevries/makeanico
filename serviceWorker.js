@@ -1,7 +1,7 @@
 'use strict';
 
 var CACHE_NAME = 'drst0.0.0';
-var cacheAll = false;
+var cacheAll = true;
 
 var urlsToCache = [
   '/assets/css/main.css',
@@ -47,7 +47,7 @@ self.addEventListener('fetch', function(event) {
   );
 });
 
-this.addEventListener('activate', function(event) {
+self.addEventListener('activate', function(event) {
   var cacheWhitelist = [CACHE_NAME];
 
   event.waitUntil(
