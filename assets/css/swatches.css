@@ -1,0 +1,54 @@
+.swatches label, .swatches input[type="radio"] {
+  cursor: pointer; }
+
+.swatches label, .swatches input[type="radio"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+/*
+http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
+*/
+.swatches {
+  display: -ms-flexbox;
+  display: flex; }
+
+#saved-swatches .havent-any, #saved-swatches[data-empty] .youve-saved {
+  display: none; }
+
+.swatches input[type="radio"] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background: transparent;
+  opacity: 0; }
+
+.swatches > * {
+  position: relative; }
+
+.swatches label, .swatches input[type="radio"] {
+  z-index: 99999; }
+
+.swatches input[type="radio"]:checked:focus + label {
+  box-shadow: 0 0 5px #51cbee;
+  outline: 1px solid #51cbee; }
+
+#saved-swatches[data-empty] .havent-any {
+  display: block; }
+
+.swatches {
+  list-style-type: none;
+  padding: 0;
+  -ms-flex-pack: center;
+      justify-content: center; }
+  .swatches > * {
+    min-height: 2em;
+    max-width: 2em;
+    -ms-flex: 0 0 2em;
+        flex: 0 0 2em;
+    margin-right: 1px;
+    margin-bottom: 1px; }
+
+/*# sourceMappingURL=swatches.css.map */

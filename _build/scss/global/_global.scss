@@ -14,6 +14,24 @@ $square: min-aspect-ratio #{1}/#{1};
   padding:1em;
 }
 
+%hidden {
+  display:none;
+}
+
+%no-apperance {
+  appearance: none;
+  background:transparent;
+  opacity:0;
+}
+
+%selectable {
+  cursor:cell;
+}
+
+%relative {
+  position:relative;
+}
+
 %balanced {
   text-align:center;
 }

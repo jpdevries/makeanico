@@ -4,7 +4,7 @@
 
 @import "global/global";
 
-@import "components/swatches";
+//@import "components/swatches";
 
 [hidden] {
   display: none !important;
@@ -228,24 +228,6 @@ fieldset, .fieldset {
     @extend %margin-center;
     text-align:left;
   }
-}
-
-%selectable {
-  cursor:cell;
-}
-
-%relative {
-  position:relative;
-}
-
-%no-apperance {
-  appearance: none;
-  background:transparent;
-  opacity:0;
-}
-
-%hidden {
-  display:none;
 }
 
 [data-icon] {

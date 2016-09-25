@@ -1,16 +1,8 @@
 <script defer>
-  var doEnhancments = document.addEventListener ? true : false,
-  production = {% if production %}true{% else %}false{% endif %},
-  alertBanner = document.getElementById('alert-banner'),
-  saveSwatchBtn = document.createElement('button'),
-  fillColor = [255, 255, 255, 100],
-  initSwatch,
-  min = '{% if production %}.min{% endif %}',
-  inputColorByTextColor = document.getElementById('input_color_by__text__color'),
-  so = {% if startOver %}true{% else %}false{% endif %},
-  inputColorByTextRadio = document.getElementById('input_color_by__text');
-
-  if(!(typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]") !== -1)) document.write('<script src="assets/js/polyfills/es6-promise{% if production %}.min{% endif %}.js"><\/script>');
+var doEnhancments = document.addEventListener ? true : false,
+production = {% if production %}true{% else %}false{% endif %},
+min = '{% if production %}.min{% endif %}',
+so = {% if startOver %}true{% else %}false{% endif %};
 </script>
 
 {% if startOver %}
@@ -26,10 +18,6 @@
   </script>
 {% else %}
   <script defer>
-    if(doEnhancments) {
-      document.write('<script id="scripts__init" src="assets/js/init{% if production %}.min{% endif %}.js"><\/script>');
-      // generic user input detected. lazy load the async enhancements for live preview, swatches, ect
-
-    }
+    if(doEnhancments) document.write('<script id="scripts__init" src="assets/js/init{% if production %}.min{% endif %}.js"><\/script>');
   </script>
 {% endif %}

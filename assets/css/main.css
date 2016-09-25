@@ -7,13 +7,13 @@ html {
 #stage, table, #stage input[type="checkbox"], #stage table {
   width: 100%; }
 
-.swatches label, .swatches input[type="radio"], .button-bar a, #stage input[type="checkbox"], .widget.import button, .widget.import label[for="pic"], .widget.import .svg-preview__svg {
+.button-bar a, #stage input[type="checkbox"], .widget.import button, .widget.import label[for="pic"], .widget.import .svg-preview__svg {
   cursor: pointer; }
 
 #stage, .svg-preview, #cell-grid, .unaligned, #cell-grid h3, .async-btns, .canpx footer {
   text-align: center; }
 
-.swatches label, .swatches input[type="radio"], #stage input[type="checkbox"], #stage input[type="checkbox"] + label, .widget.export .button-bar, .widget.import .button-bar {
+#stage input[type="checkbox"], #stage input[type="checkbox"] + label, .widget.export .button-bar, .widget.import .button-bar {
   position: absolute;
   top: 0;
   left: 0;
@@ -33,7 +33,7 @@ http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
   /* IE6, IE7 */
   clip: rect(1px, 1px, 1px, 1px); }
 
-.swatches, #makeanico, .flexible, #page-wrapper {
+#makeanico, .flexible, #page-wrapper {
   display: -ms-flexbox;
   display: flex; }
 
@@ -48,6 +48,22 @@ http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
 
 .container {
   padding: 1em; }
+
+a.heavy[hidden].btn, .widget.import button.heavy[hidden] {
+  display: none; }
+
+#stage input[type="checkbox"] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background: transparent;
+  opacity: 0; }
+
+#stage input[type="checkbox"] + label {
+  cursor: cell; }
+
+#stage td, .widget > .container {
+  position: relative; }
 
 .balanced, #alert-banner, .widget > .container, footer, .widget.import button {
   text-align: center; }
@@ -68,7 +84,7 @@ http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
 #stage, table, #stage input[type="checkbox"] {
   height: 100%; }
 
-.swatches label, .swatches input[type="radio"], #stage input[type="checkbox"], #stage input[type="checkbox"] + label {
+#stage input[type="checkbox"], #stage input[type="checkbox"] + label {
   z-index: 99999; }
 
 #cell-grid > * {
@@ -115,25 +131,9 @@ fieldset {
 .svg-preview svg, #cell-grid > * {
   margin: 0 auto; }
 
-.swatches input[type="radio"]:checked:focus + label, #stage input[type="checkbox"]:checked + label {
+#stage input[type="checkbox"]:checked + label {
   box-shadow: 0 0 5px #51cbee;
   outline: 1px solid #51cbee; }
-
-#saved-swatches[data-empty] .havent-any {
-  display: block; }
-
-.swatches {
-  list-style-type: none;
-  padding: 0;
-  -ms-flex-pack: center;
-      justify-content: center; }
-  .swatches > * {
-    min-height: 2em;
-    max-width: 2em;
-    -ms-flex: 0 0 2em;
-        flex: 0 0 2em;
-    margin-right: 1px;
-    margin-bottom: 1px; }
 
 [hidden] {
   display: none !important; }
@@ -239,22 +239,6 @@ a.btn {
 
 #cell-grid > * {
   text-align: left; }
-
-#stage input[type="checkbox"] + label {
-  cursor: cell; }
-
-.swatches > *, #stage td, .widget > .container {
-  position: relative; }
-
-.swatches input[type="radio"], #stage input[type="checkbox"] {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  background: transparent;
-  opacity: 0; }
-
-#saved-swatches .havent-any, #saved-swatches[data-empty] .youve-saved, a.heavy[hidden].btn, .widget.import button.heavy[hidden] {
-  display: none; }
 
 [data-icon] {
   width: 16px;

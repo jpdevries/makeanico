@@ -1,5 +1,14 @@
 'use strict';
 
+var alertBanner = document.getElementById('alert-banner'),
+    saveSwatchBtn = document.createElement('button'),
+    fillColor = [255, 255, 255, 100],
+    initSwatch,
+    inputColorByTextColor = document.getElementById('input_color_by__text__color'),
+    inputColorByTextRadio = document.getElementById('input_color_by__text');
+
+if (!(typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]") !== -1)) document.write('<script src="assets/js/polyfills/es6-promise{% if production %}.min{% endif %}.js"><\/script>');
+
 document.querySelectorAll('[no-js]').forEach(function (element) {
   return element.remove();
 });
@@ -21,7 +30,6 @@ function supportsLocalStorage() {
 if (supportsLocalStorage()) {
   (function () {
     var addSwatches = function addSwatches() {
-      console.log('addSwatches');
       addComponent('swatches').then(function () {
         return addScript('/assets/js/common' + min + '.js', 'common').then(function () {
           return addScript('/assets/js/components/swatches' + min + '.js', 'swatches');
@@ -72,7 +80,6 @@ function addComponent(slug) {
 function addScript(src) {
   var id = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
 
-  console.log('addScript', src, id);
   return new Promise(function (resolve, reject) {
     var script = document.createElement('script');
     script.src = src;
@@ -110,7 +117,6 @@ function addLazy() {
 }
 
 function doCellChange() {
-  console.log('doCellChange');
   addScript('/assets/js/globals' + min + '.js', 'globals').then(function () {
     return addScript('/assets/js/common' + min + '.js', 'common');
   }).then(function () {
