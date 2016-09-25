@@ -209,7 +209,13 @@ const MakeAnIco = function() {
       }
     });
 
-    document.querySelectorAll('.svg-preview__svg .art').forEach((element) => element.innerHTML = svg);
+    //document.querySelectorAll('.svg-preview__svg .art').forEach((element) => element.innerHTML = svg); // MS Edge has a bug :( http://codepen.io/jpdevries/pen/qaAwog
+    document.querySelectorAll('.svg-preview__svg').forEach((element) => {
+      //element.outerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="svg-preview__svg" viewBox="0 0 16 16"><g class="art">${svg}</g></svg>`;
+      var prime = element.cloneNode(false);
+      prime.innerHTML = `<g class="art">${svg}</g>`;
+      element.outerHTML = prime.outerHTML;
+    });
   }
 
   function updateFavicon() {
