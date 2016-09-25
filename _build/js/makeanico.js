@@ -157,6 +157,9 @@ const MakeAnIco = function() {
     element.setAttribute('data-g', color[1]);
     element.setAttribute('data-b', color[2]);
     element.setAttribute('data-a', rgbaSlider.value);
+
+    element.querySelector('label span').innerHTML = `Cell ${String.fromCharCode(65+parseInt(element.getAttribute('data-row')))}${element.getAttribute('data-col')} is filled with Red ${color[0]} Green ${color[1]} Blue ${color[2]} Alpha ${Math.round(color[3] * 100) / 100}`;
+
     element.style.backgroundColor = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${alpha})`;
   }
 

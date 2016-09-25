@@ -9,7 +9,7 @@ var alertBanner = $('alert-banner'),
 
 NodeList.prototype.forEach = Array.prototype.forEach;
 
-if (!(typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]") !== -1)) document.write('<script src="assets/js/polyfills/es6-promise{% if production %}.min{% endif %}.js"><\/script>');
+if (!(typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]") !== -1)) document.write('<script src="assets/js/polyfills/es6-promise' + min + '.js"></script>');
 
 document.querySelectorAll('[no-js]').forEach(function (element) {
   element.remove();

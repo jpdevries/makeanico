@@ -7,7 +7,7 @@ inputColorByTextRadio = $('input_color_by__text');
 
 NodeList.prototype.forEach = Array.prototype.forEach;
 
-if(!(typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]") !== -1)) document.write('<script src="assets/js/polyfills/es6-promise{% if production %}.min{% endif %}.js"><\/script>');
+if(!(typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]") !== -1)) document.write(`<script src="assets/js/polyfills/es6-promise${min}.js"><\/script>`);
 
 document.querySelectorAll('[no-js]').forEach((element) => {element.remove()});
 $('fill-cells-on-click').removeAttribute('disabled');

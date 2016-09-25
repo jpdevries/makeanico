@@ -184,6 +184,9 @@ webpackJsonp([0],[
 	    element.setAttribute('data-g', color[1]);
 	    element.setAttribute('data-b', color[2]);
 	    element.setAttribute('data-a', rgbaSlider.value);
+
+	    element.querySelector('label span').innerHTML = "Cell " + String.fromCharCode(65 + parseInt(element.getAttribute('data-row'))) + element.getAttribute('data-col') + " is filled with Red " + color[0] + " Green " + color[1] + " Blue " + color[2] + " Alpha " + Math.round(color[3] * 100) / 100;
+
 	    element.style.backgroundColor = "rgba(" + color[0] + ", " + color[1] + ", " + color[2] + ", " + alpha + ")";
 	  }
 
@@ -240,15 +243,8 @@ webpackJsonp([0],[
 	    document.querySelectorAll('.svg-preview__svg').forEach(function (element) {
 	      //element.outerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="svg-preview__svg" viewBox="0 0 16 16"><g class="art">${svg}</g></svg>`;
 	      var prime = element.cloneNode(false);
-	      //var p = element.parentNode;
 	      prime.innerHTML = "<g class=\"art\">" + svg + "</g>";
 	      element.outerHTML = prime.outerHTML;
-	      //element.remove();
-	      //p.appendChild(prime);
-	      //console.log(prime);
-	      //element.outerHTML = prime.outerHTML;
-	      //element.innerHTML = svg;
-	      //element.parentNode.outerHTML = element.parentNode.outerHTML;
 	    });
 	  }
 
