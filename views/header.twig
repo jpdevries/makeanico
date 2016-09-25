@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="assets/css/main{% if production %}.min{% endif %}.css">
   {% endif %}
 
-  {% if startOver %}<link id="favicon" rel="icon" type="image/png" href="/make/favicon.png?{{ cellURL }}" />{% endif %}
+  <link id="favicon" rel="icon" type="image/png" href="{% if startOver %}/make/favicon.png?{{ cellURL }}{% else %}/favicon.png{% endif %}" />
 
   <meta property="og:description" content="Makeanico is a progressively enhanced web app that allows anyone to create a 16x16 favicon.ico graphic.">
   <meta property="og:image:width" content="256">
