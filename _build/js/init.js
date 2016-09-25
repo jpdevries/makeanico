@@ -9,10 +9,13 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 
 if(!(typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]") !== -1)) document.write('<script src="assets/js/polyfills/es6-promise{% if production %}.min{% endif %}.js"><\/script>');
 
-document.querySelectorAll('[no-js]').forEach((element) => (element.remove()));
+document.querySelectorAll('[no-js]').forEach((element) => {element.remove()});
 $('fill-cells-on-click').removeAttribute('disabled');
 
-if ('serviceWorker' in navigator) navigator.serviceWorker.register(`/assets/serviceWorker${min}.js`);
+if ('serviceWorker' in navigator && false) navigator.serviceWorker.register(`/assets/serviceWorker${min}.js`);
+
+fillCellsOnClick.checked = true;
+fillSelectedCells.setAttribute('disabled','true');
 
 if(localStorage) {
   saveSwatchBtn.innerHTML = 'Save Swatch';
@@ -122,7 +125,9 @@ function doCellChange() {
       alertBanner.setAttribute('hidden','true');
       alertBanner.setAttribute('aria-hidden','true');
     }, 5000)
-  });
+  }).then(() => (
+    document.dispatchEvent(new Event('enhancementsloaded'))
+  ));
 }
 
 function handleCellChange() {

@@ -127,5 +127,5 @@ $topMost:999999;
 
 %checked-label {
   box-shadow: 0 0 5px #51cbee;
-  outline: 1px solid #51cbee;
+  border: 1px solid #51cbee; // opera mini doesn't support outline or @supports :(
 }

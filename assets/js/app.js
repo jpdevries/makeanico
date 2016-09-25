@@ -58,10 +58,12 @@ webpackJsonp([0],[
 
 	    if (!(inputColorByTextRadio.checked || $('input_color_by__rgb').checked)) $('input_color_by__colorpicker').checked = true;
 
+	    document.querySelector('.import p').innerHTML += "<br>Upload a PNG, JPG, GIF, or SVG image and we'll generate a favicon from your&nbsp;image.<br>Your image will be scaled down and cropped as a 16x16 square so square aspect ratios work best.";
+
 	    try {
 	      $('input_color_by__colorpicker').addEventListener('input', function (e) {
 	        $('input_color_by__text__colorpicker').checked = true;
-	        updateColor();
+	        updateColor(e.target.value);
 	        updateDownloadLinks();
 	      });
 
@@ -72,6 +74,7 @@ webpackJsonp([0],[
 	  }
 
 	  fillCellsOnClick.removeAttribute('disabled');
+	  fillCellsOnClick.setAttribute('checked', 'true');
 
 	  stage.addEventListener('keydown', function (e) {
 	    sKeyDown = e.key == 's' || false;
@@ -115,7 +118,7 @@ webpackJsonp([0],[
 
 	    var isBlank = !Object.keys(fillBack).length;
 	    document.querySelectorAll('.data-dependent').forEach(function (element) {
-	      return isBlank ? element.setAttribute('hidden', 'true') : element.removeAttribute('hidden');
+	      isBlank ? element.setAttribute('hidden', 'true') : element.removeAttribute('hidden');
 	    });
 	  }
 
@@ -205,7 +208,7 @@ webpackJsonp([0],[
 
 	  function setCellBorderFilterColor(label, color) {
 	    label.style.boxShadow = "0 0 5px " + color;
-	    label.style.outlineColor = "" + color;
+	    label.style.borderColor = "" + color;
 	  }
 
 	  function updateFaviconPreview() {
@@ -345,15 +348,17 @@ webpackJsonp([0],[
 
 	  $('select_all_cells').addEventListener('click', function (e) {
 	    e.preventDefault();
+	    fillSelectedCells.removeAttribute('disabled');
 	    cellInputs.forEach(function (cellInput) {
-	      return cellInput.checked = true;
+	      cellInput.checked = true;
 	    });
 	  });
 
 	  $('unselect_all_cells').addEventListener('click', function (e) {
 	    e.preventDefault();
+	    fillCellsOnClick.checked ? fillSelectedCells.setAttribute('disabled', 'true') : fillSelectedCells.removeAttribute('disabled');
 	    cellInputs.forEach(function (cellInput) {
-	      return cellInput.checked = false;
+	      cellInput.checked = false;
 	    });
 	    unFocusTDCells();
 	  });
@@ -373,7 +378,7 @@ webpackJsonp([0],[
 	  $('inverse_selection').addEventListener('click', function (e) {
 	    e.preventDefault();
 	    cellInputs.forEach(function (cellInput) {
-	      return cellInput.checked = !cellInput.checked;
+	      cellInput.checked = !cellInput.checked;
 	    });
 	  });
 
@@ -386,7 +391,7 @@ webpackJsonp([0],[
 
 	  function updateDownloadLinks() {
 	    document.querySelectorAll('a[download]').forEach(function (a) {
-	      return a.setAttribute('href', a.getAttribute('data-base-url') + location.search + '&dl=1');
+	      a.setAttribute('href', a.getAttribute('data-base-url') + location.search + '&dl=1');
 	    });
 	  }
 
@@ -434,6 +439,10 @@ webpackJsonp([0],[
 
 	  document.querySelector('.widget.import .svg-preview__svg').addEventListener('click', function (e) {
 	    $('pic').click();
+	  });
+
+	  document.addEventListener('enhancementsloaded', function () {
+	    updateColor(helpers.rgbaToHex($('rgb_slider_r').value, $('rgb_slider_g').value, $('rgb_slider_b').value, $('rgb_slider_a').value));
 	  });
 
 	  /*                   __

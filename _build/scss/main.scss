@@ -170,7 +170,13 @@ a.btn {
   }
 }
 
+%mini-canvas {
+  min-width:320px;
+  min-height:320px;
+}
+
 #canvas {
+  @extend %mini-canvas;
   width:100vw;
   height:100vw;
   flex:0 0 100vw;
@@ -194,6 +200,7 @@ a.btn {
 
 #stage, table {
   @extend %full-width-full-height;
+  @extend %mini-canvas;
 }
 
 #stage {
@@ -258,6 +265,12 @@ fieldset, .fieldset {
     @extend %checked-label;
     //filter: hue-rotate(90deg);
   }
+
+  /*.mini & {
+    input[type="checkbox"]:checked + label {
+      background:#51cbee;
+    }
+  }*/
 
   td {
     @extend %relative;

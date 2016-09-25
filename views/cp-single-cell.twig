@@ -12,25 +12,25 @@
       </p>
       <div>
         <label for="fill-cells-on-click">
-          <input type="checkbox" id="fill-cells-on-click" name="fill-cells-on-click" value="1" checked disabled>
+          <input type="checkbox" id="fill-cells-on-click" name="fill-cells-on-click" value="1" disabled>
            Fill Cells on Click
         </label>
       </div>
       <p class="unaligned">
-        <button id="fill-selected-cells" disabled>Fill Selected Cells</button>
+        <button id="fill-selected-cells">Fill Selected Cells</button>
       </p>
       <fieldset class="input-by-color">
         <legend>Input Color By:</legend>
         <div class="flexible">
           <div class="">
-            <label for="input_color_by__text">Text:&nbsp;</label>
+            <label for="input_color_by__text">Hexadecimal<span a11y-hidden> or CSS Color name</span>:&nbsp;</label>
             <input type="radio" name="input_color_by" id="input_color_by__text" value="text"  />
           </div>
 
           <div hidden class="color option"></div>
 
           <div class="">
-            <label for="input_color_by__rgb">RGB Slider:&nbsp;</label>
+            <label for="input_color_by__rgb">RGB:&nbsp;</label>
             <input type="radio" name="input_color_by" id="input_color_by__rgb" value="rgb" checked />
           </div>
         </div>
@@ -39,7 +39,7 @@
         <legend>Fill Color:</legend>
         <div>
           <div class="flexible fieldset">
-            <label for="input_color_by__text__color">Hex:</label>
+            <label for="input_color_by__text__color">Hex<span a11y-hidden> or CSS Color name</span>:</label>
             <input type="text" id="input_color_by__text__color" name="input_color_by__text__color" placeholder="rebeccapurple" />
           </div>
 
@@ -50,24 +50,22 @@
             <legend>RGB Slider:</legend>
             <div class="flexible fieldset">
               <label for="rgb_slider_r">Red:</label>
-              <input type="range" min="0" max="255" step="1" value="255" id="rgb_slider_r" name="rgb_slider_r" />
+              <input type="range" inputmode="numeric" min="0" max="255" step="1" value="255" id="rgb_slider_r" name="rgb_slider_r" pattern="[0-9]*" maxlength="3" />
             </div>
-
             <div class="flexible fieldset">
               <label for="rgb_slider_r">Green:</label>
-              <input type="range" min="0" max="255" step="1" value="255" id="rgb_slider_g" name="rgb_slider_g" />
+              <input type="range" inputmode="numeric" min="0" max="255" step="1" value="255" id="rgb_slider_g" name="rgb_slider_g" pattern="[0-9]*" maxlength="3" />
             </div>
-
             <div class="flexible fieldset">
               <label for="rgb_slider_r">Blue:</label>
-              <input type="range" min="0" max="255" step="1" value="255" id="rgb_slider_b" name="rgb_slider_b" />
+              <input type="range" inputmode="numeric" min="0" max="255" step="1" value="255" id="rgb_slider_b" name="rgb_slider_b" pattern="[0-9]*" maxlength="3" />
             </div>
           </fieldset>
           <fieldset>
             <legend>Transparency</legend>
             <div class="flexible fieldset">
               <label for="rgb_slider_a">Alpha:</label>
-              <input type="range" min="0" max="1" step=".01" id="rgb_slider_a" name="rgb_slider_a" value="1" />
+              <input type="range" inputmode="numeric" min="0" max="1" step=".01" id="rgb_slider_a" name="rgb_slider_a" value="1" pattern="\d+(\.\d*)?" />
             </div>
           </fieldset>
         </div>

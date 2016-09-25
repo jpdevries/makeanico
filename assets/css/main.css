@@ -133,7 +133,7 @@ fieldset {
 
 #stage input[type="checkbox"]:checked + label {
   box-shadow: 0 0 5px #51cbee;
-  outline: 1px solid #51cbee; }
+  border: 1px solid #51cbee; }
 
 [hidden] {
   display: none !important; }
@@ -215,6 +215,10 @@ a.btn {
 #load-enhancements fieldset {
   margin: 1em auto; }
 
+#canvas, #stage, table {
+  min-width: 320px;
+  min-height: 320px; }
+
 #canvas {
   width: 100vw;
   height: 100vw;
@@ -244,11 +248,16 @@ a.btn {
   width: 16px;
   height: 16px; }
 
-#stage td.row-col {
-  position: absolute; }
-
-#stage td:first-of-type {
-  width: 1em; }
+#stage {
+  /*.mini & {
+    input[type="checkbox"]:checked + label {
+      background:#51cbee;
+    }
+  }*/ }
+  #stage td.row-col {
+    position: absolute; }
+  #stage td:first-of-type {
+    width: 1em; }
 
 .flexible.fieldset label[for*="rgb_slider_"] {
   -ms-flex: 0 0 3em;

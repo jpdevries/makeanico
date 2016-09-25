@@ -1,9 +1,11 @@
 <script defer>
-var doEnhancments = document.addEventListener ? true : false,
+var doEnhancments = document.addEventListener && navigator.userAgent.indexOf('Opera Mini') == -1 ? true : false,
 production = {% if production %}true{% else %}false{% endif %},
 min = '{% if production %}.min{% endif %}',
 so = {% if startOver %}true{% else %}false{% endif %},
-$ = function(id){ return document.getElementById(id) };
+$ = function(id){ return document.getElementById(id) },
+fillCellsOnClick = $('fill-cells-on-click'),
+fillSelectedCells = $('fill-selected-cells');
 </script>
 
 {% if startOver %}
