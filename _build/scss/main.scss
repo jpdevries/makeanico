@@ -152,6 +152,14 @@ a.btn {
   font-style: italic;
 }
 
+.hex {
+  @extend %flex-wrap;
+  datalist {
+    margin-top:1em;
+    flex: 1 0 100%;
+  }
+}
+
 #makeanico {
   @extend %flexible;
   @extend %flex-wrap;
@@ -479,6 +487,14 @@ body {
 
 .async-btns {
   @extend %unaligned;
+  @include media($mobile) {
+    display:block;
+    padding-top:1em;
+    button {
+      //width:100%;
+      margin-bottom:1em;
+    }
+  }
 }
 
 .canpx {

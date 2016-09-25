@@ -112,9 +112,7 @@ $topMost:999999;
 }
 
 %easy {
-  html.do-transitions & {
-    transition:all 240ms ease;
-  }
+  transition:all 240ms ease;
 }
 
 %bordered {
