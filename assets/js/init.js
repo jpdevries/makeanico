@@ -7,6 +7,8 @@ var alertBanner = $('alert-banner'),
     inputColorByTextColor = $('input_color_by__text__color'),
     inputColorByTextRadio = $('input_color_by__text');
 
+NodeList.prototype.forEach = Array.prototype.forEach;
+
 if (!(typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]") !== -1)) document.write('<script src="assets/js/polyfills/es6-promise{% if production %}.min{% endif %}.js"><\/script>');
 
 document.querySelectorAll('[no-js]').forEach(function (element) {
@@ -14,7 +16,7 @@ document.querySelectorAll('[no-js]').forEach(function (element) {
 });
 $('fill-cells-on-click').removeAttribute('disabled');
 
-if ('serviceWorker' in navigator && false) navigator.serviceWorker.register('/assets/serviceWorker' + min + '.js');
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/assets/serviceWorker' + min + '.js');
 
 if (localStorage) {
   (function () {

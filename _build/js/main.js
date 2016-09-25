@@ -1,5 +1,3 @@
-NodeList.prototype.forEach = Array.prototype.forEach;
-
 const makeanico = require('./makeanico');
 
 var cf = new makeanico.MakeAnIco();

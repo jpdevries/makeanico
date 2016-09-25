@@ -11,8 +11,6 @@ webpackJsonp([0],[
 
 	'use strict';
 
-	NodeList.prototype.forEach = Array.prototype.forEach;
-
 	var makeanico = __webpack_require__(2);
 
 	var cf = new makeanico.MakeAnIco();
