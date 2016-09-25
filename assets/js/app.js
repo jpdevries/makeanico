@@ -15,22 +15,12 @@ webpackJsonp([0],[
 
 	var makeanico = __webpack_require__(2);
 
-	console.log('YOLO');
-
 	var cf = new makeanico.MakeAnIco();
 
-	//var lazy = document.createElement('script');
-	//lazy.setAttribute('src', `assets/js/lazy${(production) ? '.min' : ''}.js`);
-	//document.body.appendChild(lazy);
-
-	(function (html) {
+	/*(function(html){
 	  html.classList.remove('no-js');
 	  html.classList.add('js');
-	})(document.querySelector('html'));
-
-	/*document.addEventListener('DOMContentLoaded', function() {
-
-	});*/
+	})(document.querySelector('html'));*/
 
 /***/ },
 /* 2 */
@@ -47,6 +37,8 @@ webpackJsonp([0],[
 	    i.setAttribute("type", "color");
 	    return i.type !== "text";
 	  }();
+
+	  $('ps').outerHTML = "\n  <p>Using Adobe Photoshop?<br>Easily import a Photoshop document with our <a download=\"makeanico.jsx\" href=\"/assets/js/extendscript/makeanico.jsx\">MakeanIco&nbsp;ExtendScript</a>.</p>\n  <p>Bookmark this page at anytime to save your&nbsp;proggress.</p>\n  ";
 
 	  var icons = document.querySelectorAll('[data-icon]');
 	  icons.forEach(function (icon) {
@@ -66,21 +58,19 @@ webpackJsonp([0],[
 	      colorOption.removeAttribute('hidden');
 	    })(document.querySelector('.color.option'));
 
-	    if (!(inputColorByTextRadio.checked || document.getElementById('input_color_by__rgb').checked)) document.getElementById('input_color_by__colorpicker').checked = true;
+	    if (!(inputColorByTextRadio.checked || $('input_color_by__rgb').checked)) $('input_color_by__colorpicker').checked = true;
 
 	    try {
-	      document.getElementById('input_color_by__colorpicker').addEventListener('input', function (e) {
-	        document.getElementById('input_color_by__text__colorpicker').checked = true;
+	      $('input_color_by__colorpicker').addEventListener('input', function (e) {
+	        $('input_color_by__text__colorpicker').checked = true;
 	        updateColor();
 	        updateDownloadLinks();
 	      });
 
-	      document.getElementById('input_color_by__colorpicker').addEventListener('change', function (e) {
+	      $('input_color_by__colorpicker').addEventListener('change', function (e) {
 	        pushState();
 	      });
-	    } catch (e) {
-	      console.log(e);
-	    }
+	    } catch (e) {}
 	  }
 
 	  fillCellsOnClick.removeAttribute('disabled');
@@ -121,7 +111,7 @@ webpackJsonp([0],[
 	  })();
 
 	  function updateView() {
-	    console.log('updateView');
+	    //console.log('updateView');
 	    updateFavicon();
 	    updateDownloadLinks();
 
@@ -134,10 +124,7 @@ webpackJsonp([0],[
 	  if (inputColorByTextColor.value) {
 	    var rgb = helpers.cssColorNameToRGB(inputColorByTextColor.value, true);
 	    updateColor(helpers.rgbaToHex(rgb[0], rgb[1], rgb[2]), false, fillCellsOnClick.checked);
-	  } else if (localStorage.getItem('fillColor') && !isNaN(localStorage.getItem('fillColor'))) {
-	    console.log('updating color from localStorage yo');
-	    updateColor(localStorage.getItem('fillColor').replace('0x', '#'), true, fillCellsOnClick.checked);
-	  }
+	  } else if (localStorage.getItem('fillColor') && !isNaN(localStorage.getItem('fillColor'))) updateColor(localStorage.getItem('fillColor').replace('0x', '#'), true, fillCellsOnClick.checked);
 
 	  document.addEventListener('swatchselected', function (event) {
 	    updateColor(event.detail);
@@ -149,7 +136,7 @@ webpackJsonp([0],[
 	    var doUpdateColorGrid = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
 
 	    var h = helpers.hexToRGBA(color);
-	    console.log('updateColor', doUpdateColorGrid, h);
+	    //console.log('updateColor', doUpdateColorGrid, h);
 
 	    if (!h) return false;
 	    fillColor = h;
@@ -166,7 +153,7 @@ webpackJsonp([0],[
 	    for (var _i = 0; _i < 3; _i++) {
 	      ranges[_i].value = fillColor[_i];
 	    }try {
-	      document.getElementById('input_color_by__colorpicker').value = helpers.rgbaToHex(fillColor[0], fillColor[1], fillColor[2]);
+	      $('input_color_by__colorpicker').value = helpers.rgbaToHex(fillColor[0], fillColor[1], fillColor[2]);
 	      rgbaSlider.value = fillColor[3];
 	    } catch (e) {}
 
@@ -200,7 +187,7 @@ webpackJsonp([0],[
 	  }
 
 	  function updateColorGrid(color) {
-	    console.log('updateColorGrid', color);
+	    //console.log('updateColorGrid', color);
 	    var alphaArray = helpers.hexToRGBA(color);
 
 	    var checkedInputs = document.querySelectorAll('#stage input[type="checkbox"]:checked');
@@ -259,7 +246,7 @@ webpackJsonp([0],[
 	    var canvas = document.createElement('canvas'),
 	        ctx = void 0,
 	        img = document.createElement('img'),
-	        link = document.getElementById('favicon'),
+	        link = $('favicon'),
 	        svgHTML = encodeURIComponent(document.querySelector('.svg-preview__svg').outerHTML);
 
 	    if (canvas.getContext) {
@@ -313,7 +300,7 @@ webpackJsonp([0],[
 
 	  cellInputs.forEach(function (cell, index) {
 	    cell.addEventListener('click', function (e) {
-	      console.log(e);
+	      //console.log(e);
 	      if ((e.altKey || sKeyDown) && lastClickedCellInput) {
 	        var rows = document.querySelectorAll('#stage tbody tr'),
 	            start = Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row'));
@@ -358,14 +345,14 @@ webpackJsonp([0],[
 	    });
 	  });
 
-	  document.getElementById('select_all_cells').addEventListener('click', function (e) {
+	  $('select_all_cells').addEventListener('click', function (e) {
 	    e.preventDefault();
 	    cellInputs.forEach(function (cellInput) {
 	      return cellInput.checked = true;
 	    });
 	  });
 
-	  document.getElementById('unselect_all_cells').addEventListener('click', function (e) {
+	  $('unselect_all_cells').addEventListener('click', function (e) {
 	    e.preventDefault();
 	    cellInputs.forEach(function (cellInput) {
 	      return cellInput.checked = false;
@@ -385,7 +372,7 @@ webpackJsonp([0],[
 	    });
 	  }
 
-	  document.getElementById('inverse_selection').addEventListener('click', function (e) {
+	  $('inverse_selection').addEventListener('click', function (e) {
 	    e.preventDefault();
 	    cellInputs.forEach(function (cellInput) {
 	      return cellInput.checked = !cellInput.checked;
@@ -438,7 +425,7 @@ webpackJsonp([0],[
 	    } catch (e) {}
 	  });
 
-	  /*document.getElementById("stage").addEventListener("keyup", function(event) {
+	  /*$("stage").addEventListener("keyup", function(event) {
 	    console.log(event);
 	  });*/
 
@@ -448,7 +435,7 @@ webpackJsonp([0],[
 	  }
 
 	  document.querySelector('.widget.import .svg-preview__svg').addEventListener('click', function (e) {
-	    document.getElementById('pic').click();
+	    $('pic').click();
 	  });
 
 	  /*                   __
@@ -476,14 +463,14 @@ webpackJsonp([0],[
 	  }
 
 	  window.onpopstate = function (event) {
-	    console.log('popstate');
+	    //console.log('popstate');
 	    clearBoard(); // clear the art board
 
 	    fillBack = event.state; // set the new state
 
 	    Object.keys(fillBack).forEach(function (key) {
 	      // draw the new state
-	      setRGBAttributes(document.getElementById(key.replace('c', 'c__')).parentNode, fillBack[key].replace('0x', '#'));
+	      setRGBAttributes($(key.replace('c', 'c__')).parentNode, fillBack[key].replace('0x', '#'));
 	    });
 
 	    window.scrollTo(0, 0); // scroll to the top

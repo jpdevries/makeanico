@@ -25,7 +25,7 @@ function updateSwatchView() {
   }
 }
 
-document.getElementById('swatches-form').addEventListener('submit', function(e) {
+$('swatches-form').addEventListener('submit', function(e) {
   e.preventDefault();
 
   const swatches = e.target.querySelectorAll('.swatch input[type="radio"]'),

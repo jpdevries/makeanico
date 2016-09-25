@@ -9,13 +9,8 @@
             {% include 'favicon-preview.twig' with cells %}
           </div>
           <h1>Make an <span aria-hidden="true">.</span>ICO <span a11y-hidden>Graphic</span></h1>
-          <p>
-            Just getting started?<br>Check out our <a href="/howto">quick start&nbsp;guide</a>.
-          </p>
-          <p>
-            Using Adobe Photoshop?<br>Easily import a Photoshop document with our <a download="makeanico.jsx" href="/assets/js/extendscript/makeanico.jsx">MakeanIco&nbsp;ExtendScript</a>.
-          </p>
-          <p>Bookmark this page at anytime to save your&nbsp;proggress.</p>
+          <p>Just getting started?<br>Check out our <a href="/howto">quick start&nbsp;guide</a>.</p>
+          <div id="ps"></div>
         </div>
       </div>
       <div class="import widget">
@@ -81,9 +76,7 @@
   <footer class="page-wrapper">
     <nav>
       <a href="mailto:" class="data-dependent"{% if not startOver %} hidden{% endif %}>Share this Icon</a>
-      <a href="#">Read the Docs</a>
       <a href="https://github.com/jpdevries/makeanico">Source Code</a>
-      <a href="mailto:contact@makeani.co?subject=Make%20an%20Ico">Contact Us</a>
     </nav>
   </footer>
   {% include 'scripts.twig' %}

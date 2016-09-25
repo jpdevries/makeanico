@@ -1,4 +1,4 @@
-document.getElementById('filename__text').addEventListener('input', function(e) {
+$('filename__text').addEventListener('input', function(e) {
   document.querySelectorAll('.filename').forEach((filename) => (
     filename.innerHTML = e.target.value ? e.target.value : 'favicon'
   ));

@@ -4,7 +4,7 @@ var webpack = require('webpack');
 module.exports = {
   entry: {
     'app':['./_build/js/main.js'],
-    'lazy':'./_build/js/lazy.js',
+    'lazylist':'./_build/js/lazylist.js',
     'common':['./_build/js/helpers.js'],
     'components/swatches':'./_build/js/components/swatches.js',
   },

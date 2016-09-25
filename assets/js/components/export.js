@@ -1,6 +1,6 @@
 'use strict';
 
-document.getElementById('filename__text').addEventListener('input', function (e) {
+$('filename__text').addEventListener('input', function (e) {
   document.querySelectorAll('.filename').forEach(function (filename) {
     return filename.innerHTML = e.target.value ? e.target.value : 'favicon';
   });

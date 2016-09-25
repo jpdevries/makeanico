@@ -9,6 +9,11 @@ const MakeAnIco = function() {
     return i.type !== "text";
   })();
 
+  $('ps').outerHTML = `
+  <p>Using Adobe Photoshop?<br>Easily import a Photoshop document with our <a download="makeanico.jsx" href="/assets/js/extendscript/makeanico.jsx">MakeanIco&nbsp;ExtendScript</a>.</p>
+  <p>Bookmark this page at anytime to save your&nbsp;proggress.</p>
+  `;
+
   const icons = document.querySelectorAll('[data-icon]');
   icons.forEach((icon) => {
     icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="svg-preview__svg"><use xlink:href="assets/img/sprite${min}.svg#${icon.getAttribute('data-icon')}"></use></svg>`;
@@ -29,20 +34,20 @@ const MakeAnIco = function() {
       colorOption.removeAttribute('hidden');
     })(document.querySelector('.color.option'));
 
-    if(!(inputColorByTextRadio.checked || document.getElementById('input_color_by__rgb').checked)) document.getElementById('input_color_by__colorpicker').checked = true;
+    if(!(inputColorByTextRadio.checked || $('input_color_by__rgb').checked)) $('input_color_by__colorpicker').checked = true;
 
 
     try {
-      document.getElementById('input_color_by__colorpicker').addEventListener('input',function(e){
-        document.getElementById('input_color_by__text__colorpicker').checked = true;
+      $('input_color_by__colorpicker').addEventListener('input',function(e){
+        $('input_color_by__text__colorpicker').checked = true;
         updateColor();
         updateDownloadLinks();
       });
 
-      document.getElementById('input_color_by__colorpicker').addEventListener('change',function(e){
+      $('input_color_by__colorpicker').addEventListener('change',function(e){
         pushState();
       });
-    } catch (e) { console.log(e) }
+    } catch (e) {}
   }
 
   fillCellsOnClick.removeAttribute('disabled');
@@ -83,7 +88,7 @@ const MakeAnIco = function() {
   })();
 
   function updateView() {
-    console.log('updateView');
+    //console.log('updateView');
     updateFavicon();
     updateDownloadLinks();
 
@@ -96,10 +101,7 @@ const MakeAnIco = function() {
   if(inputColorByTextColor.value) {
     let rgb = helpers.cssColorNameToRGB(inputColorByTextColor.value, true);
     updateColor(helpers.rgbaToHex(rgb[0], rgb[1], rgb[2]), false, fillCellsOnClick.checked);
-  } else if(localStorage.getItem('fillColor') && !isNaN(localStorage.getItem('fillColor'))) {
-    console.log('updating color from localStorage yo');
-    updateColor(localStorage.getItem('fillColor').replace('0x','#'), true, fillCellsOnClick.checked);
-  }
+  } else if(localStorage.getItem('fillColor') && !isNaN(localStorage.getItem('fillColor'))) updateColor(localStorage.getItem('fillColor').replace('0x','#'), true, fillCellsOnClick.checked);
 
   document.addEventListener('swatchselected', function(event) {
     updateColor(event.detail);
@@ -108,7 +110,7 @@ const MakeAnIco = function() {
 
   function updateColor(color, updateTextField = true, doUpdateColorGrid = true) {
     let h = helpers.hexToRGBA(color);
-    console.log('updateColor', doUpdateColorGrid, h);
+    //console.log('updateColor', doUpdateColorGrid, h);
 
     if(!h) return false;
     fillColor = h;
@@ -125,7 +127,7 @@ const MakeAnIco = function() {
     for(let i = 0; i < 3; i++) ranges[i].value = fillColor[i];
 
     try {
-      document.getElementById('input_color_by__colorpicker').value = helpers.rgbaToHex(fillColor[0], fillColor[1], fillColor[2]);
+      $('input_color_by__colorpicker').value = helpers.rgbaToHex(fillColor[0], fillColor[1], fillColor[2]);
       rgbaSlider.value = fillColor[3];
     } catch (e) {}
 
@@ -157,7 +159,7 @@ const MakeAnIco = function() {
   }
 
   function updateColorGrid(color) {
-    console.log('updateColorGrid', color);
+    //console.log('updateColorGrid', color);
     let alphaArray = helpers.hexToRGBA(color);
 
     const checkedInputs = document.querySelectorAll('#stage input[type="checkbox"]:checked');
@@ -214,7 +216,7 @@ const MakeAnIco = function() {
     let canvas = document.createElement('canvas'),
     ctx,
     img = document.createElement('img'),
-    link = document.getElementById('favicon'),
+    link = $('favicon'),
     svgHTML = encodeURIComponent(document.querySelector('.svg-preview__svg').outerHTML);
 
      if (canvas.getContext) {
@@ -271,7 +273,7 @@ const MakeAnIco = function() {
 
   cellInputs.forEach((cell, index) => {
     cell.addEventListener('click', (e) => {
-      console.log(e);
+      //console.log(e);
       if((e.altKey || sKeyDown) && lastClickedCellInput) {
         let rows = document.querySelectorAll('#stage tbody tr'),
         start = Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row'));
@@ -316,14 +318,14 @@ const MakeAnIco = function() {
     });
   });
 
-  document.getElementById('select_all_cells').addEventListener('click', function(e){
+  $('select_all_cells').addEventListener('click', function(e){
     e.preventDefault();
     cellInputs.forEach((cellInput) => (
       cellInput.checked = true
     ));
   });
 
-  document.getElementById('unselect_all_cells').addEventListener('click', function(e){
+  $('unselect_all_cells').addEventListener('click', function(e){
     e.preventDefault();
     cellInputs.forEach((cellInput) => (
       cellInput.checked = false
@@ -344,7 +346,7 @@ const MakeAnIco = function() {
     });
   }
 
-  document.getElementById('inverse_selection').addEventListener('click', function(e){
+  $('inverse_selection').addEventListener('click', function(e){
     e.preventDefault();
     cellInputs.forEach((cellInput) => (
       cellInput.checked = !cellInput.checked
@@ -397,7 +399,7 @@ const MakeAnIco = function() {
     } catch (e) {}
   });
 
-  /*document.getElementById("stage").addEventListener("keyup", function(event) {
+  /*$("stage").addEventListener("keyup", function(event) {
     console.log(event);
   });*/
 
@@ -407,7 +409,7 @@ const MakeAnIco = function() {
   }
 
   document.querySelector('.widget.import .svg-preview__svg').addEventListener('click', function(e) {
-    document.getElementById('pic').click();
+    $('pic').click();
   });
 
 
@@ -437,13 +439,13 @@ const MakeAnIco = function() {
   }
 
   window.onpopstate = function(event) {
-    console.log('popstate');
+    //console.log('popstate');
     clearBoard(); // clear the art board
 
     fillBack = event.state; // set the new state
 
     Object.keys(fillBack).forEach(function(key) { // draw the new state
-      setRGBAttributes(document.getElementById(key.replace('c','c__')).parentNode, fillBack[key].replace('0x', '#'));
+      setRGBAttributes($(key.replace('c','c__')).parentNode, fillBack[key].replace('0x', '#'));
     });
 
     window.scrollTo(0,0); // scroll to the top

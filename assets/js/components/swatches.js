@@ -30,7 +30,7 @@ webpackJsonp([2],[
 	  }
 	}
 
-	document.getElementById('swatches-form').addEventListener('submit', function (e) {
+	$('swatches-form').addEventListener('submit', function (e) {
 	  e.preventDefault();
 
 	  var swatches = e.target.querySelectorAll('.swatch input[type="radio"]'),

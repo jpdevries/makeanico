@@ -131,10 +131,12 @@ module.exports = function(grunt) {
         },
         files: {
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>app.min.js': ['<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>app.js'],
-          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>lazy.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>lazy.js',
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>lazylist.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>lazylist.js',
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>globals.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>globals.js',
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>common.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>common.js',
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>init.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>init.js',
+
+          '<%= dirs.theme %><%= dirs.assets %>serviceWorker.min.js': '<%= dirs.theme %><%= dirs.assets %>serviceWorker.js',
 
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/export.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/export.js',
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/shortcuts.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/shortcuts.js',

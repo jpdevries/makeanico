@@ -1,33 +1,22 @@
 'use strict';
 
-var alertBanner = document.getElementById('alert-banner'),
+var alertBanner = $('alert-banner'),
     saveSwatchBtn = document.createElement('button'),
     fillColor = [255, 255, 255, 100],
     initSwatch,
-    inputColorByTextColor = document.getElementById('input_color_by__text__color'),
-    inputColorByTextRadio = document.getElementById('input_color_by__text');
+    inputColorByTextColor = $('input_color_by__text__color'),
+    inputColorByTextRadio = $('input_color_by__text');
 
 if (!(typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]") !== -1)) document.write('<script src="assets/js/polyfills/es6-promise{% if production %}.min{% endif %}.js"><\/script>');
 
 document.querySelectorAll('[no-js]').forEach(function (element) {
   return element.remove();
 });
-document.getElementById('fill-cells-on-click').removeAttribute('disabled');
+$('fill-cells-on-click').removeAttribute('disabled');
 
-if ('serviceWorker' in navigator && false) navigator.serviceWorker.register('/serviceWorker.js');
+if ('serviceWorker' in navigator && false) navigator.serviceWorker.register('/assets/serviceWorker' + min + '.js');
 
-function supportsLocalStorage() {
-  var ico = 'icotecht';
-  try {
-    localStorage.setItem(ico, ico);
-    localStorage.removeItem(ico);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-if (supportsLocalStorage()) {
+if (localStorage) {
   (function () {
     var addSwatches = function addSwatches() {
       addComponent('swatches').then(function () {
@@ -60,7 +49,7 @@ if (supportsLocalStorage()) {
 
 function addComponent(slug) {
   return new Promise(function (resolve, reject) {
-    if (!document.getElementById('lazy__' + slug)) {
+    if (!$('lazy__' + slug)) {
       reject();
       return;
     }
@@ -69,7 +58,7 @@ function addComponent(slug) {
     }).then(function (response) {
       response.text().then(function (text) {
         try {
-          document.getElementById('lazy__' + slug).outerHTML = text;
+          $('lazy__' + slug).outerHTML = text;
         } catch (err) {}
         resolve(text);
       });
@@ -85,7 +74,7 @@ function addScript(src) {
     script.src = src;
     if (id) {
       script.setAttribute('id', 'scripts__' + id);
-      if (document.getElementById('scripts__' + id)) {
+      if ($('scripts__' + id)) {
         resolve();
         return;
       }
@@ -105,14 +94,14 @@ inputColorByTextColor.addEventListener('focus', function () {
   addLazy();
 });
 
-document.getElementById('input_color_by__text').addEventListener('change', function (event) {
-  event.stopPropagation();
+$('input_color_by__text').addEventListener('change', function (e) {
+  e.stopPropagation();
   addLazy();
 });
 
 function addLazy() {
   addScript('/assets/js/common' + min + '.js', 'common').then(function () {
-    return addScript('/assets/js/lazy' + min + '.js', 'lazy');
+    return addScript('/assets/js/lazylist' + min + '.js', 'lazylist');
   });
 }
 
@@ -124,20 +113,19 @@ function doCellChange() {
   }).then(function () {
     return Promise.all([addComponent('export'), addComponent('keyboard')]);
   }).then(function () {
-    return Promise.all([addScript('/assets/js/components/export' + min + '.js', 'export'), addScript('/assets/js/components/shortcuts' + min + '.js', 'shortcuts') //,
-    ]);
+    return Promise.all([addScript('/assets/js/components/export' + min + '.js', 'export'), addScript('/assets/js/components/shortcuts' + min + '.js', 'shortcuts')]);
   }).then(function () {
     alertBanner.innerHTML = '<p>Live Preview, Export, and Keyboard Shortcut enhancements loaded lazily</p>';
     alertBanner.removeAttribute('hidden');
     alertBanner.removeAttribute('aria-hidden');
-    setTimeout(function (event) {
+    setTimeout(function () {
       alertBanner.setAttribute('hidden', 'true');
       alertBanner.setAttribute('aria-hidden', 'true');
     }, 5000);
   });
 }
 
-function handleCellChange(event) {
+function handleCellChange() {
   makeanico.removeEventListener('change', handleCellChange);
   doCellChange();
 }
