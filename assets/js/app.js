@@ -403,16 +403,17 @@ webpackJsonp([0],[
 	  }
 
 	  startOver.querySelector('a').addEventListener('click', function (e) {
-	    e.preventDefault();
-
-	    window.history.pushState({}, 'Makeanico', "/");
+	    try {
+	      localStorage.removeItem('fillColor');
+	      localStorage.removeItem('swatchesStore');
+	    } catch (e) {}
+	    /*e.preventDefault();
+	     window.history.pushState({}, 'Makeanico', `/`);
 	    clearBoard();
-
-	    form.reset();
+	     form.reset();
 	    cellGridContainer.removeAttribute('style');
 	    cellGridContainer.classList.remove('dirty');
-
-	    window.scrollTo(0, 0);
+	     window.scrollTo(0,0);*/
 	  });
 
 	  document.querySelector('.instructions').innerHTML = "Select cells above to fill them with the color chosen&nbsp;below.";

@@ -381,7 +381,11 @@ const MakeAnIco = function() {
   }
 
   startOver.querySelector('a').addEventListener('click', function(e) {
-    e.preventDefault();
+    try {
+      localStorage.removeItem('fillColor');
+      localStorage.removeItem('swatchesStore');
+    } catch (e) {} 
+    /*e.preventDefault();
 
     window.history.pushState({}, 'Makeanico', `/`);
     clearBoard();
@@ -390,7 +394,7 @@ const MakeAnIco = function() {
     cellGridContainer.removeAttribute('style');
     cellGridContainer.classList.remove('dirty');
 
-    window.scrollTo(0,0);
+    window.scrollTo(0,0);*/
   });
 
   document.querySelector('.instructions').innerHTML = `Select cells above to fill them with the color chosen&nbsp;below.`;
