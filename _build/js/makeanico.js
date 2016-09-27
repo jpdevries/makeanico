@@ -290,7 +290,7 @@ const MakeAnIco = function() {
         start = Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row'));
 
         for(let i = start; i <= start + Math.abs(parseInt(lastClickedCellInput.parentNode.getAttribute('data-row')) - parseInt(e.target.parentNode.getAttribute('data-row'))); i++) {
-          let tr = element,
+          let tr = rows[i], 
           tds = tr.querySelectorAll('td');
           for(let j = 1 + Math.min(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j <= 1 + Math.max(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j++) {
             let td = tds[j],
@@ -384,7 +384,7 @@ const MakeAnIco = function() {
     try {
       localStorage.removeItem('fillColor');
       localStorage.removeItem('swatchesStore');
-    } catch (e) {} 
+    } catch (e) {}
     /*e.preventDefault();
 
     window.history.pushState({}, 'Makeanico', `/`);

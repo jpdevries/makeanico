@@ -314,7 +314,7 @@ webpackJsonp([0],[
 	            start = Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row'));
 
 	        for (var _i2 = start; _i2 <= start + Math.abs(parseInt(lastClickedCellInput.parentNode.getAttribute('data-row')) - parseInt(e.target.parentNode.getAttribute('data-row'))); _i2++) {
-	          var tr = element,
+	          var tr = rows[_i2],
 	              tds = tr.querySelectorAll('td');
 	          for (var j = 1 + Math.min(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j <= 1 + Math.max(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j++) {
 	            var td = tds[j],
