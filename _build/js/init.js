@@ -1,4 +1,4 @@
-var alertBanner = $('alert-banner'),
+var alertBanner,
 saveSwatchBtn = document.createElement('button'),
 fillColor = [255, 255, 255, 100],
 initSwatch,
@@ -110,15 +110,16 @@ function doCellChange() {
   )).then(() => {
     return Promise.all([
       addComponent('export'),
-      addComponent('keyboard')
+      addComponent('keyboard'),
+      addComponent('alert')
     ])
   }).then(() => {
+    alertBanner = $('alert-banner');
     return Promise.all([
       addScript(`/assets/js/components/export${min}.js`, 'export'),
       addScript(`/assets/js/components/shortcuts${min}.js`, 'shortcuts')
     ]);
   }).then(() => {
-    alertBanner.innerHTML = '<p>Live Preview, Export, and Keyboard Shortcut enhancements loaded lazily</p>';
     alertBanner.removeAttribute('hidden');
     alertBanner.removeAttribute('aria-hidden');
     setTimeout(function() {

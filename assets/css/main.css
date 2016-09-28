@@ -65,7 +65,7 @@ a.heavy[hidden].btn, .widget.import button.heavy[hidden] {
 #stage td, .widget > .container {
   position: relative; }
 
-.balanced, #alert-banner, .widget > .container, footer, .widget.import button {
+.balanced, .widget > .container, footer, .widget.import button {
   text-align: center; }
 
 #start-over a:hover, #start-over a:focus, #start-over a:active {
@@ -140,7 +140,7 @@ fieldset {
 
 body {
   margin: 0;
-  font-family: sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   background: #f0f0f0; }
 
 hr {
@@ -168,27 +168,6 @@ a.btn, .widget.import button {
   a.comfortable.btn, .widget.import button.comfortable, a.comforatbly.btn, .widget.import button.comforatbly {
     padding: .5em 1em; }
 
-#alert-banner {
-  background: green;
-  padding: .5em;
-  border: 1px solid #004300;
-  border-left: none;
-  border-right: none;
-  color: white;
-  font-size: 1.4em;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 999999;
-  transition: top 240ms ease; }
-  #alert-banner[hidden] {
-    top: -12em;
-    display: block !important; }
-  #alert-banner p {
-    margin: 0;
-    font-weight: normal; }
-
 nav.button-bar {
   padding: 1em 0; }
 
@@ -212,7 +191,6 @@ a.btn {
 
 #makeanico {
   -ms-flex-align: center;
-      -ms-grid-row-align: center;
       align-items: center;
   -ms-flex-pack: distribute;
       justify-content: space-around; }
@@ -348,5 +326,3 @@ footer {
     padding-top: 1em; }
     .async-btns button {
       margin-bottom: 1em; } }
-
-/*# sourceMappingURL=main.css.map */

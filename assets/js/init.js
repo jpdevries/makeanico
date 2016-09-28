@@ -1,6 +1,6 @@
 'use strict';
 
-var alertBanner = $('alert-banner'),
+var alertBanner,
     saveSwatchBtn = document.createElement('button'),
     fillColor = [255, 255, 255, 100],
     initSwatch,
@@ -116,11 +116,11 @@ function doCellChange() {
   }).then(function () {
     return addScript('/assets/js/app' + min + '.js', 'app');
   }).then(function () {
-    return Promise.all([addComponent('export'), addComponent('keyboard')]);
+    return Promise.all([addComponent('export'), addComponent('keyboard'), addComponent('alert')]);
   }).then(function () {
+    alertBanner = $('alert-banner');
     return Promise.all([addScript('/assets/js/components/export' + min + '.js', 'export'), addScript('/assets/js/components/shortcuts' + min + '.js', 'shortcuts')]);
   }).then(function () {
-    alertBanner.innerHTML = '<p>Live Preview, Export, and Keyboard Shortcut enhancements loaded lazily</p>';
     alertBanner.removeAttribute('hidden');
     alertBanner.removeAttribute('aria-hidden');
     setTimeout(function () {

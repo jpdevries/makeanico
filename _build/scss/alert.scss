@@ -1,0 +1,31 @@
+@import "bourbon/bourbon";
+@import "neat/neat";
+@import "spec/tacular";
+
+@import "global/global";
+
+#alert-banner {
+  @extend %balanced;
+  background:green;
+  padding:.5em;
+  border:1px solid darken(green,12%);
+  border-left:none;
+  border-right:none;
+  color:white;
+  font-size:1.4em;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:$topMost;
+  transition:top 240ms ease;
+  transition-delay: 120ms;
+  &[hidden] {
+    top:-12em;
+    display:block !important;
+  }
+  p {
+    margin:0;
+    font-weight:normal;
+  }
+}

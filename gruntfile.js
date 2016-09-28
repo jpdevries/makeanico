@@ -54,20 +54,14 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'<%= dirs.theme %><%= dirs.assets %><%= dirs.css %>main.css': '<%= dirs.scss %>main.scss',
-          '<%= dirs.theme %><%= dirs.assets %><%= dirs.css %>swatches.css': '<%= dirs.scss %>swatches.scss'
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.css %>swatches.css': '<%= dirs.scss %>swatches.scss',
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.css %>alert.css': '<%= dirs.scss %>alert.scss'
 				}
 			}
     },
     postcss: {
       options: {
         map: false, // inline sourcemaps
-
-        // or
-        map: {
-            inline: false, // save all sourcemaps as separate files...
-            //annotation: 'dist/css/maps/' // ...to the specified directory
-        },
-
         processors: [
           require('pixrem')(), // add fallbacks for rem units
           require('autoprefixer')({browsers: 'last 2 versions'}), // add vendor prefixes
@@ -85,7 +79,8 @@ module.exports = function(grunt) {
         },
         files: {
             '<%= dirs.theme %><%= dirs.assets %><%= dirs.css %>main.min.css': '<%= dirs.theme %><%= dirs.assets %><%= dirs.css %>main.css',
-            '<%= dirs.theme %><%= dirs.assets %><%= dirs.css %>swatches.min.css': '<%= dirs.theme %><%= dirs.assets %><%= dirs.css %>swatches.css'
+            '<%= dirs.theme %><%= dirs.assets %><%= dirs.css %>swatches.min.css': '<%= dirs.theme %><%= dirs.assets %><%= dirs.css %>swatches.css',
+            '<%= dirs.theme %><%= dirs.assets %><%= dirs.css %>alert.min.css': '<%= dirs.theme %><%= dirs.assets %><%= dirs.css %>alert.css'
         }
       },
     },

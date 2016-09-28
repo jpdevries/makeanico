@@ -12,7 +12,7 @@
 
 body {
   margin:0;
-	font-family: sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   background:rgb(240,240,240);
 }
 
@@ -81,31 +81,6 @@ hr {
 
 .balanced {
   @extend %balanced;
-}
-
-#alert-banner {
-  @extend %balanced;
-  background:green;
-  padding:.5em;
-  border:1px solid darken(green,12%);
-  border-left:none;
-  border-right:none;
-  color:white;
-  font-size:1.4em;
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  z-index:$topMost;
-  transition:top 240ms ease;
-  &[hidden] {
-    top:-12em;
-    display:block !important;
-  }
-  p {
-    margin:0;
-    font-weight:normal;
-  }
 }
 
 nav.button-bar {
