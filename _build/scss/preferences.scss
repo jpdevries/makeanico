@@ -1,0 +1,64 @@
+%button-font-size {
+  button, input[type="file"] {
+    font-size:1em;
+  }
+  input[type="file"] {
+    line-height:0;
+    padding:1em 0;
+  }
+}
+
+[data-fontsize="large"] {
+  font-size:1.2em;
+  @extend %button-font-size;
+}
+
+[data-fontsize="xl"] {
+  font-size:1.6em;
+  @extend %button-font-size;
+}
+
+body[data-contrast="highcontrast"], body[data-luminosity="dim"] {
+  background:lighten(#161719,4%);
+  color:white;
+  * {
+    background:transparent !important;
+    color:inherit !important;
+  }
+  .widget {
+    background:#161719 !important;
+  }
+}
+
+/*body[data-luminosity="normal"] {
+
+}
+
+body[data-luminosity="bright"] {
+
+}
+*/
+
+body[data-typeface="fira"] {
+  font-family: 'Fira Sans';
+}
+
+body[data-typeface="opendyslexic"] {
+  font-family: opendyslexic;
+}
+
+body[data-typeface="ubuntu"] {
+  font-family: Ubuntu;
+}
+
+body[data-typeface="opensans"] {
+  font-family: 'Open Sans';
+}
+
+body[data-typeface="raleway"] {
+  font-family: Raleway;
+}
+
+body[data-typeface="anonpro"] {
+  font-family: 'Anonymous Pro';
+}

@@ -1,0 +1,31 @@
+@import "bourbon/bourbon";
+@import "neat/neat";
+@import "spec/tacular";
+
+@import "global/global";
+
+@include media($gtMobile) {
+  .widget .container {
+    display: flex;
+    flex-direction: column;
+  }
+  form {
+    flex-grow: 1;
+    display: flex;
+  }
+  fieldset {
+    flex-grow:1;
+  }
+  #page-wrapper {
+    display:block;
+  }
+
+  #page-wrapper header {
+    text-align:center;
+  }
+
+  fieldset div {
+    text-align:left;
+    margin-bottom:.5em;
+  }
+}

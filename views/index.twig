@@ -1,4 +1,5 @@
 {% include 'header.twig' with { loadStyles:true } %}
+</head>
 <body>
   <div hidden id="lazy__alert"></div>
   <div id="page-wrapper">
@@ -73,8 +74,17 @@
     </div>
     </form>
   </div>
+  <script>
+  function supportsLocalStorage() {
+    try {
+      localStorage.setItem('m','k');
+      if(localStorage.getItem('m')) return true;
+    } catch(e) {}
+    return false;
+  }</script>
   <footer class="page-wrapper">
     <nav>
+      <script>if(supportsLocalStorage()) document.write('<a href="/preferences">Accessibility Preferences</a>')</script>
       <a href="mailto:" class="data-dependent"{% if not startOver %} hidden{% endif %}>Share this Icon</a>
       <a href="https://github.com/jpdevries/makeanico">Source Code</a>
     </nav>

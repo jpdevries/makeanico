@@ -21,7 +21,7 @@ if ('serviceWorker' in navigator && false) navigator.serviceWorker.register('/as
 fillCellsOnClick.checked = true;
 fillSelectedCells.setAttribute('disabled', 'true');
 
-if (localStorage) {
+if (supportsLocalStorage()) {
   (function () {
     var addSwatches = function addSwatches() {
       addComponent('swatches').then(function () {
@@ -69,6 +69,15 @@ function addComponent(slug) {
       });
     });
   });
+}
+
+function addStyle(src) {
+  var id = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+
+  if (id && document.getElementById('id')) {
+    document.getElementById('id').remove();
+  }
+  document.querySelector('head').innerHTML += '<link rel="stylesheet"' + (id ? ' id=' + id : '') + ' href="assets/css/preferences' + min + '.css">';
 }
 
 function addScript(src) {
@@ -144,3 +153,28 @@ if (!so) {
     if (localStorage.getItem('fillColor')) doCellChange();
   } catch (e) {}
 }
+
+try {
+  if (supportsLocalStorage() && (localStorage.getItem('contrast') || localStorage.getItem('fontsize') || localStorage.getItem('typeface'))) {
+    addScript('/assets/js/preferences' + min + '.js', 'preferences').then(function () {
+      return addStyle('/assets/css/preferences' + min + '.css', 'preferences');
+    }).then(function () {
+      if (localStorage.getItem('contrast')) handlePrefFormChange('contrast', localStorage.getItem('contrast'));
+      if (localStorage.getItem('fontsize')) handlePrefFormChange('fontsize', localStorage.getItem('fontsize'));
+      if (localStorage.getItem('typeface')) {
+        handlePrefFormChange('typeface', localStorage.getItem('typeface'));
+        handlePrefTypefaceFormChange(localStorage.getItem('typeface'));
+      }
+    }).then(function () {
+      return new Promise(function (resolve, reject) {
+        return supportsLocalStorage() && localStorage.getItem('contrast') == 'auto' ? addScript('/assets/js/preferences_contrastlisteners' + min + '.js', 'preferences_contrastlisteners').then(function () {
+          return resolve();
+        }) : reject();
+      });
+    }).then(function () {
+      return addLuminosityListener();
+    }, function (e) {
+      return e;
+    });
+  }
+} catch (e) {}

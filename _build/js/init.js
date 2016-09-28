@@ -17,7 +17,7 @@ if ('serviceWorker' in navigator && false) navigator.serviceWorker.register(`/as
 fillCellsOnClick.checked = true;
 fillSelectedCells.setAttribute('disabled','true');
 
-if(localStorage) {
+if(supportsLocalStorage()) {
   saveSwatchBtn.innerHTML = 'Save Swatch';
   document.querySelector('#cell-grid__container footer').appendChild(saveSwatchBtn);
   if(localStorage.getItem('swatchesStore')) {
@@ -62,6 +62,13 @@ function addComponent(slug) {
       })
     })
   });
+}
+
+function addStyle(src, id = '') {
+  if(id && document.getElementById('id')) {
+    document.getElementById('id').remove();
+  }
+  document.querySelector('head').innerHTML += `<link rel="stylesheet"${id ? ' id=' + id : ''} href="assets/css/preferences${min}.css">`;
 }
 
 function addScript(src, id = undefined) {
@@ -143,3 +150,24 @@ if(!so) {
     if(localStorage.getItem('fillColor')) doCellChange();
   } catch(e) {}
 }
+
+try {
+  if(supportsLocalStorage() && (localStorage.getItem('contrast') || localStorage.getItem('fontsize') || localStorage.getItem('typeface'))) {
+    addScript(`/assets/js/preferences${min}.js`, 'preferences').then(() => {
+      return addStyle(`/assets/css/preferences${min}.css`, 'preferences')
+    }).then(() => {
+      if(localStorage.getItem('contrast')) handlePrefFormChange('contrast', localStorage.getItem('contrast'));
+      if(localStorage.getItem('fontsize')) handlePrefFormChange('fontsize', localStorage.getItem('fontsize'));
+      if(localStorage.getItem('typeface')) {
+        handlePrefFormChange('typeface', localStorage.getItem('typeface'));
+        handlePrefTypefaceFormChange(localStorage.getItem('typeface'));
+      }
+    }).then(() => (
+      new Promise((resolve, reject) => (
+        (supportsLocalStorage() && localStorage.getItem('contrast') == 'auto') ? addScript(`/assets/js/preferences_contrastlisteners${min}.js`, 'preferences_contrastlisteners').then(() => (resolve())) : reject()
+      ))
+    )).then(() => (
+      addLuminosityListener()
+    ),(e) => (e));
+  }
+} catch(e) { }

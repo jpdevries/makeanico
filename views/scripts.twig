@@ -6,21 +6,22 @@ so = {% if startOver %}true{% else %}false{% endif %},
 $ = function(id){ return document.getElementById(id) },
 fillCellsOnClick = $('fill-cells-on-click'),
 fillSelectedCells = $('fill-selected-cells');
+
 </script>
 
 {% if startOver %}
   <script defer>
     if(doEnhancments) {
-      document.write('<script id="scripts__init" src="assets/js/init{% if production %}.min{% endif %}.js"><\/script>');
-      document.write('<script id="scripts__globals" src="assets/js/globals{% if production %}.min{% endif %}.js"><\/script>');
-      document.write('<script id="scripts__common" src="assets/js/common{% if production %}.min{% endif %}.js"><\/script>');
-      document.write('<script id="scripts__app" src="assets/js/app{% if production %}.min{% endif %}.js"><\/script>');
-      document.write('<script id="scripts__export" src="assets/js/components/export{% if production %}.min{% endif %}.js"><\/script>');
+      document.write('<script id="scripts__init" src="/assets/js/init{% if production %}.min{% endif %}.js"><\/script>');
+      document.write('<script id="scripts__globals" src="/assets/js/globals{% if production %}.min{% endif %}.js"><\/script>');
+      document.write('<script id="scripts__common" src="/assets/js/common{% if production %}.min{% endif %}.js"><\/script>');
+      document.write('<script id="scripts__app" src="/assets/js/app{% if production %}.min{% endif %}.js"><\/script>');
+      document.write('<script id="scripts__export" src="/assets/js/components/export{% if production %}.min{% endif %}.js"><\/script>');
       document.write('<script id="scripts__shortcuts" src="assets/js/components/shortcuts{% if production %}.min{% endif %}.js"><\/script>');
     }
   </script>
 {% else %}
   <script defer>
-    if(doEnhancments) document.write('<script id="scripts__init" src="assets/js/init{% if production %}.min{% endif %}.js"><\/script>');
+    if(doEnhancments) document.write('<script id="scripts__init" src="/assets/js/init{% if production %}.min{% endif %}.js"><\/script>');
   </script>
 {% endif %}

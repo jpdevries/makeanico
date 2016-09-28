@@ -1,0 +1,30 @@
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
+/*
+http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
+*/
+@media screen and (min-width: 641px) {
+  .widget .container {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column; }
+  form {
+    -ms-flex-positive: 1;
+        flex-grow: 1;
+    display: -ms-flexbox;
+    display: flex; }
+  fieldset {
+    -ms-flex-positive: 1;
+        flex-grow: 1; }
+  #page-wrapper {
+    display: block; }
+  #page-wrapper header {
+    text-align: center; }
+  fieldset div {
+    text-align: left;
+    margin-bottom: .5em; } }

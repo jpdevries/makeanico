@@ -31,7 +31,7 @@ transparent = {r: 255, g: 255, b: 255, a: 0},
 hexToRgba = require('hex-and-rgba').hexToRgba,
 rgbaToHex = require('hex-and-rgba').rgbaToHex;
 
-if(process.env.NODE_ENV) {
+if(process.env.NODE_ENV == 'production') {
   app.use(minifyHTML({
     override: true,
     htmlMinifier: {
@@ -319,8 +319,20 @@ app.get('/api/components/:component', function(req, res) {
   });
 });
 
+app.get('/preferences', function(req, res) {
+  const baseUrl = getBaseUrl(req);
+  res.render('preferences.twig',{
+    baseUrl: baseUrl,
+    production: process.env.NODE_ENV == 'production'
+  });
+});
+
+function getBaseUrl(req) {
+  return `${(req.protocol + '://' + req.get('host').substr(-1)) !== '/'}` ? `${req.protocol + '://' + req.get('host')}/` : req.protocol + '://' + req.get('host')
+}
+
 app.get('/', function(req, res) {
-  const baseUrl = `${(req.protocol + '://' + req.get('host').substr(-1)) !== '/'}` ? `${req.protocol + '://' + req.get('host')}/` : req.protocol + '://' + req.get('host');
+  const baseUrl = getBaseUrl(req);
   //res.set('Content-Encoding', 'gzip');
   var filledCells = getFilledCells(req.query);
   let cells = getCells(filledCells);
