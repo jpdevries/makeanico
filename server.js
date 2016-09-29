@@ -358,20 +358,25 @@ app.post('/', function(req, res) {
 
   form.parse(req, function(err, fields, files){
     let targetColor = '#FFFFFF';
+    let hex;
     if(fields['input_color_by'] == 'text' && fields['input_color_by__text__color']) {
       targetColor = fields['input_color_by__text__color'].replace('0x','#');
     } else if(fields['input_color_by'] == 'colorpicker' && fields['input_color_by__colorpicker']) {
       targetColor = fields['input_color_by__colorpicker'].replace('0x','#');
     } else {
-      targetColor = `rgb(${[fields['rgb_slider_r'],fields['rgb_slider_g'],fields['rgb_slider_b']].join(',')})`;
+      //targetColor = `rgba(${[fields['rgb_slider_r'],fields['rgb_slider_g'],fields['rgb_slider_b'],fields['rgb_slider_a']].join(',')})`;
+      targetColor = hex = helpers.rgbaToHex(fields['rgb_slider_r'],fields['rgb_slider_g'],fields['rgb_slider_b'],fields['rgb_slider_a']);
+
     }
 
-    //console.log(targetColor);
     //console.log(fields);
     var filledCells = getFilledCells(fields);
     var selectedCells = getSelectedCells(fields);
+    //console.log('redhex', color(targetColor).hex());
     selectedCells.map(function(value){
-      filledCells[value] = color(targetColor).hex().replace('#','0x');
+      console.log(value, hex ? hex.replace('#','0x') : color(targetColor).hex().replace('#','0x'));
+      //filledCells[value] = color(targetColor).hex().replace('#','0x');
+      filledCells[value] = (hex) ? hex.replace('#','0x') : color(targetColor).hex().replace('#','0x');
     });
 
     let redirect = filledCells.map((value,index) => (
