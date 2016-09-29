@@ -77,10 +77,12 @@
   <script>
   function supportsLocalStorage() {
     try {
+      var s = false;
       localStorage.setItem('m','k');
-      if(localStorage.getItem('m')) return true;
+      if(localStorage.getItem('m')) s = true;
+      localStorage.removeItem('m');
     } catch(e) {}
-    return false;
+    return s;
   }</script>
   <footer class="page-wrapper">
     <nav>

@@ -126,8 +126,8 @@ module.exports = function(grunt) {
                 '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>preferences_listeners.js': '<%= dirs.build %><%= dirs.js %>preferences_listeners.js',
                 '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/export.js': '<%= dirs.build %><%= dirs.js %>components/export.js',
                 '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/shortcuts.js': '<%= dirs.build %><%= dirs.js %>components/shortcuts.js',
-                '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>preferences_contrastlisteners.js': '<%= dirs.build %><%= dirs.js %>preferences_contrastlisteners.js'
-
+                '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>preferences_contrastlisteners.js': '<%= dirs.build %><%= dirs.js %>preferences_contrastlisteners.js',
+                '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>init_preferences.js': '<%= dirs.build %><%= dirs.js %>init_preferences.js'
             }
         }
     },
@@ -144,6 +144,7 @@ module.exports = function(grunt) {
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>init.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>init.js',
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>preferences.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>preferences.js',
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>preferences_listeners.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>preferences_listeners.js',
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>init_preferences.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>init_preferences.js',
 
           '<%= dirs.theme %><%= dirs.assets %>serviceWorker.min.js': '<%= dirs.theme %><%= dirs.assets %>serviceWorker.js',
 

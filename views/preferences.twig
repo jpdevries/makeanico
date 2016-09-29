@@ -1,4 +1,4 @@
-{% include 'header.twig' with { loadStyles:true } %}
+{% include 'header.twig' with { loadStyles:true, title:'MakeanIco Preferences' } %}
 <link rel="stylesheet" href="assets/css/preferences{% if production %}.min{% endif %}.css">
 <link rel="stylesheet" href="assets/css/preferences-page{% if production %}.min{% endif %}.css">
 </head>
@@ -107,10 +107,12 @@
 
     function supportsLocalStorage() {
       try {
+        var s = false;
         localStorage.setItem('m','k');
-        if(localStorage.getItem('m')) return true;
+        if(localStorage.getItem('m')) s = true;
+        localStorage.removeItem('m');
       } catch(e) {}
-      return false;
+      return s;
     }
   </script>
 </body>

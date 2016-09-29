@@ -7,7 +7,7 @@ function handlePrefTypefaceFormChange(typeface) {
   let sheet = false;
   switch(typeface) {
     case 'opendyslexic':
-    sheet = `assets/font/opendyslexic/opendyslexic${min}.css`;
+    sheet = `/assets/font/opendyslexic/opendyslexic${min}.css`;
     break;
 
     case 'opensans':
@@ -35,11 +35,22 @@ function handlePrefTypefaceFormChange(typeface) {
     break;*/
   }
 
-  try {
-    document.getElementById('user-font').remove();
-  } catch(e) {}
+
 
   if(sheet) {
-    document.querySelector('head').innerHTML += `<link href="${sheet}" rel="stylesheet" type="text/css" id="user-font">`;
+    try {
+      document.getElementById('user-font').remove();
+    } catch(e) {}
+
+    let link = (() => {
+      let l = document.createElement('link');
+      l.setAttribute('href',sheet);
+      l.setAttribute('rel','stylesheet');
+      l.setAttribute('type','text/css');
+      l.setAttribute('id','user-font');
+      return l;
+    })();
+
+    document.querySelector('head').appendChild(link);
   }
 }
