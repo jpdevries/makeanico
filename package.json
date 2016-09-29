@@ -12,7 +12,7 @@
   "author": "JP de Vries",
   "license": "MIT",
   "engines": {
-    "node": "6.5.0"
+    "node": "6.3.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
