@@ -251,17 +251,17 @@ Object.keys(redirects).forEach(function(key) {
   //http://localhost:1188/get/svg/icos/modx
   //http://localhost:1188/get/svg/icos/flags/zw
   app.get(`/get/svg${key}`, function(req, res) {
-    res.redirect(`/make/favicon.svg${redirects[key]}`);
+    res.redirect(`/make/favicon.svg${redirects[key]}${(req.query['dl']) ? '&dl=1' : ''}`);
     res.end();
   });
   //http://localhost:1188/get/png/icos/flags/nl
   app.get(`/get/png${key}`, function(req, res) {
-    res.redirect(`/make/favicon.png${redirects[key]}`);
+    res.redirect(`/make/favicon.png${redirects[key]}${(req.query['dl']) ? '&dl=1' : ''}`);
     res.end();
   });
   //http://localhost:1188/get/ico/icos/flags/zw
   app.get(`/get/ico${key}`, function(req, res) {
-    res.redirect(`/make/favicon.ico${redirects[key]}`);
+    res.redirect(`/make/favicon.ico${redirects[key]}${(req.query['dl']) ? '&dl=1' : ''}`);
     res.end();
   });
 });
