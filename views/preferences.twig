@@ -12,11 +12,11 @@
         <div class="neat container">
           <h2>Legibility</h2>
           <form method="post" aria-labeledby="fontsize__noscript">
-            <noscript id="fontsize__noscript">Please Enable JavaScript in a modern browser to Use this&nbsp;Component</noscript>
+            <noscript id="fontsize__noscript">Please Enable JavaScript in a modern browser to use manage legibility preferences</noscript>
             <fieldset>
               <legend id="fontsize__legend"><span a11y-hidden no-js>Enable JavaScript to </span><span a11y-hidden>Choose a </span>Font Size</legend>
               <div>
-                <input type="radio" id="fontsize__regular" name="fontsize" value="regular" disabled checked>&ensp;<label for="fontsize__regular">Regular</label>
+                <input type="radio" id="fontsize__regular" name="fontsize" disabled checked>&ensp;<label for="fontsize__regular">Regular</label>
               </div>
               <div>
                 <input type="radio" id="fontsize__large" name="fontsize" value="large" disabled>&ensp;<label for="fontsize__large">Large</label>
@@ -32,14 +32,14 @@
         <div class="neat container">
           <h2>Typeface</h2>
           <form method="post" aria-labeledby="typeface__noscript">
-            <noscript id="typeface__noscript">Please Enable JavaScript in a modern browser to Use this&nbsp;Component</noscript>
+            <noscript id="typeface__noscript">Please Enable JavaScript in a modern browser to chose a typeface</noscript>
             <fieldset>
               <legend id="typeface__legend"><span a11y-hidden no-js>Enable JavaScript to </span><span a11y-hidden>Choose a </span>Typeface</legend>
               <div>
-                <input type="radio" id="typeface__system" name="typeface" value="system" checked>&ensp;<label for="typeface__system">System</label>
+                <input type="radio" id="typeface__system" name="typeface" disabled checked>&ensp;<label for="typeface__system">System</label>
               </div>
               <div>
-                <input type="radio" id="typeface__opendyslexic" name="typeface" value="opendyslexic">&ensp;<label for="typeface__opendyslexic">OpenDyslexic</label>
+                <input type="radio" id="typeface__opendyslexic" name="typeface" value="opendyslexic" disabled>&ensp;<label for="typeface__opendyslexic">OpenDyslexic</label>
               </div>
               <div>
                 <input type="radio" id="typeface__opensans" name="typeface" value="opensans" disabled>&ensp;<label for="typeface__opensans">Open Sans</label>
@@ -63,12 +63,12 @@
       <div class="contrast widget">
         <div class="neat container">
           <h2>Contrast</h2>
-          <form method="post" aria-labeledby="contrast__noscript">
-            <noscript id="contrast__noscript">Please Enable JavaScript in a modern browser to Use this&nbsp;Component</noscript>
+          <form aria-labeledby="contrast__noscript">
+            <noscript id="contrast__noscript">Please Enable JavaScript in a modern browser to manage contrast preferences</noscript>
             <fieldset>
               <legend id="contrast__legend"><span a11y-hidden no-js>Enable JavaScript to </span><span a11y-hidden>Choose a </span>Contrast Preference<span aria-hidden="true">s</span></legend>
               <div>
-                <input type="radio" id="contrast__normal" name="contrast" value="normal" disabled checked>&ensp;<label for="contrast__normal">Normal</label>
+                <input type="radio" id="contrast__normal" name="contrast" disabled checked>&ensp;<label for="contrast__normal">Normal</label>
               </div>
               <div>
                 <input type="radio" id="contrast__highcontrast" name="contrast" value="highcontrast" disabled>&ensp;<label for="contrast__highcontrast">High Contrast</label>
@@ -77,6 +77,28 @@
                 <input type="radio" id="contrast__auto" name="contrast" value="auto" disabled>&ensp;<label for="contrast__auto">Auto<span a11y-hidden>matic</span></label>
               </div>
             </fieldset>
+          </form>
+        </div>
+      </div>
+      <div class="reducemotion widget">
+        <div class="neat container">
+          <h2>Animation</h2>
+          <form aria-labeledby="reducemotion__noscript">
+            <noscript id="reducemotion__noscript">Please Enable JavaScript in a modern browser manage animation preferences</noscript>
+            <div>
+              <input type="checkbox" id="reducemotion" name="reducemotion" value="yes" disabled>&ensp;<label for="reducemotion">Reduce Motion</label>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="visibility widget">
+        <div class="neat container">
+          <h2>Visibility</h2>
+          <form aria-labeledby="visibility__noscript">
+            <noscript id="visibility__noscript">Please Enable JavaScript in a modern browser to manage visibility preferences</noscript>
+            <div>
+              <input type="checkbox" id="visibility__focus" name="focus" value="yes" disabled>&ensp;<label for="visibility__focus">Exhagerate Focused Cells</label>
+            </div>
           </form>
         </div>
       </div>

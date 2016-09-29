@@ -12,20 +12,29 @@
   form {
     flex-grow: 1;
     display: flex;
+    flex-direction:column;
   }
   fieldset {
     flex-grow:1;
   }
-  #page-wrapper {
-    display:block;
-  }
+}
 
-  #page-wrapper header {
-    text-align:center;
-  }
+#page-wrapper {
+  display:block;
+}
 
-  fieldset div {
-    text-align:left;
-    margin-bottom:.5em;
-  }
+#page-wrapper header {
+  text-align:center;
+}
+
+fieldset div {
+  text-align:left;
+  margin-bottom:.5em;
+}
+
+noscript {
+  margin:1em 0;
+  font-style:italic;
+  padding:1em;
+  border:4px double currentColor;
 }

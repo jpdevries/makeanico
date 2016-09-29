@@ -1,8 +1,15 @@
 'use strict';
 
-function handlePrefFormChange(name, value) {
-  localStorage.setItem(name, value);
-  document.body.setAttribute('data-' + name, value);
+function handlePrefFormChange(name) {
+  var value = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+
+  if (value) {
+    localStorage.setItem(name, value);
+    document.body.setAttribute('data-' + name, value);
+  } else {
+    localStorage.removeItem(name);
+    document.body.removeAttribute('data-' + name);
+  }
 }
 
 function handlePrefTypefaceFormChange(typeface) {

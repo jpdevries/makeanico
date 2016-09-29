@@ -1,6 +1,12 @@
-function handlePrefFormChange(name, value) {
-  localStorage.setItem(name, value);
-  document.body.setAttribute(`data-${name}`, value);
+function handlePrefFormChange(name, value = undefined) {
+  if(value) {
+    localStorage.setItem(name, value);
+    document.body.setAttribute(`data-${name}`, value);
+  } else {
+    localStorage.removeItem(name);
+    document.body.removeAttribute(`data-${name}`);
+  }
+
 }
 
 function handlePrefTypefaceFormChange(typeface) {

@@ -1,13 +1,21 @@
-document.querySelectorAll('fieldset input[type="radio"]').forEach((element) => {
+document.querySelectorAll('.widget input').forEach((element) => {
   if(element.getAttribute('id') !== 'contrast__automatic') element.removeAttribute('disabled');
 });
 
+[document.getElementById('fontsize__regular'), document.getElementById('typeface__system'), document.getElementById('contrast__normal')].forEach((element) => (
+  element.addEventListener('change',(event) => (
+    localStorage.removeItem(element.getAttribute('name'))
+  ))
+))
+
 document.querySelectorAll('.widget form').forEach((form) => {
-  form.setAttribute('aria-labeledby', form.querySelector('legend').getAttribute('id'));
+  try {
+    form.setAttribute('aria-labeledby', form.querySelector('legend').getAttribute('id'));
+  } catch (e) { }
 
   form.addEventListener('change', function(event) {
     let el = event.target;
-    handlePrefFormChange(el.getAttribute('name'), el.getAttribute('value'));
+    handlePrefFormChange(el.getAttribute('name'), (el.checked) ?  el.getAttribute('value') : undefined);
   });
 });
 
@@ -32,6 +40,14 @@ if(localStorage.getItem('typeface')) {
   handlePrefFormChange(el.getAttribute('name'), el.getAttribute('value'));
   handlePrefTypefaceFormChange(el.getAttribute('value'));
 }
-if('ondevicelight' in window) {
-  document.getElementById('contrast__auto').removeAttribute('disabled');
+if(localStorage.getItem('focus')) {
+  let el = document.getElementById('visibility__focus');
+  el.checked = true;
+  handlePrefFormChange(el.getAttribute('name'), el.getAttribute('value'));
 }
+if(localStorage.getItem('reducemotion')) {
+  let el = document.getElementById('reducemotion');
+  el.checked = true;
+  handlePrefFormChange(el.getAttribute('name'), el.getAttribute('value'));
+}
+if('ondevicelight' in window) document.getElementById('contrast__auto').removeAttribute('disabled');

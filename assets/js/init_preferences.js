@@ -9,6 +9,8 @@ addScript('/assets/js/preferences' + min + '.js', 'preferences').then(function (
     handlePrefFormChange('typeface', localStorage.getItem('typeface'));
     handlePrefTypefaceFormChange(localStorage.getItem('typeface'));
   }
+  if (localStorage.getItem('focus')) handlePrefFormChange('focus', localStorage.getItem('focus'));
+  if (localStorage.getItem('reducemotion')) handlePrefFormChange('reducemotion', localStorage.getItem('reducemotion'));
 }).then(function () {
   return new Promise(function (resolve, reject) {
     return supportsLocalStorage() && localStorage.getItem('contrast') == 'auto' ? addScript('/assets/js/preferences_contrastlisteners' + min + '.js', 'preferences_contrastlisteners').then(function () {

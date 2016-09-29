@@ -34,6 +34,9 @@ http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
 .swatches input[type="radio"]:checked:focus + label {
   box-shadow: 0 0 5px #51cbee;
   border: 1px solid #51cbee; }
+  [data-focus="yes"] .swatches input[type="radio"]:checked:focus + label, .swatches [data-focus="yes"] input[type="radio"]:checked:focus + label {
+    box-shadow: none !important;
+    border-width: 4px; }
 
 #saved-swatches[data-empty] .havent-any {
   display: block; }

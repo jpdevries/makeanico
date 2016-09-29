@@ -134,6 +134,9 @@ fieldset {
 #stage input[type="checkbox"]:checked + label {
   box-shadow: 0 0 5px #51cbee;
   border: 1px solid #51cbee; }
+  [data-focus="yes"] #stage input[type="checkbox"]:checked + label, #stage [data-focus="yes"] input[type="checkbox"]:checked + label {
+    box-shadow: none !important;
+    border-width: 4px; }
 
 [hidden] {
   display: none !important; }
@@ -225,6 +228,9 @@ a.btn {
   border: 1px solid #f0f0f0;
   border-top: none;
   border-left: none; }
+
+[data-reducemotion="yes"] * {
+  transition: none !important; }
 
 #cell-grid > * {
   text-align: left; }

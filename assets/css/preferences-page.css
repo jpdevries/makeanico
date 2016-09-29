@@ -17,14 +17,25 @@ http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
     -ms-flex-positive: 1;
         flex-grow: 1;
     display: -ms-flexbox;
-    display: flex; }
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column; }
   fieldset {
     -ms-flex-positive: 1;
-        flex-grow: 1; }
-  #page-wrapper {
-    display: block; }
-  #page-wrapper header {
-    text-align: center; }
-  fieldset div {
-    text-align: left;
-    margin-bottom: .5em; } }
+        flex-grow: 1; } }
+
+#page-wrapper {
+  display: block; }
+
+#page-wrapper header {
+  text-align: center; }
+
+fieldset div {
+  text-align: left;
+  margin-bottom: .5em; }
+
+noscript {
+  margin: 1em 0;
+  font-style: italic;
+  padding: 1em;
+  border: 4px double currentColor; }
