@@ -14,4 +14,5 @@ function addLuminosityListener() {
 function removeLuminosityListener() {
     window.removeEventListener('devicelight', handleDeviceLight);
     window.removeEventListener('lightlevel', handleDeviceLight);
+    document.body.removeAttribute('data-luminosity');
 }

@@ -11,9 +11,9 @@ document.querySelectorAll('.widget input').forEach(function (element) {
 });
 
 document.querySelectorAll('.widget form').forEach(function (form) {
-  try {
+  /*try {
     form.setAttribute('aria-labeledby', form.querySelector('legend').getAttribute('id'));
-  } catch (e) {}
+  } catch (e) { }*/
 
   form.addEventListener('change', function (event) {
     var el = event.target;
@@ -23,6 +23,10 @@ document.querySelectorAll('.widget form').forEach(function (form) {
 
 document.querySelector('.typeface form').addEventListener('change', function (event) {
   handlePrefTypefaceFormChange(event.target.getAttribute('value'));
+});
+
+document.querySelector('.contrast form').addEventListener('change', function (event) {
+  event.target.getAttribute('value') == 'auto' ? addLuminosityListener() : removeLuminosityListener();
 });
 
 if (localStorage.getItem('contrast')) {

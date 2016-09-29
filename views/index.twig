@@ -86,9 +86,9 @@
   }</script>
   <footer class="page-wrapper">
     <nav>
-      <script>if(supportsLocalStorage()) document.write('<a href="/preferences">Accessibility Preferences</a>')</script>
-      <a href="mailto:" class="data-dependent"{% if not startOver %} hidden{% endif %}>Share this Icon</a>
-      <a href="https://github.com/jpdevries/makeanico">Source Code</a>
+      <script>if(supportsLocalStorage()) document.write('<a href="/preferences">Accessibility' + String.fromCharCode(160) + 'Preferences</a>')</script>
+      <a href="mailto:" class="data-dependent"{% if not startOver %} hidden{% endif %}>Share&nbsp;this&nbsp;Icon</a>
+      <a href="https://github.com/jpdevries/makeanico">Source&nbsp;Code</a>
     </nav>
   </footer>
   {% include 'scripts.twig' %}

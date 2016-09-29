@@ -9,9 +9,9 @@ document.querySelectorAll('.widget input').forEach((element) => {
 ))
 
 document.querySelectorAll('.widget form').forEach((form) => {
-  try {
+  /*try {
     form.setAttribute('aria-labeledby', form.querySelector('legend').getAttribute('id'));
-  } catch (e) { }
+  } catch (e) { }*/
 
   form.addEventListener('change', function(event) {
     let el = event.target;
@@ -21,6 +21,10 @@ document.querySelectorAll('.widget form').forEach((form) => {
 
 document.querySelector('.typeface form').addEventListener('change', function(event) {
   handlePrefTypefaceFormChange(event.target.getAttribute('value'));
+});
+
+document.querySelector('.contrast form').addEventListener('change', function(event) {
+  (event.target.getAttribute('value') == 'auto') ? addLuminosityListener() : removeLuminosityListener();
 });
 
 if(localStorage.getItem('contrast')) {
