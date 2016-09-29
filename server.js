@@ -60,13 +60,13 @@ var CellDTO = function(index = 0, row = 0, column = 0, checked = false, fill = u
       opacity = 1;
     } catch(e) {
       fill = hexToRgba(fill.replace('0x','#'));
-      hex = rgbaToHex(fill[0],fill[1],fill[2]);
+      hex = rgbaToHex(fill[0],fill[1],fill[2],fill[3]);
       opacity = fill[3];
       fill = `rgba(${fill[0]},${fill[1]},${fill[2]},${fill[3]})`;
     }
 
     rgba = hexToRgba(hex);
-    rgba[3] = opacity;
+    //rgba[3] = opacity;
     //console.log(opacity);
 
   }
@@ -74,8 +74,7 @@ var CellDTO = function(index = 0, row = 0, column = 0, checked = false, fill = u
   rowLabel = String.fromCharCode(65 + row);
 
 
-
-  return {
+  let d = {
     index:index,
     row:row,
     column:column,
@@ -86,6 +85,8 @@ var CellDTO = function(index = 0, row = 0, column = 0, checked = false, fill = u
     opacity:opacity,
     rowLabel:rowLabel
   };
+  console.log(d);
+  return d;
 }
 
 function getFilledCells(fields) {
@@ -338,8 +339,11 @@ app.get('/', function(req, res) {
   let cells = getCells(filledCells);
 
   res.render('index.twig',{
+    fill:req.query.fill || undefined,
+    fillRGBA:req.query.fill ? hexToRgba(req.query.fill.replace('0x','#')) : undefined,
     cells: cells,
     startOver: filledCells.length > 0,
+    colorBy:req.query.colorby || undefined,
     cellURL: getCellURLString(req.query),
     baseUrl: baseUrl,
     production: process.env.NODE_ENV == 'production',
@@ -359,10 +363,13 @@ app.post('/', function(req, res) {
   form.parse(req, function(err, fields, files){
     let targetColor = '#FFFFFF';
     let hex;
+    let colorBy = 'rgba';
     if(fields['input_color_by'] == 'text' && fields['input_color_by__text__color']) {
       targetColor = fields['input_color_by__text__color'].replace('0x','#');
+      colorBy = 'hex';
     } else if(fields['input_color_by'] == 'colorpicker' && fields['input_color_by__colorpicker']) {
       targetColor = fields['input_color_by__colorpicker'].replace('0x','#');
+      colorBy = 'color';
     } else {
       //targetColor = `rgba(${[fields['rgb_slider_r'],fields['rgb_slider_g'],fields['rgb_slider_b'],fields['rgb_slider_a']].join(',')})`;
       targetColor = hex = helpers.rgbaToHex(fields['rgb_slider_r'],fields['rgb_slider_g'],fields['rgb_slider_b'],fields['rgb_slider_a']);
@@ -372,14 +379,17 @@ app.post('/', function(req, res) {
     //console.log(fields);
     var filledCells = getFilledCells(fields);
     var selectedCells = getSelectedCells(fields);
+
+    let fill = (hex) ? hex.replace('#','0x') : color(targetColor).hex().replace('#','0x');
     //console.log('redhex', color(targetColor).hex());
     selectedCells.map(function(value){
-      console.log(value, hex ? hex.replace('#','0x') : color(targetColor).hex().replace('#','0x'));
+      console.log(value, fill);
       //filledCells[value] = color(targetColor).hex().replace('#','0x');
-      filledCells[value] = (hex) ? hex.replace('#','0x') : color(targetColor).hex().replace('#','0x');
+      filledCells[value] = fill;
     });
 
-    let redirect = filledCells.map((value,index) => (
+    let predirect = `fill=${fill}&colorby=${colorBy}&`;
+    let redirect = predirect + filledCells.map((value,index) => (
       `c${index}=${value}`
     )).filter((value) => (value)).join('&');
 

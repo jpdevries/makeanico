@@ -1,5 +1,5 @@
 <section id="cell-grid" class="single">
-  <div id="cell-grid__container" class="container">
+  <div id="cell-grid__container" class="container{% if fill %} dirty{% endif %}"{% if fillRGBA %} style="border-color:rgba({{fillRGBA[0]}}, {{fillRGBA[1]}}, {{fillRGBA[2]}}{% if fillRGBA[3] %}, {{fillRGBA[3]}})"{% endif %}{% endif %}>
     <header>
       <div class="svg-preview">
         {% include 'favicon-preview.twig' with cells %}
@@ -24,14 +24,14 @@
         <div class="flexible">
           <div class="">
             <label for="input_color_by__text">Hexadecimal<span a11y-hidden> or CSS Color name</span>:&nbsp;</label>
-            <input type="radio" name="input_color_by" id="input_color_by__text" value="text"  />
+            <input type="radio" name="input_color_by" id="input_color_by__text" value="text"{% if colorBy == 'hex' %} checked{% endif %} />
           </div>
 
           <div hidden class="color option"></div>
 
           <div class="">
             <label for="input_color_by__rgb">RGB:&nbsp;</label>
-            <input type="radio" name="input_color_by" id="input_color_by__rgb" value="rgb" checked />
+            <input type="radio" name="input_color_by" id="input_color_by__rgb" value="rgb"{% if not colorBy or colorBy == 'rgba' %} checked{% endif %} />
           </div>
         </div>
       </fieldset>
@@ -40,7 +40,7 @@
         <div>
           <div class="flexible hex fieldset">
             <label for="input_color_by__text__color">Hex<span a11y-hidden> or CSS Color name</span>:</label>
-            <input type="text" id="input_color_by__text__color" name="input_color_by__text__color" placeholder="rebeccapurple" />
+            <input type="text" id="input_color_by__text__color" name="input_color_by__text__color" placeholder="rebeccapurple"{% if fill %} value="{{ fill|replace({'0x':'#'}) }}"{% endif %} />
           </div>
 
           <div hidden class="colorpicker fieldset"></div>
