@@ -16,6 +16,9 @@ Here is the same editor without any CSS&nbsp;styles:
 
 Without the WYSIYG CSS styles we lose that "what you see is what you get" feature but powered by semantic HTML the raw experience is as functional with or without styles.
 
+## Accessibility Proclaimer
+This web app strives for WCAG 2.0 Guidelines Level AA. Please [open an issue](https://github.com/jpdevries/makeanico/issues/new) for any accessibility issue, feedback, or&nbsp;concern.
+
 ### History Support
 History is supported in both the base and enhanced experiences. The HTML5 History API is used to leverage Undo, Save, Bookmark, and Share features by pushing the graphic state to the URL. As you update your favicon the URL is updated accordingly by pushing the pixel data into the URL as URL parameters. Therefore, each unique favicon naturally has its own unique URL! You can bookmark your favicon to return and work on it later. Use the browser back and forward buttons to navigate the timeline of your&nbsp;edits.
 
@@ -31,6 +34,7 @@ For connivence a swatch component is lazy&ndash;loaded as needed. localStorage e
 
 The HTML5 datalist component is also used to enhance accessibility and usability. Once you set focus to the hex text input area a datalist component containing a list of CSS color names is lazy&ndash;loaded. Users in modern browsers that support the datalist component will get typeahead hints as they type in the hex input area. Browsers that do not support datalist will display a standard select component still allowing the user to chose between typing in a value or selecting one.
 
+### Accessibility Preferences
 Users with localStorage enabled also are presented with Accessibility Preferences. At the `/preferences` page they will be presented with Legibility, Typeface, Contrast, Animation and Visibility components that allow them to manage related preferences. These preferences will be stored in `localStorage` and return visits will respond to user's preferences accordingly.
 
 ### Keyboard Friendly
@@ -51,3 +55,46 @@ One page experiences like MakeanIco can increase their PageSpeed score by inlini
 
 ### ARIA Considerations
 ARIA is salt. So we use it sparingly and only as needed. I'd rather add seasoning later after feedback and upon request. So much of the foundation is semantic HTML that little ARIA is used or needed. Accessibly hidden text is used to allow the HTML to be semantic and audible to assistive technology while still visually appealing and contextual to sighted users.
+
+## API
+Any icon's art is contained in the URL. Each cell, or pixel, is represented as a URL parameter. The web app uses the trendy new 8 Digit Hexadecimals to store color so to draw an icon where the first pixel is 50% red you'd use `/?c1=0xff000080`. Each cell has a numeric index starting from `c1` and ending in `c255`. The value should be a 6 or 8 digit hexadecimal starting in `0x` not `#`.
+
+
+### World&ndash;Wide Favicon Flags
+In the spirit of the World&ndash;Wide Web, MakeanIco provides a public API for favicons of each country flag.
+
+**Endpoints:**  
+
+| Flag | Country Code        | Edit Page           | SVG Icon  | PNG Icon  | ICO Icon  |
+| ------------- | ------------- |:-------------:| -----:| -----:| -----:|
+| <a href="https://makeanico.herokuapp.com/icos/flags/nl"><img src="https://makeanico.herokuapp.com/get/svg/icos/flags/nl?dl=1"></a> | `nl`      | `/icos/flags/nl` | `/get/svg/icos/flags/nl` | `/get/png/icos/flags/nl` | `/get/ico/icos/flags/nl` |
+| <a href="https://makeanico.herokuapp.com/icos/flags/us"><img src="https://makeanico.herokuapp.com/get/svg/icos/flags/us?dl=1"></a> | `us`      | `/icos/flags/us` | `/get/svg/icos/flags/us` | `/get/png/icos/flags/us` | `/get/ico/icos/flags/us` |
+
+[Find a list of all country codes and download links in this codepen](http://codepen.io/jpdevries/pen/ZpJALv).
+
+*Note: To trigger an icon to be downloaded add a `&dl=1` URL paramater to the `get/svg`, `get/png`, or `get/ico`&nbsp;request.*
+
+### Brands and Icons
+| Flag | Edit Page           | SVG Icon  | PNG Icon  | ICO Icon  |
+| ------------- |:-------------:| -----:| -----:| -----:|
+| <a href="https://makeanico.herokuapp.com/icos/modmore"><img src="https://makeanico.herokuapp.com/get/svg/icos/modmore"></a> |  `/icos/modmore` | `/get/svg/icos/modmore` | `/get/png/modmore` | `/get/ico/modmore` |
+| <a href="https://makeanico.herokuapp.com/icos/thinkful"><img src="https://makeanico.herokuapp.com/get/svg/icos/thinkful"></a> |  `/icos/thinkful` | `/get/svg/icos/thinkful` | `/get/png/thinkful` | `/get/ico/thinkful` |
+| <a href="https://makeanico.herokuapp.com/icos/modx"><img src="https://makeanico.herokuapp.com/get/svg/icos/modx"></a> |  `/icos/modx` | `/get/svg/icos/modx` | `/get/png/modx` | `/get/ico/modx` |
+| <a href="https://makeanico.herokuapp.com/icos/apple"><img src="https://makeanico.herokuapp.com/get/svg/icos/apple"></a> |  `/icos/apple` | `/get/svg/icos/apple` | `/get/png/apple` | `/get/ico/apple` |
+| <a href="https://makeanico.herokuapp.com/icos/safari"><img src="https://makeanico.herokuapp.com/get/svg/icos/safari"></a> |  `/icos/safari` | `/get/svg/icos/safari` | `/get/png/safari` | `/get/ico/safari` |
+| <a href="https://makeanico.herokuapp.com/icos/sterc"><img src="https://makeanico.herokuapp.com/get/svg/icos/sterc"></a> |  `/icos/sterc` | `/get/svg/icos/sterc` | `/get/png/sterc` | `/get/ico/sterc` |
+| <a href="https://makeanico.herokuapp.com/icos/10kapart"><img src="https://makeanico.herokuapp.com/get/svg/icos/10kapart"></a> |  `/icos/10kapart` | `/get/svg/icos/10kapart` | `/get/png/10kapart` | `/get/ico/10kapart` |
+| <a href="https://makeanico.herokuapp.com/icos/microsoft"><img src="https://makeanico.herokuapp.com/get/svg/icos/windows"></a> |  `/icos/microsoft` | `/get/svg/icos/microsoft` | `/get/png/microsoft` | `/get/ico/microsoft` |
+| <a href="https://makeanico.herokuapp.com/icos/windows"><img src="https://makeanico.herokuapp.com/get/svg/icos/windows"></a> |  `/icos/windows` | `/get/svg/icos/windows` | `/get/png/windows` | `/get/ico/windows` |
+| <a href="https://makeanico.herokuapp.com/icos/edge"><img src="https://makeanico.herokuapp.com/get/svg/icos/windows"></a> |  `/icos/edge` | `/get/svg/icos/edge` | `/get/png/edge` | `/get/ico/edge` |
+| <a href="https://makeanico.herokuapp.com/icos/10kapart"><img src="https://makeanico.herokuapp.com/get/svg/icos/10kapart"></a> |  `/icos/10kapart` | `/get/svg/icos/10kapart` | `/get/png/10kapart` | `/get/ico/10kapart` |
+| <a href="https://makeanico.herokuapp.com/icos/google"><img src="https://makeanico.herokuapp.com/get/svg/icos/google"></a> |  `/icos/google` | `/get/svg/icos/google` | `/get/png/google` | `/get/ico/google` |
+| <a href="https://makeanico.herokuapp.com/icos/chrome"><img src="https://makeanico.herokuapp.com/get/svg/icos/chrome"></a> |  `/icos/chrome` | `/get/svg/icos/chrome` | `/get/png/chrome` | `/get/ico/chrome` |
+| <a href="https://makeanico.herokuapp.com/icos/facebook"><img src="https://makeanico.herokuapp.com/get/svg/icos/facebook"></a> |  `/icos/facebook` | `/get/svg/icos/facebook` | `/get/png/facebook` | `/get/ico/facebook` |
+| <a href="https://makeanico.herokuapp.com/icos/twitter"><img src="https://makeanico.herokuapp.com/get/svg/icos/twitter"></a> |  `/icos/twitter` | `/get/svg/icos/twitter` | `/get/png/twitter` | `/get/ico/twitter` |
+| <a href="https://makeanico.herokuapp.com/icos/smashingmag"><img src="https://makeanico.herokuapp.com/get/svg/icos/smashingmag"></a> |  `/icos/smashingmag` | `/get/svg/icos/smashingmag` | `/get/png/smashingmag` | `/get/ico/smashingmag` |
+| <a href="https://makeanico.herokuapp.com/icos/gmail"><img src="https://makeanico.herokuapp.com/get/svg/icos/gmail"></a> |  `/icos/gmail` | `/get/svg/icos/gmail` | `/get/png/gmail` | `/get/ico/gmail` |
+| <a href="https://makeanico.herokuapp.com/icos/firefox"><img src="https://makeanico.herokuapp.com/get/svg/icos/firefox"></a> |  `/icos/firefox` | `/get/svg/icos/firefox` | `/get/png/firefox` | `/get/ico/firefox` |
+| <a href="https://makeanico.herokuapp.com/icos/mozilla"><img src="https://makeanico.herokuapp.com/get/svg/icos/mozilla"></a> |  `/icos/mozilla` | `/get/svg/icos/mozilla` | `/get/png/mozilla` | `/get/ico/mozilla` |
+| <a href="https://makeanico.herokuapp.com/icos/zeldman"><img src="https://makeanico.herokuapp.com/get/svg/icos/zeldman"></a> |  `/icos/zeldman` | `/get/svg/icos/zeldman` | `/get/png/zeldman` | `/get/ico/zeldman` |
+| <a href="https://makeanico.herokuapp.com/icos/w3c"><img src="https://makeanico.herokuapp.com/get/svg/icos/w3c"></a> |  `/icos/w3c` | `/get/svg/icos/w3c` | `/get/png/w3c` | `/get/ico/w3c` |

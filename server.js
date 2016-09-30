@@ -1,6 +1,6 @@
-require('babel-core/register')({
+/*require('babel-core/register')({
     presets: ['es2015']
-});
+});*/
 
 const http = require('http'),
 fs = require('fs'),
