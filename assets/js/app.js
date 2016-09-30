@@ -341,7 +341,7 @@ webpackJsonp([0],[
 	      }
 
 	      if (e.target.checked) {
-	        var color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], 1),
+	        var color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], rgbaSlider.value),
 	            key = cell.getAttribute('id').replace('c__', 'c');
 
 	        fillBack[key] = color.replace('#', '0x');

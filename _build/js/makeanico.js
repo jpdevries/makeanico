@@ -319,7 +319,7 @@ const MakeAnIco = function() {
       }
 
       if(e.target.checked) {
-        let color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], 1),
+        let color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], rgbaSlider.value),
         key = cell.getAttribute('id').replace('c__','c');
 
         fillBack[key] = color.replace('#','0x');
