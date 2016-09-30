@@ -146,7 +146,7 @@ module.exports = function(grunt) {
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>preferences_listeners.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>preferences_listeners.js',
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>init_preferences.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>init_preferences.js',
 
-          '<%= dirs.theme %><%= dirs.assets %>serviceWorker.min.js': '<%= dirs.theme %><%= dirs.assets %>serviceWorker.js',
+          '<%= dirs.theme %>serviceWorker.min.js': '<%= dirs.theme %>serviceWorker.js',
 
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/export.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/export.js',
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/shortcuts.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/shortcuts.js',

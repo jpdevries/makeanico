@@ -1,9 +1,10 @@
 'use strict';
 
-var CACHE_NAME = '0.0.0';
+var CACHE_NAME = 'rc0.0.0';
 //cacheAll = true;
 
 self.addEventListener('install', function(event) {
+  self.skipWaiting();
 });
 
 self.addEventListener('fetch', function(event) {
@@ -26,8 +27,10 @@ self.addEventListener('activate', function(event) {
   event.waitUntil(
     caches.keys().then(function(keyList) {
       return Promise.all(keyList.map(function(key) {
-        if (cacheWhitelist.indexOf(key) === -1) return caches.delete(key)
+        if (cacheWhitelist.indexOf(key) === -1) return caches.delete(key);
       }));
+    }).then(function() {
+      self.clients.claim()
     })
   );
 });
