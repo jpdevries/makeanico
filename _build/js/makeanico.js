@@ -100,10 +100,11 @@ const MakeAnIco = function() {
     })
   }
 
-  if(inputColorByTextColor.value) {
+  if(localStorage.getItem('fillColor') && !isNaN(localStorage.getItem('fillColor'))) updateColor(localStorage.getItem('fillColor').replace('0x','#'), true, fillCellsOnClick.checked)
+  else if(inputColorByTextColor.value) {
     let rgb = helpers.cssColorNameToRGB(inputColorByTextColor.value, true);
-    updateColor(helpers.rgbaToHex(rgb[0], rgb[1], rgb[2]), false, fillCellsOnClick.checked);
-  } else if(localStorage.getItem('fillColor') && !isNaN(localStorage.getItem('fillColor'))) updateColor(localStorage.getItem('fillColor').replace('0x','#'), true, fillCellsOnClick.checked);
+    updateColor(helpers.rgbaToHex(rgb[0], rgb[1], rgb[2], $('rgb_slider_a').value), false, fillCellsOnClick.checked);
+  } else updateColor(helpers.rgbaToHex($('rgb_slider_r').value, $('rgb_slider_g').value, $('rgb_slider_b').value, $('rgb_slider_a').value), false, fillCellsOnClick.checked);
 
   document.addEventListener('swatchselected', function(event) {
     updateColor(event.detail);
@@ -290,7 +291,7 @@ const MakeAnIco = function() {
         start = Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row'));
 
         for(let i = start; i <= start + Math.abs(parseInt(lastClickedCellInput.parentNode.getAttribute('data-row')) - parseInt(e.target.parentNode.getAttribute('data-row'))); i++) {
-          let tr = rows[i], 
+          let tr = rows[i],
           tds = tr.querySelectorAll('td');
           for(let j = 1 + Math.min(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j <= 1 + Math.max(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j++) {
             let td = tds[j],

@@ -122,10 +122,10 @@ webpackJsonp([0],[
 	    });
 	  }
 
-	  if (inputColorByTextColor.value) {
+	  if (localStorage.getItem('fillColor') && !isNaN(localStorage.getItem('fillColor'))) updateColor(localStorage.getItem('fillColor').replace('0x', '#'), true, fillCellsOnClick.checked);else if (inputColorByTextColor.value) {
 	    var rgb = helpers.cssColorNameToRGB(inputColorByTextColor.value, true);
-	    updateColor(helpers.rgbaToHex(rgb[0], rgb[1], rgb[2]), false, fillCellsOnClick.checked);
-	  } else if (localStorage.getItem('fillColor') && !isNaN(localStorage.getItem('fillColor'))) updateColor(localStorage.getItem('fillColor').replace('0x', '#'), true, fillCellsOnClick.checked);
+	    updateColor(helpers.rgbaToHex(rgb[0], rgb[1], rgb[2], $('rgb_slider_a').value), false, fillCellsOnClick.checked);
+	  } else updateColor(helpers.rgbaToHex($('rgb_slider_r').value, $('rgb_slider_g').value, $('rgb_slider_b').value, $('rgb_slider_a').value), false, fillCellsOnClick.checked);
 
 	  document.addEventListener('swatchselected', function (event) {
 	    updateColor(event.detail);
