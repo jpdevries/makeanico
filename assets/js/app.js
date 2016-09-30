@@ -138,7 +138,7 @@ webpackJsonp([0],[
 	  }
 
 	  document.addEventListener('swatchselected', function (event) {
-	    updateColor(event.detail);
+	    updateColor(event.detail, true, fillCellsOnClick.checked);
 	    pushState();
 	  });
 
