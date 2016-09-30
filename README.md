@@ -11,9 +11,6 @@ The "base" functionality of Makeanico is the ability to create a 16x16 favicon a
 For example, here is the 10K Apart Favicon as represented by the Makeanico WYSIWYG&nbsp;Editor:  
 ![](http://j4p.us/0e3a472y0c2Y/10k-favicon-source.png)
 
-Here is the same editor without any CSS&nbsp;styles:  
-![](http://j4p.us/402b0n0u2I1n/Screen%20Shot%202016-09-29%20at%2011.51.27%20PM.png)
-
 Without the WYSIYG CSS styles we lose that "what you see is what you get" feature but powered by semantic HTML the raw experience is as functional with or without styles.
 
 ### Weigh In
