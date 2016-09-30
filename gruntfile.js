@@ -189,7 +189,10 @@ module.exports = function(grunt) {
           tasks: ['sass:dev','postcss', 'cssmin', 'growl:sass']
       },
       js: {
-          files: ['<%= dirs.build %><%= dirs.js %>**/*.js'],
+          files: [
+            '<%= dirs.build %><%= dirs.js %>**/*.js',
+            '<%= dirs.theme %>serviceWorker.js'
+          ],
           tasks: ['webpack', 'babel', 'uglify', 'growl:uglify']
       }
     },

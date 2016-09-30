@@ -40,7 +40,7 @@ webpackJsonp([0],[
 
 	  var icons = document.querySelectorAll('[data-icon]');
 	  icons.forEach(function (icon) {
-	    icon.innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" class=\"svg-preview__svg\"><use xlink:href=\"assets/img/sprite" + min + ".svg#" + icon.getAttribute('data-icon') + "\"></use></svg>";
+	    icon.innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" class=\"svg-icon__svg\"><use xlink:href=\"assets/img/sprite" + min + ".svg#" + icon.getAttribute('data-icon') + "\"></use></svg>";
 	    icon.removeAttribute('data-icon');
 	  });
 

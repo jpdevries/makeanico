@@ -1,6 +1,9 @@
 <div id="saved-swatches" class="export widget">
   <link rel="stylesheet" href="assets/css/swatches{% if production %}.min{% endif %}.css">
   <div class="neat container">
+    <div class="svg-preview">
+      {% include '../favicon-preview.twig' with cells %}
+    </div>
     <h2>Swatches</h2>
     <p>
       Keep your favorite colors within reach.<span class="havent-any"> You have no saved&nbsp;swatches.</span><span class="youve-saved"> Swatches you've saved appear&nbsp;here.</span>
