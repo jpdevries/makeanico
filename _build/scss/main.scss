@@ -312,6 +312,14 @@ footer {
       margin-right:0;
     }
   }
+  &.page-wrapper {
+    @include media($mobile) {
+      a {
+        display:block;
+        margin-bottom:1em;
+      }
+    }
+  }
 }
 
 .subtle {
@@ -459,7 +467,9 @@ body {
   @extend %flex-wrap;
   flex-direction:column-reverse;
   > * {
-    width:100vw;
+    @include media($gtMobile) {
+      width:100vw;
+    }
   }
 }
 

@@ -261,6 +261,11 @@ a.btn {
 footer button:last-of-type {
   margin-right: 0; }
 
+@media screen and (max-width: 640px) {
+  footer.page-wrapper a {
+    display: block;
+    margin-bottom: 1em; } }
+
 .subtle {
   font-size: .8em; }
 
@@ -325,8 +330,9 @@ footer {
 #page-wrapper {
   -ms-flex-direction: column-reverse;
       flex-direction: column-reverse; }
-  #page-wrapper > * {
-    width: 100vw; }
+  @media screen and (min-width: 641px) {
+    #page-wrapper > * {
+      width: 100vw; } }
 
 @media screen and (max-width: 640px) {
   .async-btns {
