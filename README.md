@@ -83,6 +83,9 @@ Users with localStorage enabled also are presented with Accessibility Preference
 
 ![](http://j4p.us/2w051H3o2D08/prefs.gif)
 
+### Import
+One of the thing I discovered through this process is that accessibility is a universal topic. It isn't just about screen readers and HTML. Accessibility applies to everything. I consider the import features not just power user features but accessibility features as well. They allow people to access their art quicker if they already have something prepared that they would like to import. This means less interaction with the UI. 
+
 ### Keyboard Friendly
 Similar to accessibility, most of the keyboard considerations are provided by web standards and the browser. I didn't have to write any code for you to be able to easily jump around from cell to cell, input to input, or widget to widget. The semantics of the document provide that. Nevertheless, there are a few considerations and shortcuts I did&nbsp;make.
 
@@ -109,7 +112,7 @@ Any icon's art is contained in the URL. Each cell, or pixel, is represented as a
 
 URL parameters can be used to set the initial color input type as well as the initial fill color. For example, `?fill=0x00ffff0c&colorby=rgba`. These defaults will not override an values found in the users&nbsp;`localStorage`.
 
-There are `/make/favicon.svg`, `/make/favicon.png`, and ico `/make/favicon.ico` endpoints that can be used to load a dynamic favicon graphics in the requested format. For example `/make/favicon.svg?c23=0x0cFF00FFFF` or `/make/favicon.png?c23=0x0cFF00FFFF&dl=1` for an immediate&nbsp;download.
+There are `/make/favicon.svg`, `/make/favicon.png`, and `/make/favicon.ico` endpoints that can be used to load a dynamic favicon graphics in the requested format. For example `/make/favicon.svg?c23=0x0cFF00FFFF` or `/make/favicon.png?c23=0x0cFF00FFFF&dl=1` for an immediate&nbsp;download.
 
 
 ### World&ndash;Wide Favicon Flags
