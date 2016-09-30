@@ -11,12 +11,12 @@ The "base" functionality of Makeanico is the ability to create a 16x16 favicon a
 For example, here is the 10K Apart Favicon as represented by the Makeanico WYSIWYG&nbsp;Editor:  
 ![](http://j4p.us/0e3a472y0c2Y/10k-favicon-source.png)
 
-Without the WYSIYG CSS styles we lose that "what you see is what you get" feature but powered by semantic HTML the raw experience is as functional with or without styles.
+Without the WYSIYG CSS styles we lose that "what you see is what you get" feature but powered by semantic HTML the raw experience is as functional with or without&nbsp;styles.
 
 ### Weigh In
 *Run `npm start` to run the server in production mode with GZIP and minification&nbsp;enabled.*  
 
-In accordance with the [Rules & Regulations](https://a-k-apart.com/faq) of the competition Makeanico keeps initial page weight under 10kB. I use the Chrome Developer Tools to get an idea of the page weight. Safari and Firefox seem to display uncompressed file sizes even though GZIP compressions is in fact being used.
+In accordance with the [Rules & Regulations](https://a-k-apart.com/faq) of the competition Makeanico keeps initial page weight under 10kB. I use the Chrome Developer Tools to get an idea of the page weight. Safari and Firefox seem to display uncompressed file sizes even though GZIP compressions is in fact being&nbsp;used.
 
 | Name         | Size (GZIP)      |
 | ------------ |:----------------:|
@@ -24,7 +24,7 @@ In accordance with the [Rules & Regulations](https://a-k-apart.com/faq) of the c
 | main.min.css | 2.3kB            |
 | **TOTAL**    | **8.0kB**        |
 
-That's the initial load. If you include `init.min.js` which is lazy-loaded right off the bat for users whose scripts can cut the mustard then we're at:
+That's the initial load. If you include `init.min.js` which is lazy-loaded right off the bat for users whose scripts can cut the mustard then we're&nbsp;at:
 
 | Name         | Size (GZIP)      |
 | ------------ |:----------------:|
@@ -35,7 +35,7 @@ That's the initial load. If you include `init.min.js` which is lazy-loaded right
 
 *Note: Sizes include header weight*
 
-Again, it is my understanding that given that the init script is only loaded as needed (if it passes the `doEnhancments` test) than in doesn't count. But I want to demonstrate that even if it does I calculate the weigh in at under 10kB.
+Again, it is my understanding that given that the init script is only loaded as needed (if it passes the `doEnhancments` test) than in doesn't count. But I want to demonstrate that even if it does I calculate the weigh in at under&nbsp;10kB.
 
 ```html
 <script>
@@ -46,14 +46,14 @@ Again, it is my understanding that given that the init script is only loaded as 
 
 The favicon.png, which is not included in the weight, weighs 266 bytes in Finder. So even if you count that it is still under 10kB! The service worker, which is loaded `if 'serviceWorker' in navigator` weights 324 bytes GZIPed. I don't think the weight of lazily loaded service workers counts though&hellip;
 
-Once a user begins interacting with the art&ndash;board or choosing a fill color enhancements are loaded as needed. These include the:
+Once a user begins interacting with the art&ndash;board or choosing a fill color enhancements are loaded as needed. These include&nbsp;the:
  - live preview
  - export
  - keyboard shortcut
  - swatches
  - accessibility preferences
 
-Some Enhancements are fetched for "dirty" art&ndash;boards. If there is art on the canvas, editing enhancements are loaded. Since they app has previously been visited, these assets are likely loaded from cache by the browser cache or the service worker. Any dirty artboard is not the initial page load so it is ok for these pages to creep above 10kB.
+Some Enhancements are fetched for "dirty" art&ndash;boards. If there is art on the canvas, editing enhancements are loaded. Since they app has previously been visited, these assets are likely loaded from cache by the browser cache or the service worker. Any dirty artboard is not the initial page load so it is ok for these pages to creep above&nbsp;10kB.
 
 The more pixels you draw, the longer your URL gets, and the larger the size of the `index.html` gets too! That's ok though because only the "blank canvas" homepage counts as the initial load. Pretty much everything except the HTML source is going to be served by the browser cache if possible. Even the HTML source itself of return visits is cached offline by the service worker. This means that not only can page visits weight 0.0kB but also that JavaScipt users performing asynchronous actions that don't need to communicate with the server (import, export, post) can enjoy an offline editing&nbsp;experience.
 
@@ -70,50 +70,50 @@ With or without JavaScript, a preview of the most recent graphic state is displa
 The favicon of the page itself is also asynchronously updated! So in browsers that support dynamic favicons, you'll see your edits reflected there as&nbsp;well.
 
 ### Accessibility
-[Accessibility is water](https://modx.today/posts/2016/02/accessibility-is-water). We are all in need of and deserving of it. Working within the constraints of web standards, we construct our favicon editor from a semantic `<table>` of `<input type="checkbox>"` elements. With no expense, these elements inherit the implicit accessibility of native browser inputs. Each pixel or "cell" consists of an `<input type="checkbox>"` element and a corresponding label. These native elements provide keyboard focus, selection, and screen reader support along with compatibility with any assistive technology that integrate with native HTML `<form>`&nbsp;elements.
+[Accessibility is water](https://modx.today/posts/2016/02/accessibility-is-water). We are all in need of and deserving of it. Working within the constraints of web standards, we construct our favicon editor from a semantic `<table>` of `<input type="checkbox>"` elements. With no additional expense, these elements inherit the implicit accessibility of native browser inputs. Each pixel or "cell" consists of an `<input type="checkbox>"` element and a corresponding label. These native elements provide keyboard focus, selection, and screen reader support along with compatibility with any assistive technology that integrate with native HTML `<form>`&nbsp;elements.
 
-Our Fill Selected Cells component allows the user to input a color in several different ways. This presents convenience and accessibility to our users. Some users may prefer dictation and opt for the standard text input method. The text input accepts a hex color or standard CSS color name as input. In supported browsers, users will be presented with an option to use a colorpicker input. Finally, users can input or adjust colors using the RGB sliders.
+Our Fill Selected Cells component allows the user to input a color in several different ways. This presents convenience and accessibility to our users. Some users may prefer dictation and opt for the standard text input method. The text input accepts a hex color or standard CSS color name as input. In supported browsers, users will be presented with an option to use a colorpicker input. Finally, users can input or adjust colors using the RGB&nbsp;sliders.
 
-For connivence a swatch component is lazy&ndash;loaded as needed. localStorage enabled users can save their frequently used colors for quick and easy access. Built upon a fieldset of radio inputs, the swatch panel leverages implicit accessibility.
+For connivence a swatch component is lazy&ndash;loaded as needed. localStorage enabled users can save their frequently used colors for quick and easy access. Built upon a fieldset of radio inputs, the swatch panel leverages implicit&nbsp;accessibility.
 
-The HTML5 datalist component is also used to enhance accessibility and usability. Once you set focus to the hex text input area a datalist component containing a list of CSS color names is lazy&ndash;loaded. Users in modern browsers that support the datalist component will get typeahead hints as they type in the hex input area. Browsers that do not support datalist will display a standard select component still allowing the user to chose between typing in a value or selecting one.
+The HTML5 datalist component is also used to enhance accessibility and usability. Once you set focus to the hex text input area a datalist component containing a list of CSS color names is lazy&ndash;loaded. Users in modern browsers that support the datalist component will get typeahead hints as they type in the hex input area. Browsers that do not support datalist will display a standard select component still allowing the user to chose between typing in a value or selecting&nbsp;one.
 
 ### Accessibility Preferences
-Users with localStorage enabled also are presented with Accessibility Preferences. At the `/preferences` page they will be presented with Legibility, Typeface, Contrast, Animation and Visibility components that allow them to manage related preferences. These preferences will be stored in `localStorage` and return visits will respond to user's preferences accordingly.
+Users with localStorage enabled also are presented with Accessibility Preferences. At the `/preferences` page they will be presented with Legibility, Typeface, Contrast, Animation and Visibility components that allow them to manage related preferences. These preferences will be stored in `localStorage` and return visits will respond to user's preferences&nbsp;accordingly.
 
 ![](http://j4p.us/2w051H3o2D08/prefs.gif)
 
 ### Keyboard Friendly
-Similar to accessibility, most of the keyboard considerations are provided by web standards and the browser. I didn't have to write any code for you to be able to easily jump around from cell to cell, input to input, or widget to widget. The semantics of the document provide that. Nevertheless, there are a few considerations and shortcuts I did make.
+Similar to accessibility, most of the keyboard considerations are provided by web standards and the browser. I didn't have to write any code for you to be able to easily jump around from cell to cell, input to input, or widget to widget. The semantics of the document provide that. Nevertheless, there are a few considerations and shortcuts I did&nbsp;make.
 
-There are keyboard shortcuts for each of the selection tool buttons. Alt/Option + A will select all sells. Alt/Option + I will inverse the current selection. Alt/Option + D will deselect all cells. Mouse users can also click a cell and hold Alt/Option when clicking another cell to range select several cells. I do think additional keyboard considerations could be made but I'm waiting for more user testing and feedback before proceeding.
+There are keyboard shortcuts for each of the selection tool buttons. Alt/Option + A will select all sells. Alt/Option + I will inverse the current selection. Alt/Option + D will deselect all cells. Mouse users can also click a cell and hold Alt/Option when clicking another cell to range select several cells. I do think additional keyboard considerations could be made but I'm waiting for more user testing and feedback before&nbsp;proceeding.
 
 ### Progressive Enhancement
-The base functionality provided by the raw HTML layer is enhanced by CSS styles and JavaScript features respectively. CSS provides a WYSIWYG editor and a nice layout. JavaScript is used to provide asynchronous enhancements. Without JavaScript, the form must post to the server to update the state and fill the selected cells with the chosen color. Progressive Enhancements remove this "hard reload" but updating the DOM asynchronously and pushing new state into the URL with the HTML5 History API. JavaScript is also used to make the Fill Selected Cells component more responsive. As the values of one input method are updated the others reflect the change. Typing "red" in the Hex input will update the colorpicker and RGB sliders, and vice versa.
+The base functionality provided by the raw HTML layer is enhanced by CSS styles and JavaScript features respectively. CSS provides a WYSIWYG editor and a nice layout. JavaScript is used to provide asynchronous enhancements. Without JavaScript, the form must post to the server to update the state and fill the selected cells with the chosen color. Progressive Enhancements remove this "hard reload" but updating the DOM asynchronously and pushing new state into the URL with the HTML5 History API. JavaScript is also used to make the Fill Selected Cells component more responsive. As the values of one input method are updated the others reflect the change. Typing "red" in the Hex input will update the colorpicker and RGB sliders, and vice&nbsp;versa.
 
 ![](http://j4p.us/3j1H3f2w2p09/fill_progress.gif)
 
 ### Service Workers
-A lightweight service worker is used to provide offline support and increase performance. Users not receiving scripts will still need to post to the server, but users receiving scripts should be able to go offline and keep making their favicon.
+A lightweight service worker is used to provide offline support and increase performance. Users not receiving scripts will still need to post to the server, but users receiving scripts should be able to go offline and keep making their&nbsp;favicon.
 
 ### Bandwidth Considerations  
-Accessibility isn't just about color contrast and screen reader support. In an attempt to allow access to anyone, an accessible experience weeds out barriers to entry. Page weight is a barrier to entry, so we do what we can to keep the weight down and leverage the browser cache for the assets we do load.
+Accessibility isn't just about color contrast and screen reader support. In an attempt to allow access to anyone, an accessible experience weeds out barriers to entry. Page weight is a barrier to entry, so we do what we can to keep the weight down and leverage the browser cache for the assets we do&nbsp;load.
 
-One page experiences like MakeanIco can increase their PageSpeed score by inlining critical CSS and small scripts. However, we don't inline our enhancements. To do so would not leverage the browser cache effectively. Loading enhancements through HTTP requests allows them to be cached across all the URL endpoints of the application (of which there are many – each icon has its own URL).
+One page experiences like MakeanIco can increase their PageSpeed score by inlining critical CSS and small scripts. However, we don't inline our enhancements. To do so would not leverage the browser cache effectively. Loading enhancements through HTTP requests allows them to be cached across all the URL endpoints of the application (of which there are many – each icon has its own&nbsp;URL).
 
 ### ARIA Considerations
-ARIA is salt. So we use it sparingly and only as needed. I'd rather add seasoning later after feedback and upon request. So much of the foundation is semantic HTML that little ARIA is used or needed. Accessibly hidden text is used to allow the HTML to be semantic and audible to assistive technology while still visually appealing and contextual to sighted users.
+ARIA is salt. So we use it sparingly and only as needed. I'd rather add seasoning later after feedback and upon request. So much of the foundation is semantic HTML that little ARIA is used or needed. Accessibly hidden text is used to allow the HTML to be semantic and audible to assistive technology while still visually appealing and contextual to sighted&nbsp;users.
 
 ## API
-Any icon's art is contained in the URL. Each cell, or pixel, is represented as a URL parameter. The web app uses the trendy new 8 Digit Hexadecimals to store color so to draw an icon where the first pixel is 50% red you'd use `/?c1=0xff000080`. Each cell has a numeric index starting from `c1` and ending in `c255`. The value should be a 6 or 8 digit hexadecimal starting in `0x` not `#`.
+Any icon's art is contained in the URL. Each cell, or pixel, is represented as a URL parameter. The web app uses the trendy new 8 Digit Hexadecimals to store color so to draw an icon where the first pixel is 50% red you'd use `/?c1=0xff000080`. Each cell has a numeric index starting from `c1` and ending in `c255`. The value should be a 6 or 8 digit hexadecimal starting in `0x` not&nbsp;`#`.
 
-URL parameters can be used to set the initial color input type as well as the initial fill color. For example, `?fill=0x00ffff0c&colorby=rgba`. These defaults will not override an values found in the users `localStorage`.
+URL parameters can be used to set the initial color input type as well as the initial fill color. For example, `?fill=0x00ffff0c&colorby=rgba`. These defaults will not override an values found in the users&nbsp;`localStorage`.
 
-There are `/make/favicon.svg`, `/make/favicon.png`, and ico `/make/favicon.ico` endpoints that can be used to load a dynamic favicon graphics in the requested format. For example `/make/favicon.svg?c23=0x0cFF00FFFF` or `/make/favicon.png?c23=0x0cFF00FFFF&dl=1` for an immediate download.
+There are `/make/favicon.svg`, `/make/favicon.png`, and ico `/make/favicon.ico` endpoints that can be used to load a dynamic favicon graphics in the requested format. For example `/make/favicon.svg?c23=0x0cFF00FFFF` or `/make/favicon.png?c23=0x0cFF00FFFF&dl=1` for an immediate&nbsp;download.
 
 
 ### World&ndash;Wide Favicon Flags
-In the spirit of the World&ndash;Wide Web, MakeanIco provides a public API for favicons of each country flag.
+In the spirit of the World&ndash;Wide Web, MakeanIco provides a public API for favicons of each country&nbsp;flag.
 
 **Endpoints:**  
 
@@ -122,9 +122,9 @@ In the spirit of the World&ndash;Wide Web, MakeanIco provides a public API for f
 | <a href="https://makeanico.herokuapp.com/icos/flags/nl"><img src="https://makeanico.herokuapp.com/get/svg/icos/flags/nl?dl=1"></a> | `nl`      | `/icos/flags/nl` | `/get/svg/icos/flags/nl` | `/get/png/icos/flags/nl` | `/get/ico/icos/flags/nl` |
 | <a href="https://makeanico.herokuapp.com/icos/flags/us"><img src="https://makeanico.herokuapp.com/get/svg/icos/flags/us?dl=1"></a> | `us`      | `/icos/flags/us` | `/get/svg/icos/flags/us` | `/get/png/icos/flags/us` | `/get/ico/icos/flags/us` |
 
-[Find national flags for every country in this codepen](http://codepen.io/jpdevries/pen/ZpJALv).
+[Find national flags for every country in the&nbsp;Wiki](https://github.com/jpdevries/makeanico/wiki/World-Wide-Flag-Favicons).
 
-*Note: To trigger an icon to be downloaded add a `&dl=1` URL paramater to the `get/svg`, `get/png`, or `get/ico`&nbsp;request.*
+*Note: To trigger an icon to be downloaded add a `&dl=1` URL parameter to the `get/svg`, `get/png`, or `get/ico`&nbsp;request.*
 
 ### Brands and Icons
 
