@@ -36,7 +36,7 @@ webpackJsonp([0],[
 	    return i.type !== "text";
 	  }();
 
-	  $('ps').outerHTML = "\n  <p>Using Adobe Photoshop?<br>Easily import a Photoshop document with our <a download=\"makeanico.jsx\" href=\"/assets/js/extendscript/makeanico.jsx\">MakeanIco&nbsp;ExtendScript</a>.</p>\n  <p>Bookmark this page at anytime to save your&nbsp;proggress.</p>\n  ";
+	  $('ps').outerHTML = "\n  <p>Using Adobe Photoshop?<br>Easily import a Photoshop document with our <a class=\"es\" download=\"makeanico.jsx\" href=\"/assets/js/extendscript/makeanico.jsx\">MakeanIco&nbsp;ExtendScript</a>.</p>\n  <p>Bookmark this page at anytime to save your&nbsp;proggress.</p>\n  ";
 
 	  var icons = document.querySelectorAll('[data-icon]');
 	  icons.forEach(function (icon) {
@@ -407,7 +407,7 @@ webpackJsonp([0],[
 	  }
 
 	  function updateDownloadLinks() {
-	    document.querySelectorAll('a[download]').forEach(function (a) {
+	    document.querySelectorAll('a[download]:not(.es)').forEach(function (a) {
 	      a.setAttribute('href', a.getAttribute('data-base-url') + location.search + '&dl=1');
 	    });
 	  }

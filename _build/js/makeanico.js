@@ -10,7 +10,7 @@ const MakeAnIco = function() {
   })();
 
   $('ps').outerHTML = `
-  <p>Using Adobe Photoshop?<br>Easily import a Photoshop document with our <a download="makeanico.jsx" href="/assets/js/extendscript/makeanico.jsx">MakeanIco&nbsp;ExtendScript</a>.</p>
+  <p>Using Adobe Photoshop?<br>Easily import a Photoshop document with our <a class="es" download="makeanico.jsx" href="/assets/js/extendscript/makeanico.jsx">MakeanIco&nbsp;ExtendScript</a>.</p>
   <p>Bookmark this page at anytime to save your&nbsp;proggress.</p>
   `;
 
@@ -387,7 +387,7 @@ const MakeAnIco = function() {
   }
 
   function updateDownloadLinks() {
-    document.querySelectorAll('a[download]').forEach((a) => {
+    document.querySelectorAll('a[download]:not(.es)').forEach((a) => {
       a.setAttribute('href', a.getAttribute('data-base-url') + location.search + '&dl=1')
     });
   }
