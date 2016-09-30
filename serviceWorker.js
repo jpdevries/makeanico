@@ -1,6 +1,6 @@
 'use strict';
 
-var CACHE_NAME = 'rc0.0.9.3';
+var CACHE_NAME = 'rc0.0.9.4';
 //cacheAll = true;
 
 self.addEventListener('install', function(event) {

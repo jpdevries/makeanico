@@ -455,7 +455,7 @@ webpackJsonp([0],[
 	    cell.style.removeProperty('border-color');
 	  }
 
-	  document.querySelector('.widget.import .svg-preview__svg').addEventListener('click', function (e) {
+	  document.querySelector('.widget.import .svg-icon__svg').addEventListener('click', function (e) {
 	    $('pic').click();
 	  });
 
