@@ -1,7 +1,7 @@
 Makeanico
 ========
 
-Makeanico is a progressively enhanced web app that allows anyone to create a 16x16 favicon.ico graphic.
+Makeanico is a progressively enhanced web app that allows anyone to create a 16x16 favicon.ico graphic. You can access it by [waking the sleeping&nbsp;dino](http://makeanico.herokuapp.com).
 
 ## 10K Apart
 *Makeanico was originally created as a submission for the 2016 10K Apart&nbsp;competition.*  
@@ -16,14 +16,59 @@ Here is the same editor without any CSS&nbsp;styles:
 
 Without the WYSIYG CSS styles we lose that "what you see is what you get" feature but powered by semantic HTML the raw experience is as functional with or without styles.
 
-## Accessibility Proclaimer
-This web app strives for WCAG 2.0 Guidelines Level AA. Please [open an issue](https://github.com/jpdevries/makeanico/issues/new) for any accessibility issue, feedback, or&nbsp;concern.
+### Weigh In
+In accordance with the [Rules & Regulations](https://a-k-apart.com/faq) of the competition Makeanico keeps it under 10kB initially.
+
+| Name | Size (GZIP)      |
+| ----- |: -----:|
+| index.html | 5.7kB |
+| main.min.css | 2.3kB |
+| **TOTAL** | 8.0kB |
+
+That's the initial load. If you include `init.min.js` which is lazy-loaded right off the bat for users whose scripts can cut the mustard then we're at:
+
+| Name | Size (GZIP)      |
+| ----- |: -----:|
+| index.html | 5.7kB |
+| main.min.css | 2.3kB |
+| init.min.js | 1.7kB |
+| **TOTAL** | 9.7kB |
+
+*Note: Sizes include header weight*
+
+Again, it is my understanding that given that the init script is only loaded as needed (if it passes the `doEnhancments` test) than in doesn't count. But I want to demonstrate that even if it does I calculate the weigh in at under 10kB.
+
+```html
+<script>
+  var doEnhancments = document.addEventListener ? true : false;
+  if(doEnhancments) document.write('<script id="scripts__init" src="/assets/js/init.min.js"><\/script>');
+</script>
+```
+
+The favicon.png, which is not included in the weight, weighs 266 bytes in Finder. So even if you count that it is still under 10kB! The service worker, which is loaded `if 'serviceWorker' in navigator` weights 324 bytes GZIPed. I don't think the weight of lazily loaded service workers counts though&hellip;
+
+Once a user begins interacting with the art&ndash;board or choosing a fill color enhancements are loaded as needed. These include the:
+ - live preview
+ - export
+ - keyboard shortcut
+ - swatches
+ - accessibility preferences
+
+Some Enhancements are fetched for "dirty" art&ndash;boards. If there is art on the canvas, editing enhancements are loaded. Since they app has previously been visited, these assets are likely loaded from cache by the browser cache or the service worker. Any dirty artboard is not the initial page load so it is ok for these pages to creep above 10kB.
+
+The more pixels you draw, the longer your URL gets, and the larger the size of the `index.html` gets too! That's ok though because only the "blank canvas" homepage counts as the initial load. Pretty much everything except the HTML source is going to be served by the browser cache if possible. Even the HTML source itself of return visits is cached offline by the service worker. This means that not only can page visits weight 0.0kB but also that JavaScipt users performing asynchronous actions that don't need to communicate with the server (import, export, post) can enjoy an offline editing experience.
+
+The largest initial page weight I have counted to the homepage is 21.3kB. That's with the service worker and browser cache off and includes the initial weight plus all the lazy&ndash;loaded enhancements. If you [visit a dirty art&ndash;board with every color filled](http://makeanico.herokuapp.com/?c0=0x40ffffff&c1=0x40ffffff&c2=0x40ffffff&c3=0x40ffffff&c4=0x40ffffff&c5=0x40ffffff&c6=0x40ffffff&c7=0x40ffffff&c8=0x40ffffff&c9=0x40ffffff&c10=0x40ffffff&c11=0x40ffffff&c12=0x40ffffff&c13=0x40ffffff&c14=0x40ffffff&c15=0x40ffffff&c16=0x40ffffff&c17=0x40ffffff&c18=0x40ffffff&c19=0x40ffffff&c20=0x40ffffff&c21=0x40ffffff&c22=0x40ffffff&c23=0x40ffffff&c24=0x40ffffff&c25=0x40ffffff&c26=0x40ffffff&c27=0x40ffffff&c28=0x40ffffff&c29=0x40ffffff&c30=0x40ffffff&c31=0x40ffffff&c32=0x40ffffff&c33=0x40ffffff&c34=0x40ffffff&c35=0x40ffffff&c36=0x40ffffff&c37=0x40ffffff&c38=0x40ffffff&c39=0x40ffffff&c40=0x40ffffff&c41=0x40ffffff&c42=0x40ffffff&c43=0x40ffffff&c44=0x40ffffff&c45=0x40ffffff&c46=0x40ffffff&c47=0x40ffffff&c48=0x40ffffff&c49=0x40ffffff&c50=0x40ffffff&c51=0x40ffffff&c52=0x40ffffff&c53=0x40ffffff&c54=0x40ffffff&c55=0x40ffffff&c56=0x40ffffff&c57=0x40ffffff&c58=0x40ffffff&c59=0x40ffffff&c60=0x40ffffff&c61=0x40ffffff&c62=0x40ffffff&c63=0x40ffffff&c64=0x40ffffff&c65=0x40ffffff&c66=0x40ffffff&c67=0x40ffffff&c68=0x40ffffff&c69=0x40ffffff&c70=0x40ffffff&c71=0x40ffffff&c72=0x40ffffff&c73=0x40ffffff&c74=0x40ffffff&c75=0x40ffffff&c76=0x40ffffff&c77=0x40ffffff&c78=0x40ffffff&c79=0x40ffffff&c80=0x40ffffff&c81=0x40ffffff&c82=0x40ffffff&c83=0x40ffffff&c84=0x40ffffff&c85=0x40ffffff&c86=0x40ffffff&c87=0x40ffffff&c88=0x40ffffff&c89=0x40ffffff&c90=0x40ffffff&c91=0x40ffffff&c92=0x40ffffff&c93=0x40ffffff&c94=0x40ffffff&c95=0x40ffffff&c96=0x40ffffff&c97=0x40ffffff&c98=0x40ffffff&c99=0x40ffffff&c100=0x40ffffff&c101=0x40ffffff&c102=0x40ffffff&c103=0x40ffffff&c104=0x40ffffff&c105=0x40ffffff&c106=0x40ffffff&c107=0x40ffffff&c108=0x40ffffff&c109=0x40ffffff&c110=0x40ffffff&c111=0x40ffffff&c112=0x40ffffff&c113=0x40ffffff&c114=0x40ffffff&c115=0x40ffffff&c116=0x40ffffff&c117=0x40ffffff&c118=0x40ffffff&c119=0x40ffffff&c120=0x40ffffff&c121=0x40ffffff&c122=0x40ffffff&c123=0x40ffffff&c124=0x40ffffff&c125=0x40ffffff&c126=0x40ffffff&c127=0x40ffffff&c128=0x40ffffff&c129=0x40ffffff&c130=0x40ffffff&c131=0x40ffffff&c132=0x40ffffff&c133=0x40ffffff&c134=0x40ffffff&c135=0x40ffffff&c136=0x40ffffff&c137=0x40ffffff&c138=0x40ffffff&c139=0x40ffffff&c140=0x40ffffff&c141=0x40ffffff&c142=0x40ffffff&c143=0x40ffffff&c144=0x40ffffff&c145=0x40ffffff&c146=0x40ffffff&c147=0x40ffffff&c148=0x40ffffff&c149=0x40ffffff&c150=0x40ffffff&c151=0x40ffffff&c152=0x40ffffff&c153=0x40ffffff&c154=0x40ffffff&c155=0x40ffffff&c156=0x40ffffff&c157=0x40ffffff&c158=0x40ffffff&c159=0x40ffffff&c160=0x40ffffff&c161=0x40ffffff&c162=0x40ffffff&c163=0x40ffffff&c164=0x40ffffff&c165=0x40ffffff&c166=0x40ffffff&c167=0x40ffffff&c168=0x40ffffff&c169=0x40ffffff&c170=0x40ffffff&c171=0x40ffffff&c172=0x40ffffff&c173=0x40ffffff&c174=0x40ffffff&c175=0x40ffffff&c176=0x40ffffff&c177=0x40ffffff&c178=0x40ffffff&c179=0x40ffffff&c180=0x40ffffff&c181=0x40ffffff&c182=0x40ffffff&c183=0x40ffffff&c184=0x40ffffff&c185=0x40ffffff&c186=0x40ffffff&c187=0x40ffffff&c188=0x40ffffff&c189=0x40ffffff&c190=0x40ffffff&c191=0x40ffffff&c192=0x40ffffff&c193=0x40ffffff&c194=0x40ffffff&c195=0x40ffffff&c196=0x40ffffff&c197=0x40ffffff&c198=0x40ffffff&c199=0x40ffffff&c200=0x40ffffff&c201=0x40ffffff&c202=0x40ffffff&c203=0x40ffffff&c204=0x40ffffff&c205=0x40ffffff&c206=0x40ffffff&c207=0x40ffffff&c208=0x40ffffff&c209=0x40ffffff&c210=0x40ffffff&c211=0x40ffffff&c212=0x40ffffff&c213=0x40ffffff&c214=0x40ffffff&c215=0x40ffffff&c216=0x40ffffff&c217=0x40ffffff&c218=0x40ffffff&c219=0x40ffffff&c220=0x40ffffff&c221=0x40ffffff&c222=0x40ffffff&c223=0x40ffffff&c224=0x40ffffff&c225=0x40ffffff&c226=0x40ffffff&c227=0x40ffffff&c228=0x40ffffff&c229=0x40ffffff&c230=0x40ffffff&c231=0x40ffffff&c232=0x40ffffff&c233=0x40ffffff&c234=0x40ffffff&c235=0x40ffffff&c236=0x40ffffff&c237=0x40ffffff&c238=0x40ffffff&c239=0x40ffffff&c240=0x40ffffff&c241=0x40ffffff&c242=0x40ffffff&c243=0x40ffffff&c244=0x40ffffff&c245=0x40ffffff&c246=0x40ffffff&c247=0x40ffffff&c248=0x40ffffff&c249=0x40ffffff&c250=0x40ffffff&c251=0x40ffffff&c252=0x40ffffff&c253=0x40ffffff&c254=0x40ffffff&c255=0x40ffffff) the weight will be closer to 23.5kB with the additional art&ndash;board markup.
+
+The Accessibility Preferences are lazy loaded in `localStorage` capable environments. They lazily add about 730 bytes of CSS and 1.6kB of scripts if localStorage dictates they should be loaded. For example, if the Font Size preference is changed from the default value, a little CSS and some scripts will lazily be loaded to update the user interface is response to user preferences. You can also choose a typeface like OpenDyslexic and Fira. Of course those are heavy and lazily loaded only if&nbsp;needed.
 
 ### History Support
 History is supported in both the base and enhanced experiences. The HTML5 History API is used to leverage Undo, Save, Bookmark, and Share features by pushing the graphic state to the URL. As you update your favicon the URL is updated accordingly by pushing the pixel data into the URL as URL parameters. Therefore, each unique favicon naturally has its own unique URL! You can bookmark your favicon to return and work on it later. Use the browser back and forward buttons to navigate the timeline of your&nbsp;edits.
 
 ### Live Favicon Preview
-With or without JavaScript, a preview of the most recent graphic state is displayed both as the favicon of the page and atop the Fill Selected Cells component. The JavaScript experience progressively enhances this by asynchronously updating the preview. As you work, you'll see colors changes and the preview live&nbsp;update!
+With or without JavaScript, a preview of the most recent graphic state is displayed both as the favicon of the page and atop the Fill Selected Cells component. The JavaScript experience progressively enhances this by asynchronously updating the preview. As you work, you'll see colors changes and the preview live&nbsp;update! This is done by using inline SVG to create the at scale previews. These SVGs are wrapped in an `<a download>` so clicking them will download the current artwork as an&nbsp;SVG.
+
+The favicon of the page itself is also asynchronously updated! So in browsers that support dynamic favicons, you'll see your edits reflected there as&nbsp;well.
 
 ### Accessibility
 [Accessibility is water](https://modx.today/posts/2016/02/accessibility-is-water). We are all in need of and deserving of it. Working within the constraints of web standards, we construct our favicon editor from a semantic `<table>` of `<input type="checkbox>"` elements. With no expense, these elements inherit the implicit accessibility of native browser inputs. Each pixel or "cell" consists of an `<input type="checkbox>"` element and a corresponding label. These native elements provide keyboard focus, selection, and screen reader support along with compatibility with any assistive technology that integrate with native HTML `<form>`&nbsp;elements.
@@ -107,3 +152,6 @@ I've added endpoints for some of my favorite favicons. Follow the links in the i
 | <a href="https://makeanico.herokuapp.com/icos/mozilla"><img src="https://makeanico.herokuapp.com/get/svg/icos/mozilla"></a> |  `/icos/mozilla` | `/get/svg/icos/mozilla` | `/get/png/mozilla` | `/get/ico/mozilla` |
 | <a href="https://makeanico.herokuapp.com/icos/zeldman"><img src="https://makeanico.herokuapp.com/get/svg/icos/zeldman"></a> |  `/icos/zeldman` | `/get/svg/icos/zeldman` | `/get/png/zeldman` | `/get/ico/zeldman` |
 | <a href="https://makeanico.herokuapp.com/icos/w3c"><img src="https://makeanico.herokuapp.com/get/svg/icos/w3c"></a> |  `/icos/w3c` | `/get/svg/icos/w3c` | `/get/png/w3c` | `/get/ico/w3c` |
+
+## Accessibility Proclaimer
+This web app strives for WCAG 2.0 Guidelines Level AA. Please [open an issue](https://github.com/jpdevries/makeanico/issues/new) for any accessibility issue, feedback, or&nbsp;concern.
