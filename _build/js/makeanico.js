@@ -294,9 +294,11 @@ const MakeAnIco = function() {
     <button id="inverse_selection">Inverse Selection</button>
   </div>`;
 
+
   cellInputs.forEach((cell, index) => {
     cell.addEventListener('click', (e) => {
       //console.log(e);
+      let color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], rgbaSlider.value);
       if((e.altKey || sKeyDown) && lastClickedCellInput) {
         let rows = document.querySelectorAll('#stage tbody tr'),
         start = Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row'));
@@ -307,20 +309,23 @@ const MakeAnIco = function() {
           for(let j = 1 + Math.min(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j <= 1 + Math.max(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j++) {
             let td = tds[j],
             checkbox = td.querySelector('input[type="checkbox"]');
+            //key = checkbox.getAttribute('id').replace('c__','c');
 
             if(e.target.parentNode !== td && lastClickedCellInput.parentNode !== td) {
               checkbox.checked = true;
-              if(fillCellsOnClick.checked) {
-                setRGBAttributes(td);
-              }
+              //if(fillCellsOnClick.checked) setRGBAttributes(td);
             }
           }
         }
+
+        updateColorGrid(color);
+        pushState();
+        updateView();
+
       }
 
       if(e.target.checked) {
-        let color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], rgbaSlider.value),
-        key = cell.getAttribute('id').replace('c__','c');
+        let key = cell.getAttribute('id').replace('c__','c');
 
         fillBack[key] = color.replace('#','0x');
 

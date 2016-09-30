@@ -316,9 +316,12 @@ webpackJsonp([0],[
 
 	  document.querySelector('#cell-grid__container header').innerHTML += "<h3>Select Cells</h3><div class=\"async-btns flexible unaligned fieldset\">\n    <button id=\"select_all_cells\">Select all Cells</button>\n    <button id=\"unselect_all_cells\">Unselect all Cells</button>\n    <button id=\"inverse_selection\">Inverse Selection</button>\n  </div>";
 
+	  //console.log('fillColor',fillColor);
+	  //console.log('color',color);
 	  cellInputs.forEach(function (cell, index) {
 	    cell.addEventListener('click', function (e) {
 	      //console.log(e);
+	      var color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], rgbaSlider.value);
 	      if ((e.altKey || sKeyDown) && lastClickedCellInput) {
 	        var rows = document.querySelectorAll('#stage tbody tr'),
 	            start = Math.min(lastClickedCellInput.parentNode.getAttribute('data-row'), e.target.parentNode.getAttribute('data-row'));
@@ -329,20 +332,22 @@ webpackJsonp([0],[
 	          for (var j = 1 + Math.min(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j <= 1 + Math.max(lastClickedCellInput.parentNode.getAttribute('data-col'), e.target.parentNode.getAttribute('data-col')); j++) {
 	            var td = tds[j],
 	                checkbox = td.querySelector('input[type="checkbox"]');
+	            //key = checkbox.getAttribute('id').replace('c__','c');
 
 	            if (e.target.parentNode !== td && lastClickedCellInput.parentNode !== td) {
 	              checkbox.checked = true;
-	              if (fillCellsOnClick.checked) {
-	                setRGBAttributes(td);
-	              }
+	              //if(fillCellsOnClick.checked) setRGBAttributes(td);
 	            }
 	          }
 	        }
+
+	        updateColorGrid(color);
+	        pushState();
+	        updateView();
 	      }
 
 	      if (e.target.checked) {
-	        var color = helpers.rgbToHex(fillColor[0], fillColor[1], fillColor[2], rgbaSlider.value),
-	            key = cell.getAttribute('id').replace('c__', 'c');
+	        var key = cell.getAttribute('id').replace('c__', 'c');
 
 	        fillBack[key] = color.replace('#', '0x');
 
