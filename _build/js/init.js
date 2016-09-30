@@ -12,7 +12,7 @@ if(!(typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]
 document.querySelectorAll('[no-js]').forEach((element) => {element.remove()});
 $('fill-cells-on-click').removeAttribute('disabled');
 
-if ('serviceWorker' in navigator && false) navigator.serviceWorker.register(`/assets/serviceWorker${min}.js`);
+if ('serviceWorker' in navigator) navigator.serviceWorker.register(`/assets/serviceWorker${min}.js`);
 
 fillCellsOnClick.checked = true;
 fillSelectedCells.setAttribute('disabled','true');

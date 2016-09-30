@@ -16,7 +16,7 @@ document.querySelectorAll('[no-js]').forEach(function (element) {
 });
 $('fill-cells-on-click').removeAttribute('disabled');
 
-if ('serviceWorker' in navigator && false) navigator.serviceWorker.register('/assets/serviceWorker' + min + '.js');
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/assets/serviceWorker' + min + '.js');
 
 fillCellsOnClick.checked = true;
 fillSelectedCells.setAttribute('disabled', 'true');

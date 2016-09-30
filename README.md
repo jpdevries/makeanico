@@ -14,6 +14,8 @@ For example, here is the 10K Apart Favicon as represented by the Makeanico WYSIW
 Without the WYSIYG CSS styles we lose that "what you see is what you get" feature but powered by semantic HTML the raw experience is as functional with or without styles.
 
 ### Weigh In
+*Run `npm start` to run the server in production mode with GZIP and minification&nbsp;enabled.*
+
 In accordance with the [Rules & Regulations](https://a-k-apart.com/faq) of the competition Makeanico keeps it under 10kB initially.
 
 | Name         | Size (GZIP)      |
