@@ -117,7 +117,7 @@ In the spirit of the World&ndash;Wide Web, MakeanIco provides a public API for f
 **Endpoints:**  
 
 | Flag | Country Code        | Edit Page           | SVG Icon  | PNG Icon  | ICO Icon  |
-| ------------- | ------------- |:-------------:| -----:| -----:| -----:|
+| ------------- | ------------- |:--------------|-------|-------|-------|
 | <a href="https://makeanico.herokuapp.com/icos/flags/nl"><img src="https://makeanico.herokuapp.com/get/svg/icos/flags/nl?dl=1"></a> | `nl`      | `/icos/flags/nl` | `/get/svg/icos/flags/nl` | `/get/png/icos/flags/nl` | `/get/ico/icos/flags/nl` |
 | <a href="https://makeanico.herokuapp.com/icos/flags/us"><img src="https://makeanico.herokuapp.com/get/svg/icos/flags/us?dl=1"></a> | `us`      | `/icos/flags/us` | `/get/svg/icos/flags/us` | `/get/png/icos/flags/us` | `/get/ico/icos/flags/us` |
 
@@ -130,7 +130,7 @@ In the spirit of the World&ndash;Wide Web, MakeanIco provides a public API for f
 I've added endpoints for some of my favorite favicons. Follow the links in the icon column to navigate to the edit screen of your favorite&nbsp;icons.
 
 | Icon | Edit Page           | SVG Icon  | PNG Icon  | ICO Icon  |
-| ------------- |:-------------:| -----:| -----:| -----:|
+| ------------- |:---------------|:------|:------|:------|
 | <a href="https://makeanico.herokuapp.com/icos/modmore"><img src="https://makeanico.herokuapp.com/get/svg/icos/modmore"></a> |  `/icos/modmore` | `/get/svg/icos/modmore` | `/get/png/modmore` | `/get/ico/modmore` |
 | <a href="https://makeanico.herokuapp.com/icos/thinkful"><img src="https://makeanico.herokuapp.com/get/svg/icos/thinkful"></a> |  `/icos/thinkful` | `/get/svg/icos/thinkful` | `/get/png/thinkful` | `/get/ico/thinkful` |
 | <a href="https://makeanico.herokuapp.com/icos/modx"><img src="https://makeanico.herokuapp.com/get/svg/icos/modx"></a> |  `/icos/modx` | `/get/svg/icos/modx` | `/get/png/modx` | `/get/ico/modx` |
