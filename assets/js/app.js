@@ -437,6 +437,9 @@ webpackJsonp([0],[
 	  fillSelectedCells.addEventListener('click', function (event) {
 	    event.preventDefault();
 	    updateColorGrid(helpers.rgbaToHex(fillColor[0], fillColor[1], fillColor[2], fillColor[3]));
+	    pushState();
+	    updateFavicon();
+	    updateFaviconPreview();
 	  });
 
 	  stage.addEventListener("change", function (event) {
