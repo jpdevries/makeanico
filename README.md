@@ -133,10 +133,10 @@ I've added endpoints for some of my favorite favicons. Follow the links in the i
 | ------------- |:---------------|:------|:------|:------|
 | <a href="https://makeanico.herokuapp.com/icos/modmore"><img src="https://makeanico.herokuapp.com/get/svg/icos/modmore"></a> |  `/icos/modmore` | `/get/svg/icos/modmore` | `/get/png/modmore` | `/get/ico/modmore` |
 | <a href="https://makeanico.herokuapp.com/icos/thinkful"><img src="https://makeanico.herokuapp.com/get/svg/icos/thinkful"></a> |  `/icos/thinkful` | `/get/svg/icos/thinkful` | `/get/png/thinkful` | `/get/ico/thinkful` |
+| <a href="https://makeanico.herokuapp.com/icos/sterc"><img src="https://makeanico.herokuapp.com/get/svg/icos/sterc"></a> |  `/icos/sterc` | `/get/svg/icos/sterc` | `/get/png/sterc` | `/get/ico/sterc` |
 | <a href="https://makeanico.herokuapp.com/icos/modx"><img src="https://makeanico.herokuapp.com/get/svg/icos/modx"></a> |  `/icos/modx` | `/get/svg/icos/modx` | `/get/png/modx` | `/get/ico/modx` |
 | <a href="https://makeanico.herokuapp.com/icos/apple"><img src="https://makeanico.herokuapp.com/get/svg/icos/apple"></a> |  `/icos/apple` | `/get/svg/icos/apple` | `/get/png/apple` | `/get/ico/apple` |
 | <a href="https://makeanico.herokuapp.com/icos/safari"><img src="https://makeanico.herokuapp.com/get/svg/icos/safari"></a> |  `/icos/safari` | `/get/svg/icos/safari` | `/get/png/safari` | `/get/ico/safari` |
-| <a href="https://makeanico.herokuapp.com/icos/sterc"><img src="https://makeanico.herokuapp.com/get/svg/icos/sterc"></a> |  `/icos/sterc` | `/get/svg/icos/sterc` | `/get/png/sterc` | `/get/ico/sterc` |
 | <a href="https://makeanico.herokuapp.com/icos/10kapart"><img src="https://makeanico.herokuapp.com/get/svg/icos/10kapart"></a> |  `/icos/10kapart` | `/get/svg/icos/10kapart` | `/get/png/10kapart` | `/get/ico/10kapart` |
 | <a href="https://makeanico.herokuapp.com/icos/microsoft"><img src="https://makeanico.herokuapp.com/get/svg/icos/windows"></a> |  `/icos/microsoft` | `/get/svg/icos/microsoft` | `/get/png/microsoft` | `/get/ico/microsoft` |
 | <a href="https://makeanico.herokuapp.com/icos/windows"><img src="https://makeanico.herokuapp.com/get/svg/icos/windows"></a> |  `/icos/windows` | `/get/svg/icos/windows` | `/get/png/windows` | `/get/ico/windows` |
