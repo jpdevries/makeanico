@@ -84,7 +84,18 @@ Users with localStorage enabled also are presented with Accessibility Preference
 ![](http://j4p.us/2w051H3o2D08/prefs.gif)
 
 ### Import
-One of the thing I discovered through this process is that accessibility is a universal topic. It isn't just about screen readers and HTML. Accessibility applies to everything. I consider the import features not just power user features but accessibility features as well. They allow people to access their art quicker if they already have something prepared that they would like to import. This means less interaction with the UI. 
+One of the thing I discovered through this process is that accessibility is a universal topic. It isn't just about screen readers and HTML. Accessibility applies to everything. I consider the import features not just power user features but accessibility features as well. They allow people to access their art quicker if they already have something prepared that they would like to import. This makes for a less fatiguing user&nbsp;experience.
+
+Aside from the API, there are two ways to import art to the art&ndash;board.
+
+ 1. Upload a SVG or PNG image
+ 2. Use the PhotoShop ExtendScript
+
+Both of these methods perform similar tasks. They take a graphic, size it down, crop it to 16x16, loop over each pixel, and direct you to the appropriate URL for your&nbsp;art.
+
+With the Photoshop ExtendScript you can import the active Photoshop document. Open your art in Photoshop. Open [makeanico.jsx](https://github.com/jpdevries/makeanico/blob/master/assets/js/extendscript/makeanico.jsx) in the [Adobe ExtendScript toolkit](https://www.adobe.com/products/extendscript-toolkit.html) and run the&nbsp;script.
+
+*Pro Tip: By slightly altering the script, entire directories can be imported which is how the World&ndash;Wide Favicons were&nbsp;imported.*
 
 ### Keyboard Friendly
 Similar to accessibility, most of the keyboard considerations are provided by web standards and the browser. I didn't have to write any code for you to be able to easily jump around from cell to cell, input to input, or widget to widget. The semantics of the document provide that. Nevertheless, there are a few considerations and shortcuts I did&nbsp;make.
