@@ -17,7 +17,9 @@ body[data-contrast="highcontrast"], body[data-luminosity="dim"] {
   body[data-contrast="highcontrast"] *, body[data-luminosity="dim"] * {
     background: transparent;
     color: inherit !important; }
-  body[data-contrast="highcontrast"] .container, body[data-contrast="highcontrast"] #cell-grid > *, body[data-contrast="highcontrast"] #stage td, body[data-luminosity="dim"] .container, body[data-luminosity="dim"] #cell-grid > *, body[data-luminosity="dim"] #stage td {
+  body[data-contrast="highcontrast"] button, body[data-luminosity="dim"] button {
+    border: 1px solid white; }
+  body[data-contrast="highcontrast"] .container, body[data-contrast="highcontrast"] #cell-grid > *, body[data-contrast="highcontrast"] #stage td, body[data-contrast="highcontrast"] .widget.import button, body[data-luminosity="dim"] .container, body[data-luminosity="dim"] #cell-grid > *, body[data-luminosity="dim"] #stage td, body[data-luminosity="dim"] .widget.import button {
     background: transparent; }
   body[data-contrast="highcontrast"] .widget, body[data-luminosity="dim"] .widget {
     background: #161719 !important; }

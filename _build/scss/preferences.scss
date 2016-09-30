@@ -25,7 +25,10 @@ body[data-contrast="highcontrast"], body[data-luminosity="dim"] {
     background:transparent;
     color:inherit !important;
   }
-  .container, #cell-grid > *, #stage td {
+  button {
+    border:1px solid white;
+  }
+  .container, #cell-grid > *, #stage td, .widget.import button {
     background:transparent;
   }
   .widget {
