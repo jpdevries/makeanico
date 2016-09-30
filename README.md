@@ -107,6 +107,8 @@ ARIA is salt. So we use it sparingly and only as needed. I'd rather add seasonin
 ## API
 Any icon's art is contained in the URL. Each cell, or pixel, is represented as a URL parameter. The web app uses the trendy new 8 Digit Hexadecimals to store color so to draw an icon where the first pixel is 50% red you'd use `/?c1=0xff000080`. Each cell has a numeric index starting from `c1` and ending in `c255`. The value should be a 6 or 8 digit hexadecimal starting in `0x` not `#`.
 
+URL parameters can be used to set the initial color input type as well as the initial fill color. For example, `?fill=0x00ffff0c&colorby=rgba`. These defaults will not override an values found in the users `localStorage`.
+
 There are `/make/favicon.svg`, `/make/favicon.png`, and ico `/make/favicon.ico` endpoints that can be used to load a dynamic favicon graphics in the requested format. For example `/make/favicon.svg?c23=0x0cFF00FFFF` or `/make/favicon.png?c23=0x0cFF00FFFF&dl=1` for an immediate download.
 
 

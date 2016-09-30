@@ -122,10 +122,20 @@ webpackJsonp([0],[
 	    });
 	  }
 
-	  if (localStorage.getItem('fillColor') && !isNaN(localStorage.getItem('fillColor'))) updateColor(localStorage.getItem('fillColor').replace('0x', '#'), true, fillCellsOnClick.checked);else if (inputColorByTextColor.value) {
-	    var rgb = helpers.cssColorNameToRGB(inputColorByTextColor.value, true);
-	    updateColor(helpers.rgbaToHex(rgb[0], rgb[1], rgb[2], $('rgb_slider_a').value), false, fillCellsOnClick.checked);
-	  } else updateColor(helpers.rgbaToHex($('rgb_slider_r').value, $('rgb_slider_g').value, $('rgb_slider_b').value, $('rgb_slider_a').value), false, fillCellsOnClick.checked);
+	  if (supportsLocalStorage()) {
+	    if (localStorage.getItem('fillColor') && !isNaN(localStorage.getItem('fillColor'))) updateColor(localStorage.getItem('fillColor').replace('0x', '#'), true, fillCellsOnClick.checked);else if (inputColorByTextColor.value) {
+	      var rgb = helpers.cssColorNameToRGB(inputColorByTextColor.value, true);
+	      updateColor(helpers.rgbaToHex(rgb[0], rgb[1], rgb[2], $('rgb_slider_a').value), false, fillCellsOnClick.checked);
+	    } else updateColor(helpers.rgbaToHex($('rgb_slider_r').value, $('rgb_slider_g').value, $('rgb_slider_b').value, $('rgb_slider_a').value), false, fillCellsOnClick.checked);
+
+	    if (localStorage.getItem('colorby')) $(localStorage.getItem('colorby')).checked = true;
+
+	    document.querySelectorAll('input[name="input_color_by"]').forEach(function (element) {
+	      return element.addEventListener('change', function (event) {
+	        return localStorage.setItem('colorby', event.target.getAttribute('id'));
+	      });
+	    });
+	  }
 
 	  document.addEventListener('swatchselected', function (event) {
 	    updateColor(event.detail);
