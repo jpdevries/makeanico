@@ -50,22 +50,22 @@
             <legend>RGB Slider:</legend>
             <div class="flexible fieldset">
               <label for="rgb_slider_r">Red:</label>
-              <input type="range" inputmode="numeric" min="0" max="255" step="1" value="255" id="rgb_slider_r" name="rgb_slider_r" pattern="[0-9]*" maxlength="3" />
+              <input type="range" inputmode="numeric" min="0" max="255" step="1" value="{% if fillRGBA[0] is defined %}{{ fillRGBA[0] }}{% else %}255{% endif %}" id="rgb_slider_r" name="rgb_slider_r" pattern="[0-9]*" maxlength="3" />
             </div>
             <div class="flexible fieldset">
               <label for="rgb_slider_r">Green:</label>
-              <input type="range" inputmode="numeric" min="0" max="255" step="1" value="255" id="rgb_slider_g" name="rgb_slider_g" pattern="[0-9]*" maxlength="3" />
+              <input type="range" inputmode="numeric" min="0" max="255" step="1" value="{% if fillRGBA[1] is defined %}{{ fillRGBA[1] }}{% else %}255{% endif %}" id="rgb_slider_g" name="rgb_slider_g" pattern="[0-9]*" maxlength="3" />
             </div>
             <div class="flexible fieldset">
               <label for="rgb_slider_r">Blue:</label>
-              <input type="range" inputmode="numeric" min="0" max="255" step="1" value="255" id="rgb_slider_b" name="rgb_slider_b" pattern="[0-9]*" maxlength="3" />
+              <input type="range" inputmode="numeric" min="0" max="255" step="1" value="{% if fillRGBA[2] is defined %}{{ fillRGBA[2] }}{% else %}255{% endif %}" id="rgb_slider_b" name="rgb_slider_b" pattern="[0-9]*" maxlength="3" />
             </div>
           </fieldset>
           <fieldset>
             <legend>Transparency</legend>
             <div class="flexible fieldset">
               <label for="rgb_slider_a">Alpha:</label>
-              <input type="range" inputmode="numeric" min="0" max="1" step=".01" id="rgb_slider_a" name="rgb_slider_a" value="1" pattern="\d+(\.\d*)?" />
+              <input type="range" inputmode="numeric" min="0" max="1" step=".01" id="rgb_slider_a" name="rgb_slider_a" value="{% if fillRGBA[3] is defined %}{{ fillRGBA[3] }}{% else %}1{% endif %}" pattern="\d+(\.\d*)?" />
             </div>
           </fieldset>
         </div>
