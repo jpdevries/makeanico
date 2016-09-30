@@ -14,11 +14,9 @@ For example, here is the 10K Apart Favicon as represented by the Makeanico WYSIW
 Without the WYSIYG CSS styles we lose that "what you see is what you get" feature but powered by semantic HTML the raw experience is as functional with or without styles.
 
 ### Weigh In
-*I use the Chrome Developer Tools to get an idea of the page weight.  
-Run `npm start` to run the server in production mode with GZIP and minification&nbsp;enabled.  
-Safari and Firefox seem to display uncompressed file sizes even though GZIP compressions is in fact being used.*
+*Run `npm start` to run the server in production mode with GZIP and minification&nbsp;enabled.*  
 
-In accordance with the [Rules & Regulations](https://a-k-apart.com/faq) of the competition Makeanico keeps it under 10kB initially.
+In accordance with the [Rules & Regulations](https://a-k-apart.com/faq) of the competition Makeanico keeps initial page weight under 10kB. I use the Chrome Developer Tools to get an idea of the page weight. Safari and Firefox seem to display uncompressed file sizes even though GZIP compressions is in fact being used.
 
 | Name         | Size (GZIP)      |
 | ------------ |:----------------:|
