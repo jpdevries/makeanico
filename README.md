@@ -37,6 +37,8 @@ The HTML5 datalist component is also used to enhance accessibility and usability
 ### Accessibility Preferences
 Users with localStorage enabled also are presented with Accessibility Preferences. At the `/preferences` page they will be presented with Legibility, Typeface, Contrast, Animation and Visibility components that allow them to manage related preferences. These preferences will be stored in `localStorage` and return visits will respond to user's preferences accordingly.
 
+![](http://j4p.us/2w051H3o2D08/prefs.gif)
+
 ### Keyboard Friendly
 Similar to accessibility, most of the keyboard considerations are provided by web standards and the browser. I didn't have to write any code for you to be able to easily jump around from cell to cell, input to input, or widget to widget. The semantics of the document provide that. Nevertheless, there are a few considerations and shortcuts I did make.
 
@@ -44,6 +46,8 @@ There are keyboard shortcuts for each of the selection tool buttons. Alt/Option 
 
 ### Progressive Enhancement
 The base functionality provided by the raw HTML layer is enhanced by CSS styles and JavaScript features respectively. CSS provides a WYSIWYG editor and a nice layout. JavaScript is used to provide asynchronous enhancements. Without JavaScript, the form must post to the server to update the state and fill the selected cells with the chosen color. Progressive Enhancements remove this "hard reload" but updating the DOM asynchronously and pushing new state into the URL with the HTML5 History API. JavaScript is also used to make the Fill Selected Cells component more responsive. As the values of one input method are updated the others reflect the change. Typing "red" in the Hex input will update the colorpicker and RGB sliders, and vice versa.
+
+![](http://j4p.us/3j1H3f2w2p09/fill_progress.gif)
 
 ### Service Workers
 A lightweight service worker is used to provide offline support and increase performance. Users not receiving scripts will still need to post to the server, but users receiving scripts should be able to go offline and keep making their favicon.
@@ -59,6 +63,8 @@ ARIA is salt. So we use it sparingly and only as needed. I'd rather add seasonin
 ## API
 Any icon's art is contained in the URL. Each cell, or pixel, is represented as a URL parameter. The web app uses the trendy new 8 Digit Hexadecimals to store color so to draw an icon where the first pixel is 50% red you'd use `/?c1=0xff000080`. Each cell has a numeric index starting from `c1` and ending in `c255`. The value should be a 6 or 8 digit hexadecimal starting in `0x` not `#`.
 
+There are `/make/favicon.svg`, `/make/favicon.png`, and ico `/make/favicon.ico` endpoints that can be used to load a dynamic favicon graphics in the requested format. For example `/make/favicon.svg?c23=0x0cFF00FFFF` or `/make/favicon.png?c23=0x0cFF00FFFF&dl=1` for an immediate download.
+
 
 ### World&ndash;Wide Favicon Flags
 In the spirit of the World&ndash;Wide Web, MakeanIco provides a public API for favicons of each country flag.
@@ -70,7 +76,7 @@ In the spirit of the World&ndash;Wide Web, MakeanIco provides a public API for f
 | <a href="https://makeanico.herokuapp.com/icos/flags/nl"><img src="https://makeanico.herokuapp.com/get/svg/icos/flags/nl?dl=1"></a> | `nl`      | `/icos/flags/nl` | `/get/svg/icos/flags/nl` | `/get/png/icos/flags/nl` | `/get/ico/icos/flags/nl` |
 | <a href="https://makeanico.herokuapp.com/icos/flags/us"><img src="https://makeanico.herokuapp.com/get/svg/icos/flags/us?dl=1"></a> | `us`      | `/icos/flags/us` | `/get/svg/icos/flags/us` | `/get/png/icos/flags/us` | `/get/ico/icos/flags/us` |
 
-[Find a list of all country codes and download links in this codepen](http://codepen.io/jpdevries/pen/ZpJALv).
+[Find national flags for every country in this codepen](http://codepen.io/jpdevries/pen/ZpJALv).
 
 *Note: To trigger an icon to be downloaded add a `&dl=1` URL paramater to the `get/svg`, `get/png`, or `get/ico`&nbsp;request.*
 
