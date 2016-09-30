@@ -10,7 +10,7 @@
     "start": "NODE_ENV=production node server.js"
   },
   "author": "JP de Vries",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "engines": {
     "node": "6.3.0"
   },
