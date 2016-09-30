@@ -75,7 +75,10 @@ In the spirit of the World&ndash;Wide Web, MakeanIco provides a public API for f
 *Note: To trigger an icon to be downloaded add a `&dl=1` URL paramater to the `get/svg`, `get/png`, or `get/ico`&nbsp;request.*
 
 ### Brands and Icons
-| Flag | Edit Page           | SVG Icon  | PNG Icon  | ICO Icon  |
+
+I've added endpoints for some of my favorite favicons. Follow the links in the icon column to navigate to the edit screen of your favorite&nbsp;icons.
+
+| Icon | Edit Page           | SVG Icon  | PNG Icon  | ICO Icon  |
 | ------------- |:-------------:| -----:| -----:| -----:|
 | <a href="https://makeanico.herokuapp.com/icos/modmore"><img src="https://makeanico.herokuapp.com/get/svg/icos/modmore"></a> |  `/icos/modmore` | `/get/svg/icos/modmore` | `/get/png/modmore` | `/get/ico/modmore` |
 | <a href="https://makeanico.herokuapp.com/icos/thinkful"><img src="https://makeanico.herokuapp.com/get/svg/icos/thinkful"></a> |  `/icos/thinkful` | `/get/svg/icos/thinkful` | `/get/png/thinkful` | `/get/ico/thinkful` |
@@ -87,9 +90,9 @@ In the spirit of the World&ndash;Wide Web, MakeanIco provides a public API for f
 | <a href="https://makeanico.herokuapp.com/icos/microsoft"><img src="https://makeanico.herokuapp.com/get/svg/icos/windows"></a> |  `/icos/microsoft` | `/get/svg/icos/microsoft` | `/get/png/microsoft` | `/get/ico/microsoft` |
 | <a href="https://makeanico.herokuapp.com/icos/windows"><img src="https://makeanico.herokuapp.com/get/svg/icos/windows"></a> |  `/icos/windows` | `/get/svg/icos/windows` | `/get/png/windows` | `/get/ico/windows` |
 | <a href="https://makeanico.herokuapp.com/icos/edge"><img src="https://makeanico.herokuapp.com/get/svg/icos/windows"></a> |  `/icos/edge` | `/get/svg/icos/edge` | `/get/png/edge` | `/get/ico/edge` |
-| <a href="https://makeanico.herokuapp.com/icos/10kapart"><img src="https://makeanico.herokuapp.com/get/svg/icos/10kapart"></a> |  `/icos/10kapart` | `/get/svg/icos/10kapart` | `/get/png/10kapart` | `/get/ico/10kapart` |
 | <a href="https://makeanico.herokuapp.com/icos/google"><img src="https://makeanico.herokuapp.com/get/svg/icos/google"></a> |  `/icos/google` | `/get/svg/icos/google` | `/get/png/google` | `/get/ico/google` |
 | <a href="https://makeanico.herokuapp.com/icos/chrome"><img src="https://makeanico.herokuapp.com/get/svg/icos/chrome"></a> |  `/icos/chrome` | `/get/svg/icos/chrome` | `/get/png/chrome` | `/get/ico/chrome` |
+| <a href="https://makeanico.herokuapp.com/icos/opera"><img src="https://makeanico.herokuapp.com/get/svg/icos/opera"></a> |  `/icos/opera` | `/get/svg/icos/opera` | `/get/png/opera` | `/get/ico/opera` |
 | <a href="https://makeanico.herokuapp.com/icos/facebook"><img src="https://makeanico.herokuapp.com/get/svg/icos/facebook"></a> |  `/icos/facebook` | `/get/svg/icos/facebook` | `/get/png/facebook` | `/get/ico/facebook` |
 | <a href="https://makeanico.herokuapp.com/icos/twitter"><img src="https://makeanico.herokuapp.com/get/svg/icos/twitter"></a> |  `/icos/twitter` | `/get/svg/icos/twitter` | `/get/png/twitter` | `/get/ico/twitter` |
 | <a href="https://makeanico.herokuapp.com/icos/smashingmag"><img src="https://makeanico.herokuapp.com/get/svg/icos/smashingmag"></a> |  `/icos/smashingmag` | `/get/svg/icos/smashingmag` | `/get/png/smashingmag` | `/get/ico/smashingmag` |
