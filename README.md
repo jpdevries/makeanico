@@ -19,20 +19,20 @@ Without the WYSIYG CSS styles we lose that "what you see is what you get" featur
 ### Weigh In
 In accordance with the [Rules & Regulations](https://a-k-apart.com/faq) of the competition Makeanico keeps it under 10kB initially.
 
-| Name | Size (GZIP)      |
-| ----- |: -----:|
-| index.html | 5.7kB |
-| main.min.css | 2.3kB |
-| **TOTAL** | 8.0kB |
+| Name         | Size (GZIP)      |
+| ------------ |: ---------------:|
+| index.html   | 5.7kB            |
+| main.min.css | 2.3kB            |
+| **TOTAL**    | 8.0kB            |
 
 That's the initial load. If you include `init.min.js` which is lazy-loaded right off the bat for users whose scripts can cut the mustard then we're at:
 
-| Name | Size (GZIP)      |
-| ----- |: -----:|
-| index.html | 5.7kB |
-| main.min.css | 2.3kB |
-| init.min.js | 1.7kB |
-| **TOTAL** | 9.7kB |
+| Name         | Size (GZIP)      |
+| ------------ |: ---------------:|
+| index.html   | 5.7kB            |
+| main.min.css | 2.3kB            |
+| init.min.js  | 1.7kB            |
+| **TOTAL**    | 9.7kB            |
 
 *Note: Sizes include header weight*
 
