@@ -316,8 +316,6 @@ webpackJsonp([0],[
 
 	  document.querySelector('#cell-grid__container header').innerHTML += "<h3>Select Cells</h3><div class=\"async-btns flexible unaligned fieldset\">\n    <button id=\"select_all_cells\">Select all Cells</button>\n    <button id=\"unselect_all_cells\">Unselect all Cells</button>\n    <button id=\"inverse_selection\">Inverse Selection</button>\n  </div>";
 
-	  //console.log('fillColor',fillColor);
-	  //console.log('color',color);
 	  cellInputs.forEach(function (cell, index) {
 	    cell.addEventListener('click', function (e) {
 	      //console.log(e);

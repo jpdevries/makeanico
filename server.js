@@ -424,8 +424,11 @@ function handleMakeFaviconPng(req, res, matte = transparent, size = 16) {
     type:'attachment'
   }));
 
+  res.type('png');
+
   urlParamsToPNG(cells, matte, size).then(function(buffer) {
-    res.end(buffer);
+    res.send(buffer);
+    res.end();
   });
 }
 
@@ -450,7 +453,9 @@ app.get('/make/:size/favicon.png', function(req, res) {
     size: size
   }, function(err, output) {
     svg2png(new Buffer(output), {width:size, height:size}).then(function(buffer) {
-      res.end(buffer);
+      res.type('png');
+      res.send(buffer);
+      res.end();
     }).catch(e => console.log(e));
   });
 
@@ -470,7 +475,8 @@ app.get('/make/favicon.ico', function(req, res) {
     const files = [buffer];
 
     toIco(files).then(buf => {
-      res.end(buf);
+      res.send(buf);
+      res.end();
     });
   });
 });
