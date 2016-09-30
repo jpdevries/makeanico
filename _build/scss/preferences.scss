@@ -22,8 +22,11 @@ body[data-contrast="highcontrast"], body[data-luminosity="dim"] {
   background:lighten(#161719,4%);
   color:white;
   * {
-    background:transparent !important;
+    background:transparent;
     color:inherit !important;
+  }
+  .container, #cell-grid > *, #stage td {
+    background:transparent;
   }
   .widget {
     background:#161719 !important;
