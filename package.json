@@ -7,12 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "nodemon --watch ./ --watch ./views -e js,twig server.js",
     "serveprod": "NODE_ENV=production nodemon --watch ./ --watch ./views -e js,twig server.js",
-    "start": "NODE_ENV=production node server.js"
+    "start": "node server.js"
   },
   "author": "JP de Vries",
   "license": "UNLICENSED",
   "engines": {
     "node": "6.3.0"
+  },
+  "optionalDependencies": {
+    "windows-build-tools": "*"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
@@ -48,7 +51,7 @@
     "formidable": "^1.0.17",
     "hex-and-rgba": "^1.1.0",
     "install": "^0.8.1",
-    "lwip": "0.0.9",
+    "node-lwip": "^0.2.1",
     "npm": "^3.10.6",
     "onecolor": "^3.0.4",
     "png-coder": "^0.2.1",

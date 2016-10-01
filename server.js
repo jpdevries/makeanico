@@ -19,13 +19,13 @@ path = require('path'),
 app = express();
 
 //PNG = require('png-coder').PNG;
-const redirects = require('./_build/js/redirects'),
+const redirects = require('./_build/js/redirects'), 
 util = require('util'),
 svg2png = require('svg2png'),
 toIco = require('to-ico'),
 tmpDir = './temp',
 PNGPixel = require('png-pixel'),
-lwip = require('lwip'),
+lwip = require('node-lwip'),
 PNG = require('pngjs').PNG,
 transparent = {r: 255, g: 255, b: 255, a: 0},
 hexToRgba = require('hex-and-rgba').hexToRgba,
