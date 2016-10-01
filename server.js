@@ -82,6 +82,7 @@ var CellDTO = function(index = 0, row = 0, column = 0, checked = false, fill = u
     fill:fill,
     rgba:rgba,
     hex:hex,
+    rgb:rgbaToHex(rgba[0],rgba[1],rgba[2]),
     opacity:opacity,
     rowLabel:rowLabel
   };
