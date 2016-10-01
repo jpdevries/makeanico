@@ -123,7 +123,7 @@
 	    return color;
 	},
 	    cssColorNameToRGB = function cssColorNameToRGB(colorName) {
-	    var returnArray = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+	    var returnArray = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 	    // http://stackoverflow.com/a/1573154/4671250
 	    var d = document.createElement("div");
 	    d.style.color = colorName;

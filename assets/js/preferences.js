@@ -1,7 +1,7 @@
 'use strict';
 
 function handlePrefFormChange(name) {
-  var value = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+  var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
 
   if (value) {
     localStorage.setItem(name, value);

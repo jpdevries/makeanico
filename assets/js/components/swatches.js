@@ -82,7 +82,7 @@ webpackJsonp([2],[
 	var swatchesStore = getSwatchesStore();
 
 	function addSwatch(rgba) {
-	  var setLocalStorage = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+	  var setLocalStorage = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
 	  var swatches = document.querySelectorAll('.swatch');
 	  document.querySelector('.swatches').innerHTML += '<li class="swatch" data-r="' + rgba[0] + '" data-g="' + rgba[1] + '" data-b="' + rgba[2] + '" data-a="' + rgba[3] + '" style="background:rgba(' + rgba[0] + ',' + rgba[1] + ',' + rgba[2] + ',' + rgba[3] + ')">\n    <input type="radio" name="swatch" id="swatch__' + swatches.length + '" />\n    <label for="swatch__' + swatches.length + '">\n      <span a11y-hidden>Red ' + rgba[0] + ', Green ' + rgba[1] + ', Blue ' + rgba[2] + ', Alpha ' + rgba[3] + '</span>\n    </label>\n  </li>';

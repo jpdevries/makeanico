@@ -10,6 +10,7 @@ var alertBanner,
 NodeList.prototype.forEach = Array.prototype.forEach;
 
 if (!(typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]") !== -1)) document.write('<script src="assets/js/polyfills/es6-promise' + min + '.js"></script>');
+window.fetch || document.write('<script src="assets/js/polyfills/fetch' + min + '.js"></script>');
 
 document.querySelectorAll('[no-js]').forEach(function (element) {
   element.remove();
@@ -72,7 +73,7 @@ function addComponent(slug) {
 }
 
 function addStyle(src) {
-  var id = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+  var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
   if (id && document.getElementById('id')) {
     document.getElementById('id').remove();
@@ -81,7 +82,7 @@ function addStyle(src) {
 }
 
 function addScript(src) {
-  var id = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+  var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
 
   return new Promise(function (resolve, reject) {
     var script = document.createElement('script');

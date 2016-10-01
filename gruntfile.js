@@ -43,6 +43,9 @@ module.exports = function(grunt) {
         },{
             src: '<%= dirs.build %><%= dirs.js %>globals.js',
             dest: '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>globals.js'
+        },{
+            src: '<%= dirs.lib %>fetch/fetch.js',
+            dest: '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>polyfills/fetch.js'
         }]
       }
     },
@@ -151,7 +154,9 @@ module.exports = function(grunt) {
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/export.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/export.js',
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/shortcuts.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/shortcuts.js',
           '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/swatches.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>components/swatches.js',
-          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>preferences_contrastlisteners.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>preferences_contrastlisteners.js'
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>preferences_contrastlisteners.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>preferences_contrastlisteners.js',
+
+          '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>polyfills/fetch.min.js': '<%= dirs.theme %><%= dirs.assets %><%= dirs.js %>polyfills/fetch.js'
         }
       }
     },

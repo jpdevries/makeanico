@@ -42,7 +42,7 @@ webpackJsonp([3],{
 	inputColorByTextColor.parentNode.appendChild(datalist);
 
 	function createOptGroup(label, colors) {
-	  var toHex = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
+	  var toHex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
 	  var optGroup = document.createElement('optgroup');
 
@@ -69,7 +69,7 @@ webpackJsonp([3],{
 
 	"use strict";
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	/*! modernizr 3.3.1 (Custom Build) | MIT *
 	 * https://modernizr.com/download/?-datalistelem-setclasses !*/

@@ -143,8 +143,8 @@ webpackJsonp([0],[
 	  });
 
 	  function updateColor(color) {
-	    var updateTextField = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-	    var doUpdateColorGrid = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
+	    var updateTextField = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+	    var doUpdateColorGrid = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
 	    var h = helpers.hexToRGBA(color);
 	    //console.log('updateColor', doUpdateColorGrid, h);
@@ -177,7 +177,7 @@ webpackJsonp([0],[
 	  }
 
 	  function setRGBAttributes(element) {
-	    var color = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+	    var color = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
 
 	    //console.log('setRGBAttributes', element, color);
 	    var alpha = rgbaSlider.value;

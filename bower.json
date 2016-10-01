@@ -32,5 +32,8 @@
     "spectacular": {
       "": "app/assets/stylesheets/"
     }
+  },
+  "dependencies": {
+    "fetch": "~1.0.0"
   }
 }
