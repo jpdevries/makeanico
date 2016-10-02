@@ -86,7 +86,7 @@ var CellDTO = function(index = 0, row = 0, column = 0, checked = false, fill = u
     opacity:opacity,
     rowLabel:rowLabel
   };
-  console.log(d);
+  //console.log(d);
   return d;
 }
 
@@ -148,7 +148,7 @@ function getCells(filledCells) {
 }
 
 function rasterizeIfNeeded(pic) {
-  console.log('rasterizeIfNeeded', pic.path);
+  //console.log('rasterizeIfNeeded', pic.path);
   return new Promise(function(resolve, reject) {
     //console.log('resolving');
     if(pic.type !== 'image/svg+xml') {
@@ -160,11 +160,11 @@ function rasterizeIfNeeded(pic) {
 
       fs.readFile(pic.path, function (err, buffer) {
           if (err) reject(err);
-          console.log(buffer);
+          //console.log(buffer);
 
           svg2png(buffer, {})
             .then((buf) => {
-              console.log(buf);
+              //console.log(buf);
               fs.writeFile("dest.png", buf);
               resolve({
                 filepath: buf,
@@ -189,14 +189,14 @@ app.post('/png-coder', function(req, res) {
   form.parse(req, function(err, fields, files) {
     //res.writeHead(200, {'content-type': 'text/plain'});
     //res.write('received upload:\n\n');
-    console.log(files.pic.path);
-    console.log(files.pic.type);
+    //console.log(files.pic.path);
+    //console.log(files.pic.type);
 
     rasterizeIfNeeded(files.pic).then(function(data) {
       let filepath = data.filepath,
       isBuffer = data.isBuffer;
 
-      console.log('resolved', isBuffer);
+      //console.log('resolved', isBuffer);
 
       let callback = function(err, image) {
         image.batch()
@@ -209,7 +209,7 @@ app.post('/png-coder', function(req, res) {
               let rgb = image.getPixel(x, y),
               hex = helpers.rgbToHex(rgb.r, rgb.g, rgb.b, rgb.a / 100);
 
-              console.log(rgb);
+              //console.log(rgb);
 
               if(rgb.a) {
                 params.push(`c${i}=${hex.replace('#','0x')}`);
@@ -267,8 +267,31 @@ Object.keys(redirects).forEach(function(key) {
   });
 });
 
+app.get('/icos/random', function(req, res) {
+  randomDirtyBoard(req, res);
+});
+
+app.get('/icos/randomalpha', function(req, res) {
+  randomDirtyBoard(req, res, true);
+});
+
+function randomRange(min = 0, max = 1) {
+  return min + ((max-min)*Math.random())
+}
+
+function randomDirtyBoard(req, res, alpha = false) {
+  let s = '',
+  params = [];
+  for(let i = 0; i < 256; i++) {
+    hex = helpers.rgbaToHex(Math.round(randomRange(0,255)),Math.round(randomRange(0,255)),Math.round(randomRange(0,255)), alpha ? parseFloat(Math.round(Math.random() * 100) / 100).toFixed(2) : 1).toUpperCase().replace('#','0x');
+    params.push(`c${i}=${hex}`);
+  }
+  res.redirect(`/?${params.join('&')}`);
+  res.end();
+}
+
 app.get('/png-coder', function(req, res) {
-  console.log('get png-coder ' + new Date().getTime());
+  //console.log('get png-coder ' + new Date().getTime());
   let redirect = '';
 
   createDirectoryIfNonExistant(tmpDir);
@@ -281,12 +304,12 @@ app.get('/png-coder', function(req, res) {
     image.batch()
       .contain(16,16)          // scale to 16x16
       .writeFile(folder + path.sep + 'favicon16.png', function(err) {
-        console.log('wrote ' + folder + path.sep + 'favicon16.png');
+        //console.log('wrote ' + folder + path.sep + 'favicon16.png');
 
         fs.createReadStream(folder + path.sep + 'favicon16.png').pipe(new PNG({
           depth:8
         })).on('parsed', function() {
-          console.log('parsed', this.width, this.height);
+          //console.log('parsed', this.width, this.height);
           let c = 0;
           let params = [];
           for (let y = 0; y < this.height; y++) {
@@ -384,7 +407,7 @@ app.post('/', function(req, res) {
     let fill = (hex) ? hex.replace('#','0x') : color(targetColor).hex().replace('#','0x');
     //console.log('redhex', color(targetColor).hex());
     selectedCells.map(function(value){
-      console.log(value, fill);
+      //console.log(value, fill);
       //filledCells[value] = color(targetColor).hex().replace('#','0x');
       filledCells[value] = fill;
     });
@@ -566,7 +589,7 @@ app.get('*.min.css', function (req, res, next) {
 });*/
 
 
- /* __       __   __ __      
+ /* __       __   __ __
 /\ \\ \    /'__`\/\ \\ \
 \ \ \\ \  /\ \/\ \ \ \\ \
  \ \ \\ \_\ \ \ \ \ \ \\ \_
