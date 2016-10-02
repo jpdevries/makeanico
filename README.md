@@ -15,6 +15,7 @@ For example, here is the 10K Apart Favicon as represented by the Makeanico WYSIW
   <caption>10kapart favicon loaded into Makeanico art&ndash;board</caption>
 </figure>
 
+
 Without the WYSIYG CSS styles we lose that "what you see is what you get" feature but powered by semantic HTML the raw experience is as functional with or without&nbsp;styles.
 
 ### Weigh In
