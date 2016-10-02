@@ -19,7 +19,7 @@ path = require('path'),
 app = express();
 
 //PNG = require('png-coder').PNG;
-const redirects = require('./_build/js/redirects'), 
+const redirects = require('./_build/js/redirects'),
 util = require('util'),
 svg2png = require('svg2png'),
 toIco = require('to-ico'),
@@ -565,6 +565,20 @@ app.get('*.min.css', function (req, res, next) {
   next();
 });*/
 
+
+ /* __       __   __ __      
+/\ \\ \    /'__`\/\ \\ \
+\ \ \\ \  /\ \/\ \ \ \\ \
+ \ \ \\ \_\ \ \ \ \ \ \\ \_
+  \ \__ ,__\ \ \_\ \ \__ ,__\
+   \/_/\_\_/\ \____/\/_/\_\_/
+      \/_/   \/___/    \/*/
+
+
+app.use(function (req, res) {
+  res.redirect('/');
+  res.end();
+});
 
 
        /*             __
