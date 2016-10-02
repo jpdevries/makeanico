@@ -5,14 +5,12 @@
     </div>
     <h2 id="export">Export</h2>
     <p>
-      Your <i><span class="filename">favicon</span>.<span class="extension">ico</span></i> icon is ready for&nbsp;download.
+      Your <i><span class="filename">favicon</span><span class="exp"></span></i> icon is ready for&nbsp;download.
     </p>
-    <div class="flexible">
-      <label for="filename__text">Filename:</label>
-      <input type="text" id="filename__text" name="filename__text" placeholder="favicon" />
-    </div>
+    <div id="dlname"></div>
     <p></p>
-    <form class="download-as">
+    <form action="/export" method="post" class="download-as">
+      {% if includeCellURL|default(false)  %}<input type="hidden" name="cellurl" value="{{ cellURL }}" />{% endif %}
       <fieldset>
         <legend>Download As</legend>
         <label for="download__ico">
@@ -27,18 +25,9 @@
           PNG
           <input type="radio" id="download__png" name="download__as" value="png">
         </label>
+        <button type="submit">Download Favicon</button>
       </fieldset>
     </form>
-    <nav class="flexible unaligned button-bar">
-      <div>
-        <a data-base-url="/make/favicon.ico" download="favicon.ico" class="comforatbly heavy btn" aria-label="ICO Graphic (ICO)" data-format="ico" href="/make/favicon.ico?dl=1&{{ cellURL }}" >Download <span class="filename">favicon</span>.<span class="extension">ico</span></a>
-      </div>
-      <div>
-        <a hidden data-base-url="/make/favicon.svg" download="favicon.svg" class="comforatbly heavy btn" aria-label="Scalable Vector Graphic (SVG)" data-format="svg" href="/make/favicon.svg?dl=1&{{ cellURL }}">Download <span class="filename">favicon</span>.<span class="extension">svg</span></a>
-      </div>
-      <div>
-        <a hidden data-base-url="/make/favicon.png" download="favicon.png" class="comforatbly heavy btn" aria-label="Portable Network Graphic (PNG)" data-format="png" href="/make/favicon.png?dl=1&{{ cellURL }}">Download <span class="filename">favicon</span>.<span class="extension">png</span></a>
-      </div>
-    </nav>
+    <div id="jsbts"></div>
   </div>
 </div>
