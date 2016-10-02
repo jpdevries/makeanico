@@ -576,6 +576,41 @@ function urlParamsToPNG(cells, matte = transparent, size = 16) {
   });
 }
 
+app.post('/export', function(req, res) {
+  const form = new formidable.IncomingForm();
+
+  form.parse(req, function(err, fields, files) {
+    const cellUrl = (function(){
+      if(fields.cellurl) { // might not be available if saving data
+        return fields.cellurl;
+      } else {
+        // if it isn't available as a hidden HTML form input then try and get the cell data from the Referrer header. Sneaky!
+        let r = req.get('Referrer');
+        return r.split('?')[r.split('?').length-1];
+      }
+    })();
+
+    let format = fields.download__as || 'ico';
+
+    /*switch(fields.download__as) {
+      case 'svg':
+      break;
+
+      case 'png':
+      break;
+
+      case 'ico':
+      default:
+      break;
+    }*/
+
+    let baseUrl = `/make/favicon.${format}`;
+    res.redirect(`${baseUrl}?${cellUrl}&dl=1`);
+    res.end();
+  });
+
+});
+
 /*app.get('*.min.js', function (req, res, next) {
   req.url = req.url + '.gz';
   res.set('Content-Encoding', 'gzip');

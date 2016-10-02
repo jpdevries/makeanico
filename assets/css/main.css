@@ -283,6 +283,9 @@ footer button:last-of-type {
   -ms-flex-preferred-size: 30em;
       flex-basis: 30em; }
 
+.export button[type="submit"] {
+  margin: 1em; }
+
 @media screen and (min-width: 641px) {
   .bottom-bar {
     display: -ms-flexbox;

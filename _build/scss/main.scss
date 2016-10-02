@@ -369,6 +369,9 @@ footer {
   button {
     @extend %margin-right-1em;
   }
+  button[type="submit"] {
+    margin:1em;
+  }
 }
 
 .bottom-bar {
