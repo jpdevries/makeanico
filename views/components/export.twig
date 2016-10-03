@@ -1,10 +1,16 @@
 <div class="export widget">
   <div class="neat container">
     <div class="svg-preview">
-      {% if not printFaviconPreview|default(false) %}
-      {% include 'components/useart.twig' %}
+      {% if not force10kB|default(false) %}
+        {% if not printFaviconPreview|default(false) %}
+        {% include 'components/useart.twig' %}
+        {% else %}
+        {% include 'favicon-preview.twig' with cells %}
+        {% endif %}
       {% else %}
-      {% include 'favicon-preview.twig' with cells %}
+      <a js-hidden="false" aria-hidden download="favicon.svg" data-base-url="/make/favicon.svg">
+        {% include 'components/useart.twig' with {includeUse: false} %}
+      </a>
       {% endif %}
     </div>
     <h2 id="export">Export</h2>

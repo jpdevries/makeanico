@@ -2,10 +2,18 @@
   <div id="cell-grid__container" class="container{% if fill %} dirty{% endif %}"{% if fillRGBA %} style="border-color:rgba({{fillRGBA[0]}}, {{fillRGBA[1]}}, {{fillRGBA[2]}}{% if fillRGBA[3] %}, {{fillRGBA[3]}})"{% endif %}{% endif %}>
     <header>
       <div class="svg-preview">
-        {% if printFaviconPreview|default(false) %}
-          {% include 'favicon-preview.twig' with cells %}
+        {% if not force10kB|default(false) %}
+          {% if printFaviconPreview|default(false) %}
+            {% include 'favicon-preview.twig' with cells %}
+          {% else %}
+          <a aria-hidden download="favicon.svg" data-base-url="/make/favicon.svg" href="/make/favicon.svg?dl=1&{{ cellURL }}" title="Preview your Favicon as SVG">
+            {% include 'components/useart.twig' %}
+          </a>
+          {% endif %}
         {% else %}
-          {% include 'components/useart.twig' with cells %}
+          <a aria-hidden js-hidden="false" download="favicon.svg" data-base-url="/make/favicon.svg" title="Preview your Favicon as SVG">
+            {% include 'components/useart.twig' with {includeUse: false} %}
+          </a>
         {% endif %}
       </div>
     </header>

@@ -15,7 +15,9 @@ window.fetch || document.write('<script src="assets/js/polyfills/fetch' + min + 
 document.querySelectorAll('[no-js]').forEach(function (element) {
   element.remove();
 });
-//document.querySelectorAll('[js-hidden]').forEach((element) => {element.setAttribute('hidden','true')});
+document.querySelectorAll('[js-hidden]').forEach(function (element) {
+  element.getAttribute('js-hidden') == 'false' ? element.removeAttribute('js-hidden') : element.setAttribute('hidden', 'true');
+});
 $('fill-cells-on-click').removeAttribute('disabled');
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('/serviceWorker' + min + '.js');

@@ -1,5 +1,5 @@
 <td{%if fill %} style="background:{{ fill }}"{% endif %}>
   {% if fill %}<input type="hidden" name="c{{ index }}" value="{{ hex|replace({'#':'0x'}) }}" >{% endif %}
   <input type="checkbox" id="c__{{ index }}" name="c__{{ index }}" value="1" />
-  <label for="c__{{ index }}"><span>Cell {{ rowLabel }}{{ column }}{%if fill %} is filled with Red {{ rgba[0] }} Green {{ rgba[1] }} Blue {{ rgba[2] }} Alpha {{ rgba[3] }}{% endif %}</span></label>
+  <label for="c__{{ index }}"><span>Cell {{ rowLabel }}{{ column }}{% if not force10kB|default(false) %}{%if fill %} is filled with Red {{ rgba[0] }} Green {{ rgba[1] }} Blue {{ rgba[2] }} Alpha {{ rgba[3] }}{% endif %}{% endif %}</span></label>
 </td>

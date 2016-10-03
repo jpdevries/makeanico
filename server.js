@@ -57,21 +57,27 @@ var CellDTO = function(index = 0, row = 0, column = 0, checked = false, fill = u
   if(fill) {
     try {
       fill = hex = color(fill.toString().replace('0x','#')).hex();
+      //let r = hexToRgba(fill);
+      //if(r[3] && (r[3] < 1)) fill = `rgba(${r[0],r[1],r[2],Math.round(r[3] * 100) / 100})`;
       opacity = 1;
     } catch(e) {
       fill = hexToRgba(fill.replace('0x','#'));
       hex = rgbaToHex(fill[0],fill[1],fill[2],fill[3]);
 
       if(fill[3] && fill[3] < 1) {
-        fill[3] = opacity = Math.round(fill[3] * 100) / 100; 
+        fill[3] = opacity = Math.round(fill[3] * 100) / 100;
         fill = `rgba(${fill[0]},${fill[1]},${fill[2]},${fill[3]})`;
       } else {
-        fill = hex;
+        fill = hex.substring(0,7);
+        let r = hexToRgba(hex);
+        if(r[3] && (r[3] < 1)) fill = (r[3] == 1) ? fill :  `rgba(${r[0]},${r[1]},${r[2]},${Math.round(r[3] * 100) / 100})`;
       }
 
     }
 
+    //fill = fill;
     rgba = hexToRgba(hex);
+    if(rgba[3] && rgba[3] < 1) rgba[3] = Math.round(rgba[3] * 100) / 100;
     //rgba[3] = opacity;
     //console.log(opacity);
 
@@ -364,17 +370,21 @@ function getBaseUrl(req) {
 
 app.get('/', function(req, res) {
   const baseUrl = getBaseUrl(req);
+  const force10kB = true;
   //res.set('Content-Encoding', 'gzip');
   var filledCells = getFilledCells(req.query);
   let cells = getCells(filledCells);
 
   res.render('index.twig',{
+    force10kB: force10kB,
+    saveData: force10kB,
     fill:req.query.fill || undefined,
     fillRGBA:req.query.fill ? hexToRgba(req.query.fill.replace('0x','#')) : undefined,
     cells: cells,
     startOver: filledCells.length > 0,
+    shouldBeDirty: filledCells.length > 0,
     colorBy:req.query.colorby || undefined,
-    cellURL: getCellURLString(req.query),
+    cellURL: force10kB ? '' : getCellURLString(req.query),
     baseUrl: baseUrl,
     printFaviconPreview: false, // set to false to use svg <use> to save data
     production: process.env.NODE_ENV == 'production',
