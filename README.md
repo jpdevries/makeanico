@@ -8,7 +8,7 @@ Makeanico is a progressively enhanced web app that allows anyone to create a 16x
 
 The "base" functionality of Makeanico is the ability to create a 16x16 favicon and export it in .ico, .svg and .png formats. This base functionality is achieved with an initial load of less than 10kB. Approximately 2kB of CSS styles are used to graphically enhance the experience for sighted users. This is done by styling a semantic HTML `<table>` of `<input type="checkbox">` elements to create a "WYSIWYG" graphics&nbsp;editor.
 
-For example, here is the 10K Apart Favicon as represented by the Makeanico WYSIWYG&nbsp;Editor:  
+For example, [here is the 10K Apart Favicon as represented by the Makeanico WYSIWYG&nbsp;Editor](https://makeanico.azurewebsites.net/icos/10kapart):  
 
 <figure>
   <a href="https://makeanico.azurewebsites.net/icos/10kapart"><img src="http://j4p.us/0e3a472y0c2Y/10k-favicon-source.png"></a>
