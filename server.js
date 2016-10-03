@@ -370,7 +370,7 @@ function getBaseUrl(req) {
 
 app.get('/', function(req, res) {
   const baseUrl = getBaseUrl(req);
-  const force10kB = true;
+  const force10kB = false;
   //res.set('Content-Encoding', 'gzip');
   var filledCells = getFilledCells(req.query);
   let cells = getCells(filledCells);
