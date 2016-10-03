@@ -122,10 +122,19 @@ webpackJsonp([0],[
 	    }
 	  })();
 
+	  function updateMetaTags() {
+	    try {
+	      document.querySelectorAll("head meta[data-fill]").forEach(function (meta) {
+	        return meta.setAttribute('content', helpers.rgbaToHex(fillColor[0], fillColor[1], fillColor[2]));
+	      });
+	    } catch (e) {}
+	  }
+
 	  function updateView() {
 	    //console.log('updateView');
 	    updateFavicon();
 	    updateDownloadLinks();
+	    updateMetaTags();
 
 	    var isBlank = !Object.keys(fillBack).length;
 	    document.querySelectorAll('.data-dependent').forEach(function (element) {
@@ -521,6 +530,17 @@ webpackJsonp([0],[
 
 	    window.scrollTo(0, 0); // scroll to the top
 	  };
+
+	  ["theme-color", "msapplication-navbutton-color", "apple-mobile-web-app-capable", "apple-mobile-web-app-status-bar-style"].forEach(function (name) {
+	    console.log(name);
+	    if (!document.querySelector("head meta[name=\"" + name + "\"]")) {
+	      var m = document.createElement('meta');
+	      m.setAttribute('name', name);
+	      if (name !== 'apple-mobile-web-app-capable') m.setAttribute('data-fill', 'true');
+	      m.setAttribute('content', name == 'apple-mobile-web-app-capable' ? 'yes' : helpers.rgbaToHex(fillColor[0], fillColor[1], fillColor[2], fillColor[3]));
+	      document.querySelector('head').appendChild(m);
+	    }
+	  });
 	};
 
 	exports.MakeAnIco = MakeAnIco;
