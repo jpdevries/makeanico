@@ -107,7 +107,8 @@ const MakeAnIco = function() {
 
     const isBlank = !Object.keys(fillBack).length;
     document.querySelectorAll('.data-dependent').forEach((element) => {
-      (isBlank) ? element.setAttribute('hidden', 'true') : element.removeAttribute('hidden')
+      element.setAttribute('href',`mailto:?subject=Check%20out%20this%20Favicon&body=${encodeURIComponent(location.origin + location.pathname + location.search)}`);
+      (isBlank) ? element.setAttribute('hidden', 'true') : element.removeAttribute('hidden');
     })
   }
 
@@ -279,7 +280,7 @@ const MakeAnIco = function() {
 
     range.addEventListener('change',function(e){
       pushState();
-      updateDownloadLinks();
+      updateView();
     })
   });
 
@@ -437,8 +438,9 @@ const MakeAnIco = function() {
     event.preventDefault();
     updateColorGrid(helpers.rgbaToHex(fillColor[0],fillColor[1],fillColor[2],fillColor[3]));
     pushState();
-    updateFavicon();
-    updateFaviconPreview();
+    updateView();
+    //updateFavicon();
+    //updateFaviconPreview();
   });
 
   stage.addEventListener("change", function(event) {
@@ -500,6 +502,8 @@ const MakeAnIco = function() {
     Object.keys(fillBack).forEach(function(key) { // draw the new state
       setRGBAttributes($(key.replace('c','c__')).parentNode, fillBack[key].replace('0x', '#'));
     });
+
+    updateView();
 
     window.scrollTo(0,0); // scroll to the top
   };

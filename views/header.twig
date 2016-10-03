@@ -18,8 +18,8 @@
 
   {% if not saveData|default(false) %}
     <link id="favicon" rel="icon" type="image/png" href="{% if startOver %}/make/favicon.png?{{ cellURL }}{% else %}/favicon.png{% endif %}" />
-    <meta property="og:image" content="{{ baseUrl|default('http://makeanico.herokuapp.com/')  }}{% if startOver %}make/256/favicon.png?{{ cellURL }}{% else %}og.png{% endif %}">
+    <meta property="og:image" content="{{ baseUrl|default('https://makeanico.azurewebsites.net/')  }}{% if startOver %}make/256/favicon.png?{{ cellURL }}{% else %}og.png{% endif %}">
   {% else %}
     <link id="favicon" rel="icon" type="image/png" href="/favicon.png" />
-    <meta property="og:image" content="{{ baseUrl|default('http://makeanico.herokuapp.com/')  }}og.png">
+    <meta property="og:image" content="{{ baseUrl|default('https://makeanico.azurewebsites.net/') }}og.png">
   {% endif %}

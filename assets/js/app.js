@@ -129,6 +129,7 @@ webpackJsonp([0],[
 
 	    var isBlank = !Object.keys(fillBack).length;
 	    document.querySelectorAll('.data-dependent').forEach(function (element) {
+	      element.setAttribute('href', "mailto:?subject=Check%20out%20this%20Favicon&body=" + encodeURIComponent(location.origin + location.pathname + location.search));
 	      isBlank ? element.setAttribute('hidden', 'true') : element.removeAttribute('hidden');
 	    });
 	  }
@@ -305,7 +306,7 @@ webpackJsonp([0],[
 
 	    range.addEventListener('change', function (e) {
 	      pushState();
-	      updateDownloadLinks();
+	      updateView();
 	    });
 	  });
 
@@ -452,8 +453,9 @@ webpackJsonp([0],[
 	    event.preventDefault();
 	    updateColorGrid(helpers.rgbaToHex(fillColor[0], fillColor[1], fillColor[2], fillColor[3]));
 	    pushState();
-	    updateFavicon();
-	    updateFaviconPreview();
+	    updateView();
+	    //updateFavicon();
+	    //updateFaviconPreview();
 	  });
 
 	  stage.addEventListener("change", function (event) {
@@ -514,6 +516,8 @@ webpackJsonp([0],[
 	      // draw the new state
 	      setRGBAttributes($(key.replace('c', 'c__')).parentNode, fillBack[key].replace('0x', '#'));
 	    });
+
+	    updateView();
 
 	    window.scrollTo(0, 0); // scroll to the top
 	  };
