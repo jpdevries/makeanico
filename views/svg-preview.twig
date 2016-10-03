@@ -1,12 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="svg-preview__svg" viewBox="0 0 16 16">
   <title>Your Favicon</title>
-  <g class="art">
-    {% for row in cells %}
-        {% for cell in row %}
-          {% if cell.fill %}
-            <rect x="{{ cell.column }}" y="{{ cell.row }}" width="1" height="1" fill="{{ cell.rgb }}" opacity="{{ cell.opacity }}"></rect>
-          {% endif %}
-        {% endfor %}
-    {% endfor %}
-  </g>
+  {% include 'components/art.twig' with cells %}
 </svg>

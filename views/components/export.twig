@@ -1,7 +1,11 @@
 <div class="export widget">
   <div class="neat container">
     <div class="svg-preview">
-      {% include '../favicon-preview.twig' with cells %}
+      {% if not printFaviconPreview|default(false) %}
+      {% include 'components/useart.twig' %}
+      {% else %}
+      {% include 'favicon-preview.twig' with cells %}
+      {% endif %}
     </div>
     <h2 id="export">Export</h2>
     <p>
