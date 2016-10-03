@@ -56,7 +56,11 @@
       <div hidden id="lazy__swatches"></div>
 
       {% if startOver %}
-        {% include 'components/keyboard.twig' %}
+        {% if not force10kB|default(false) %}
+          {% include 'components/keyboard.twig' %}
+        {% else %}
+        <div hidden id="lazy__keyboard"></div>
+        {% endif %}
       {% else %}
         <div hidden id="lazy__keyboard"></div>
       {% endif %}
