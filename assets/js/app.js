@@ -36,6 +36,16 @@ webpackJsonp([0],[
 	    return i.type !== "text";
 	  }();
 
+	  document.querySelectorAll('#stage tbody td[data-dirty]').forEach(function (element) {
+	    try {
+	      var hex = helpers.hexToRGBA(element.querySelector('input').value.replace('0x', '#'));
+	      element.dataset.r = hex[0];
+	      element.dataset.g = hex[1];
+	      element.dataset.b = hex[2];
+	      element.dataset.a = hex[3];
+	    } catch (e) {}
+	  });
+
 	  $('ps').outerHTML = "\n  <p>Using Adobe Photoshop?<br>Easily import a Photoshop document with our <a class=\"es\" download=\"makeanico.jsx\" href=\"/assets/js/extendscript/makeanico.jsx\">MakeanIco&nbsp;ExtendScript</a>.</p>\n  <p>Bookmark this page at anytime to save your&nbsp;proggress.</p>\n  ";
 
 	  var icons = document.querySelectorAll('[data-icon]');

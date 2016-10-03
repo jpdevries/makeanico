@@ -1,13 +1,24 @@
 {% include 'header.twig' with { loadStyles:true } %}
 </head>
 <body>
+  {% if not printFaviconPreview|default(false) %}
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" hidden>
+    <symbol viewBox="0 0 16 16" id="art">
+    {% include 'components/art.twig' with cells %}
+    </symbol>
+  </svg>
+  {% endif %}
   <div hidden id="lazy__alert"></div>
   <div id="page-wrapper">
     <aside class="bottom-bar">
       <div class="quick-start widget">
         <div class="neat container">
           <div class="svg-preview">
+            {% if not printFaviconPreview|default(false) %}
+            {% include 'components/useart.twig' %}
+            {% else %}
             {% include 'favicon-preview.twig' with cells %}
+            {% endif %}
           </div>
           <h1>Make an <span aria-hidden="true">.</span>ICO <span a11y-hidden>Graphic</span></h1>
           <p>Just getting started?<br>Check out our <a href="/howto">quick start&nbsp;guide</a>.</p>

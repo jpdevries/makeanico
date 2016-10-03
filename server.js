@@ -370,6 +370,7 @@ app.get('/', function(req, res) {
     colorBy:req.query.colorby || undefined,
     cellURL: getCellURLString(req.query),
     baseUrl: baseUrl,
+    printFaviconPreview: false, // set to false to use svg <use> to save data
     production: process.env.NODE_ENV == 'production',
     rowLabels:(function(){
       let a = [];
