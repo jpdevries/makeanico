@@ -166,7 +166,9 @@ I've added endpoints for some of my favorite favicons. Follow the links in the i
 | <a href="https://makeanico.azurewebsites.net/icos/google"><img src="https://makeanico.azurewebsites.net/get/svg/icos/google"></a> |  `/icos/google` | `/get/svg/icos/google` | `/get/png/google` | `/get/ico/google` |
 | <a href="https://makeanico.azurewebsites.net/icos/chrome"><img src="https://makeanico.azurewebsites.net/get/svg/icos/chrome"></a> |  `/icos/chrome` | `/get/svg/icos/chrome` | `/get/png/chrome` | `/get/ico/chrome` |
 | <a href="https://makeanico.azurewebsites.net/icos/opera"><img src="https://makeanico.azurewebsites.net/get/svg/icos/opera"></a> |  `/icos/opera` | `/get/svg/icos/opera` | `/get/png/opera` | `/get/ico/opera` |
-| <a href="https://makeanico.azurewebsites.net/icos/facebook"><img src="https://makeanico.azurewebsites.net/get/svg/icos/facebook"></a> |  `/icos/facebook` | `/get/svg/icos/facebook` | `/get/png/facebook` | `/get/ico/facebook` |
+| <a href="https://makeanico.azurewebsites.net/icos/vivaldi"><img src="https://makeanico.azurewebsites.net/get/svg/icos/vivaldi"></a> |  `/icos/vivaldi` | `/get/svg/icos/vivaldi` | `/get/png/vivaldi` | `/get/ico/vivaldi` |
+| <a href="https://makeanico.azurewebsites.net/icos/facebook"><img src="https://makeanico.azurewebsites.net/get/svg/icos/facebook"></a> |  
+`/icos/facebook` | `/get/svg/icos/facebook` | `/get/png/facebook` | `/get/ico/facebook` |
 | <a href="https://makeanico.azurewebsites.net/icos/twitter"><img src="https://makeanico.azurewebsites.net/get/svg/icos/twitter"></a> |  `/icos/twitter` | `/get/svg/icos/twitter` | `/get/png/twitter` | `/get/ico/twitter` |
 | <a href="https://makeanico.azurewebsites.net/icos/smashingmag"><img src="https://makeanico.azurewebsites.net/get/svg/icos/smashingmag"></a> |  `/icos/smashingmag` | `/get/svg/icos/smashingmag` | `/get/png/smashingmag` | `/get/ico/smashingmag` |
 | <a href="https://makeanico.azurewebsites.net/icos/gmail"><img src="https://makeanico.azurewebsites.net/get/svg/icos/gmail"></a> |  `/icos/gmail` | `/get/svg/icos/gmail` | `/get/png/gmail` | `/get/ico/gmail` |
