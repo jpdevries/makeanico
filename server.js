@@ -63,7 +63,7 @@ var CellDTO = function(index = 0, row = 0, column = 0, checked = false, fill = u
       hex = rgbaToHex(fill[0],fill[1],fill[2],fill[3]);
       opacity = fill[3];
       if(opacity && opacity < 1) {
-        fill = `rgba(${fill[0]},${fill[1]},${fill[2]},${fill[3]})`;
+        fill = `rgba(${fill[0]},${fill[1]},${fill[2]},${Math.round(fill[3] * 100) / 100})`;
       } else {
         fill = hex;
       }
