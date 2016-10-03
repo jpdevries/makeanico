@@ -9,14 +9,15 @@ const MakeAnIco = function() {
     return i.type !== "text";
   })();
 
-  document.querySelectorAll('#stage tbody td[data-dirty]').forEach((element) => {
+  document.querySelectorAll('#stage tbody td[style]').forEach((element) => {
     try {
       const hex = helpers.hexToRGBA(element.querySelector('input').value.replace('0x','#'));
+      element.dataset.dirty = true;
       element.dataset.r = hex[0];
       element.dataset.g = hex[1];
       element.dataset.b = hex[2];
       element.dataset.a = hex[3];
-    } catch (e) { } 
+    } catch (e) { }
   });
 
   $('ps').outerHTML = `

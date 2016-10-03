@@ -36,9 +36,10 @@ webpackJsonp([0],[
 	    return i.type !== "text";
 	  }();
 
-	  document.querySelectorAll('#stage tbody td[data-dirty]').forEach(function (element) {
+	  document.querySelectorAll('#stage tbody td[style]').forEach(function (element) {
 	    try {
 	      var hex = helpers.hexToRGBA(element.querySelector('input').value.replace('0x', '#'));
+	      element.dataset.dirty = true;
 	      element.dataset.r = hex[0];
 	      element.dataset.g = hex[1];
 	      element.dataset.b = hex[2];
