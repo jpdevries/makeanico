@@ -73,6 +73,7 @@
               <input type="range" inputmode="numeric" min="0" max="255" step="1" value="{% if fillRGBA[2] is defined %}{{ fillRGBA[2] }}{% else %}255{% endif %}" id="rgb_slider_b" name="rgb_slider_b" pattern="[0-9]*" maxlength="3" />
             </div>
           </fieldset>
+          {% if not force10kB|default(false) %}
           <fieldset>
             <legend>Transparency</legend>
             <div class="flexible fieldset">
@@ -80,6 +81,7 @@
               <input type="range" inputmode="numeric" min="0" max="1" step=".01" id="rgb_slider_a" name="rgb_slider_a" value="{% if fillRGBA[3] is defined %}{{ fillRGBA[3] }}{% else %}1{% endif %}" pattern="\d+(\.\d*)?" />
             </div>
           </fieldset>
+          {% endif %}
         </div>
       </fieldset>
       <footer>
