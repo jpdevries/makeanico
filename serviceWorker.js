@@ -1,6 +1,6 @@
 'use strict';
 
-var CACHE_NAME = '1.0.2-dev7';
+var CACHE_NAME = '1.0.2-dev12';
 //cacheAll = true;
 
 self.addEventListener('install', function(event) {
@@ -8,7 +8,7 @@ self.addEventListener('install', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-  if(event.request.method !== 'GET') return;
+  if(event.request.method !== 'GET' || event.request.url.match(/\/icos\/random/)) return;
   event.respondWith(
     caches.match(event.request).then(function(resp) {
       return resp || fetch(event.request).then(function(response) {
