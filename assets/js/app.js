@@ -38,12 +38,43 @@ webpackJsonp([0],[
 
 	  document.querySelectorAll('#stage tbody td[style]').forEach(function (element) {
 	    try {
-	      var hex = helpers.hexToRGBA(element.querySelector('input').value.replace('0x', '#'));
-	      element.dataset.dirty = true;
-	      element.dataset.r = hex[0];
-	      element.dataset.g = hex[1];
-	      element.dataset.b = hex[2];
-	      element.dataset.a = hex[3];
+	      (function () {
+	        var fill = element.querySelector('input[type="hidden"]') ? element.querySelector('input[type="hidden"]').value.replace('0x', '#') : function () {
+	          var style = element.style.backgroundColor.trim();
+	          if (style.indexOf('#') == '1') return style.replace('#', '0x');
+	          style = style.replace('rgba(', '');
+	          style = style.replace(')', '');
+	          style = style.split(',').map(function (n) {
+	            return n.trim();
+	          });
+	          return helpers.rgbaToHex(style[0], style[1], style[2], style[3]).replace('#', '0x');
+	        }();
+	        console.log(fill);
+	        var hex = helpers.hexToRGBA(fill.replace('0x', '#'));
+	        element.dataset.dirty = true;
+
+	        //console.log(hex);
+
+	        if (!element.querySelector('input[type="hidden"]')) {
+	          (function () {
+	            var index = element.querySelector('label').getAttribute('for').replace('c__', '');
+	            //<input type="hidden" name="c${index}" value="${hex.replace('#','0x')}" >
+	            var hidden = function () {
+	              var h = document.createElement('input');
+	              h.setAttribute('type', 'hidden');
+	              h.setAttribute('name', "c" + index);
+	              h.setAttribute('value', "" + fill);
+	              return h;
+	            }();
+	            element.insertBefore(hidden, element.childNodes[0]);
+	          })();
+	        }
+
+	        element.dataset.r = hex[0];
+	        element.dataset.g = hex[1];
+	        element.dataset.b = hex[2];
+	        element.dataset.a = hex[3];
+	      })();
 	    } catch (e) {}
 	  });
 
