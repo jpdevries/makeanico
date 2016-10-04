@@ -19,7 +19,7 @@ For example, [here is the 10K Apart Favicon as represented by the Makeanico WYSI
 <br>Without the WYSIYG CSS styles we lose that "what you see is what you get" feature but powered by semantic HTML the raw experience is as functional with or without&nbsp;styles.
 
 ### Weigh In
-*Run `npm start` to run the server in production mode with GZIP and minification&nbsp;enabled.*  
+*Run `npm start` to run the server in production mode with GZIP and minification&nbsp;enabled. Host over&nbsp;https.*  
 
 In accordance with the [Rules & Regulations](https://a-k-apart.com/faq) of the competition Makeanico keeps initial page weight under 10kB. I use the Chrome Developer Tools to get an idea of the page weight. Safari and Firefox seem to display uncompressed file sizes even though GZIP compressions is in fact being&nbsp;used.
 
@@ -185,3 +185,38 @@ I've added endpoints for some of my favorite favicons. Follow the links in the i
 
 ## Accessibility Proclaimer
 This web app strives for WCAG 2.0 Guidelines Level AA. Please [open an issue](https://github.com/jpdevries/makeanico/issues/new) for any accessibility issue, feedback, or&nbsp;concern.
+
+## Browser Support
+Makeanico has excellent browser support but isn't without&nbsp;issue.
+
+### TL;DR
+Makeanico is architected starting with an HTML&ndash;first web standards layer and is progressively enhanced. It therefore has very ubiquitous&nbsp;support. Even IE6 users can use the semantic form and synchronously illustrate an&nbsp;icon. Lynx users can read the contents of an icons&nbsp;artboard.
+
+That said, there is a [known issue in IE and Edge will URLs exceeding 2083 characters](https://github.com/jpdevries/makeanico/issues/5). This causes issues with exporting dirty art&ndash;boards in Edge. Edge is tracking an issue to resolve this so no action is being taken. Export of very dirty art&ndash;boards will land when this is addressed by&nbsp;Edge. That will be an exciting&nbsp;update!
+
+### Desktop Async
+| Vendor | Version |
+|--------|---------|
+| Chrome | 53.0 |
+| *Edge | 38.0 |
+| Firefox | 49.0    |
+| *IE | 11 |
+| Opera | 39.0    |
+| Safari  | 10.0    |
+| Vivaldi  | 1.4.5    |
+
+_*Does not export dirty artboards_
+
+### Mobile Async
+| Vendor | Version |
+|--------|---------|
+| iOS  | 10.0    |
+| Android | latest    |
+
+*[If you are experiencing an issue please let us know](https://github.com/jpdevries/makeanico/issues/new)*.
+
+### Synchronous
+The synchronous or `no-js` experience should work in just about any browser so [we'll take bug reports for any&nbsp;browser](https://github.com/jpdevries/makeanico/issues/new).
+
+## Polyfills
+Scripts are only loaded if needed and pass feature tests. Polyfills are only loaded if needed and fail feature tests. Polyfills for `fetch()` and `Promise` are lazily loaded if needed. These are both needed for IE11. The fetch polyfill is needed for Safari 10.0 and iOS 10 but Safari will soon shed this&nbsp;polyfill.
