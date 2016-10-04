@@ -12,12 +12,13 @@ const MakeAnIco = function() {
   document.querySelectorAll('#stage tbody td[style]').forEach((element) => {
     try {
       let fill = (element.querySelector('input[type="hidden"]')) ? element.querySelector('input[type="hidden"]').value.replace('0x','#') : (function(){
-        let style = element.style.backgroundColor.trim();
+        let style = element.style.backgroundColor.replace('background:').trim();
         if(style.indexOf('#') == '1') return style.replace('#','0x');
         style = style.replace('rgba(','');
+        style = style.replace('rgb(','');
         style = style.replace(')','');
-        style = style.split(',').map((n) => (n.trim()));
-        return helpers.rgbaToHex(style[0], style[1], style[2], style[3]).replace('#','0x');
+        style = style.split(',').map((n) => (parseInt(n.trim())));
+        return helpers.rgbaToHex(style[0], style[1], style[2], isNaN(style[3]) ? 1 : style[3]).replace('#','0x');
       })();
       //console.log(fill);
       const hex = helpers.hexToRGBA(fill.replace('0x','#'));

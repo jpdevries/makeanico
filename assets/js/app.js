@@ -40,16 +40,17 @@ webpackJsonp([0],[
 	    try {
 	      (function () {
 	        var fill = element.querySelector('input[type="hidden"]') ? element.querySelector('input[type="hidden"]').value.replace('0x', '#') : function () {
-	          var style = element.style.backgroundColor.trim();
+	          var style = element.style.backgroundColor.replace('background:').trim();
 	          if (style.indexOf('#') == '1') return style.replace('#', '0x');
 	          style = style.replace('rgba(', '');
+	          style = style.replace('rgb(', '');
 	          style = style.replace(')', '');
 	          style = style.split(',').map(function (n) {
-	            return n.trim();
+	            return parseInt(n.trim());
 	          });
-	          return helpers.rgbaToHex(style[0], style[1], style[2], style[3]).replace('#', '0x');
+	          return helpers.rgbaToHex(style[0], style[1], style[2], isNaN(style[3]) ? 1 : style[3]).replace('#', '0x');
 	        }();
-	        console.log(fill);
+	        //console.log(fill);
 	        var hex = helpers.hexToRGBA(fill.replace('0x', '#'));
 	        element.dataset.dirty = true;
 
