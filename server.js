@@ -370,7 +370,7 @@ function getBaseUrl(req) {
 
 app.get('/', function(req, res) {
   const baseUrl = getBaseUrl(req);
-  const force10kB = false;
+  const force10kB = true;
   //res.set('Content-Encoding', 'gzip');
   var filledCells = getFilledCells(req.query);
   let cells = getCells(filledCells);
@@ -419,6 +419,18 @@ app.post('/', function(req, res) {
 
     //console.log(fields);
     var filledCells = getFilledCells(fields);
+    //console.log('filledCells',filledCells);
+    if(!filledCells.length) {
+      let r = req.get('Referrer');
+
+      r.split('?')[r.split('?').length-1].split('&').map((value) => (
+        value.split('=')
+      )).map((value) => {
+        if(value[0].match(/c\d+/)) filledCells[parseInt(value[0].match(/\d+/))] = value[1];
+      });
+
+      //console.log(filledCells);
+    }
     var selectedCells = getSelectedCells(fields);
 
     let fill = (hex) ? hex.replace('#','0x') : color(targetColor).hex().replace('#','0x');
