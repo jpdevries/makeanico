@@ -69,7 +69,7 @@ You can also reproduce this by importing a photo with edge&ndash;to&ndash;edge t
 The Accessibility Preferences are lazy loaded in `localStorage` capable environments. They lazily add about 730 bytes of CSS and 1.6kB of scripts if `localStorage` dictates they should be loaded. For example, if the Font Size preference is changed from the default value, a little CSS and some scripts will lazily be loaded to update the user interface is response to user preferences. You can also choose a typeface like OpenDyslexic and Fira. Of course the web fonts are heavy and lazily loaded only if requested by the&nbsp;user.
 
 ### Color the Browser
-Browsers that support the `theme-color`, `msapplication-navbutton-color` and `apple-mobile-web-app-status-bar-style` tag(s) will visually convey the selected color with the browser&nbsp;interface.
+Browsers that support the `theme-color`, `msapplication-navbutton-color` and `apple-mobile-web-app-status-bar-style` tag(s) will visually convey the selected color within the browser&nbsp;interface.
 
 [Try it yourself in a browser like Vivaldi](https://makeanico.azurewebsites.net/?fill=0xC61F2B).
 
@@ -163,6 +163,7 @@ I've added endpoints for some of my favorite favicons. Follow the links in the i
 | <a href="https://makeanico.azurewebsites.net/icos/modmore"><img src="https://makeanico.azurewebsites.net/get/svg/icos/modmore"></a> |  `/icos/modmore` | `/get/svg/icos/modmore` | `/get/png/modmore` | `/get/ico/modmore` |
 | <a href="https://makeanico.azurewebsites.net/icos/thinkful"><img src="https://makeanico.azurewebsites.net/get/svg/icos/thinkful"></a> |  `/icos/thinkful` | `/get/svg/icos/thinkful` | `/get/png/thinkful` | `/get/ico/thinkful` |
 | <a href="https://makeanico.azurewebsites.net/icos/sterc"><img src="https://makeanico.azurewebsites.net/get/svg/icos/sterc"></a> |  `/icos/sterc` | `/get/svg/icos/sterc` | `/get/png/sterc` | `/get/ico/sterc` |
+| <a href="https://makeanico.azurewebsites.net/icos/mrktps"><img src="https://makeanico.azurewebsites.net/get/svg/icos/mrktps"></a> |  `/icos/mrktps` | `/get/svg/icos/mrktps` | `/get/png/mrktps` | `/get/ico/mrktps` |
 | <a href="https://makeanico.azurewebsites.net/icos/modx"><img src="https://makeanico.azurewebsites.net/get/svg/icos/modx"></a> |  `/icos/modx` | `/get/svg/icos/modx` | `/get/png/modx` | `/get/ico/modx` |
 | <a href="https://makeanico.azurewebsites.net/icos/apple"><img src="https://makeanico.azurewebsites.net/get/svg/icos/apple"></a> |  `/icos/apple` | `/get/svg/icos/apple` | `/get/png/apple` | `/get/ico/apple` |
 | <a href="https://makeanico.azurewebsites.net/icos/safari"><img src="https://makeanico.azurewebsites.net/get/svg/icos/safari"></a> |  `/icos/safari` | `/get/svg/icos/safari` | `/get/png/safari` | `/get/ico/safari` |
