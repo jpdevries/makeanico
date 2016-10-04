@@ -531,7 +531,7 @@ webpackJsonp([0],[
 	    window.scrollTo(0, 0); // scroll to the top
 	  };
 
-	  ["theme-color", "msapplication-navbutton-color", "apple-mobile-web-app-capable", "apple-mobile-web-app-status-bar-style"].forEach(function (name) {
+	  ["theme-color", "msapplication-navbutton-color", "apple-mobile-web-app-capable", "apple-mobile-web-app-status-bar-style", "msapplication-TileColor"].forEach(function (name) {
 	    console.log(name);
 	    if (!document.querySelector("head meta[name=\"" + name + "\"]")) {
 	      var m = document.createElement('meta');

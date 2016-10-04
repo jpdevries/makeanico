@@ -73,7 +73,7 @@ Browsers that support the `theme-color`, `msapplication-navbutton-color` and `ap
 
 [Try it yourself in a browser like Vivaldi](https://makeanico.azurewebsites.net/?fill=0xC61F2B).
 
-![](http://j4p.us/1D0R1s0i0Z3M/Screen%20Shot%202016-10-04%20at%201.47.31%20AM.png)
+![](http://j4p.us/1p353y2U3j2m/vivaldi.gif)
 
 ### History Support
 History is supported in both the base and enhanced experiences. The HTML5 History API is used to leverage Undo, Save, Bookmark, and Share features by pushing the graphic state to the URL. As you update your favicon the URL is updated accordingly by pushing the pixel data into the URL as URL parameters. Therefore, each unique favicon naturally has its own unique URL! You can bookmark your favicon to return and work on it later. Use the browser back and forward buttons to navigate the timeline of your&nbsp;edits.
