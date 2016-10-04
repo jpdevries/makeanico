@@ -371,17 +371,21 @@ function getBaseUrl(req) {
 app.get('/', function(req, res) {
   const baseUrl = getBaseUrl(req);
   const force10kB = true;
+
   //res.set('Content-Encoding', 'gzip');
   var filledCells = getFilledCells(req.query);
   let cells = getCells(filledCells);
 
+  const startOver = filledCells.length > 0;
+
   res.render('index.twig',{
     force10kB: force10kB,
+    loadStyles:(!startOver || filledCells.length < 128) ? true : !force10kB,
     saveData: force10kB,
     fill:req.query.fill || undefined,
     fillRGBA:req.query.fill ? hexToRgba(req.query.fill.replace('0x','#')) : undefined,
     cells: cells,
-    startOver: filledCells.length > 0,
+    startOver: startOver,
     shouldBeDirty: filledCells.length > 0,
     colorBy:req.query.colorby || undefined,
     cellURL: force10kB ? '' : getCellURLString(req.query),

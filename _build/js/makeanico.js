@@ -9,6 +9,13 @@ const MakeAnIco = function() {
     return i.type !== "text";
   })();
 
+  if(!document.querySelector('head link[rel="stylesheet"]')) {
+    let link = document.createElement('link');
+    link.setAttribute('rel','stylesheet');
+    link.setAttribute('href',`assets/css/main${min}.css`);
+    document.querySelector('head').appendChild(link);
+  }
+
   document.querySelectorAll('#stage tbody td[style]').forEach((element) => {
     try {
       let fill = (element.querySelector('input[type="hidden"]')) ? element.querySelector('input[type="hidden"]').value.replace('0x','#') : (function(){
