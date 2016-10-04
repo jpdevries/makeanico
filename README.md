@@ -205,7 +205,7 @@ That said, there is a [known issue in IE and Edge will URLs exceeding 2083 chara
 | Safari  | 10.0    |
 | Vivaldi  | 1.4.5    |
 
-_*Does not export dirty artboards_
+_*Does not export very dirty art&ndash;boards_
 
 ### Mobile Async
 | Vendor | Version |

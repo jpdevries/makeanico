@@ -217,12 +217,6 @@ a.btn {
   #canvas th, #canvas .row-col {
     font-weight: normal;
     font-size: 8px; }
-  @media screen and (min-aspect-ratio: 1 / 1) {
-    #canvas {
-      width: 100vh;
-      height: 100vh;
-      -ms-flex: 0 0 100vh;
-          flex: 0 0 100vh; } }
 
 #stage td {
   border: 1px solid #f0f0f0;
@@ -261,11 +255,6 @@ a.btn {
 footer button:last-of-type {
   margin-right: 0; }
 
-@media screen and (max-width: 640px) {
-  footer.page-wrapper a {
-    display: block;
-    margin-bottom: 1em; } }
-
 .subtle {
   font-size: .8em; }
 
@@ -285,25 +274,6 @@ footer button:last-of-type {
 
 .export button[type="submit"] {
   margin: 1em; }
-
-@media screen and (min-width: 641px) {
-  .bottom-bar {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: center;
-        justify-content: center; }
-    .bottom-bar > * {
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-positive: 0;
-          flex-grow: 0;
-      -ms-flex-negative: 1;
-          flex-shrink: 1;
-      -ms-flex-preferred-size: 20em;
-          flex-basis: 20em;
-      margin-right: 1em; }
-      .bottom-bar > *:last-child {
-        margin-right: 0; } }
 
 footer {
   margin: 1em 0; }
@@ -333,13 +303,49 @@ footer {
 #page-wrapper {
   -ms-flex-direction: column-reverse;
       flex-direction: column-reverse; }
-  @media screen and (min-width: 641px) {
-    #page-wrapper > * {
-      width: 100vw; } }
+
+@media screen and (min-aspect-ratio: 1 / 1) {
+
+  #canvas {
+    width: 100vh;
+    height: 100vh;
+    -ms-flex: 0 0 100vh;
+    flex: 0 0 100vh; } }
 
 @media screen and (max-width: 640px) {
+
+  footer.page-wrapper a {
+    display: block;
+    margin-bottom: 1em; }
+
   .async-btns {
     display: block;
     padding-top: 1em; }
-    .async-btns button {
-      margin-bottom: 1em; } }
+
+  .async-btns button {
+    margin-bottom: 1em; } }
+
+@media screen and (min-width: 641px) {
+
+  .bottom-bar {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center; }
+
+  .bottom-bar > * {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+    -ms-flex-preferred-size: 20em;
+    flex-basis: 20em;
+    margin-right: 1em; }
+
+  .bottom-bar > *:last-child {
+    margin-right: 0; }
+
+  #page-wrapper > * {
+    width: 100vw; } }

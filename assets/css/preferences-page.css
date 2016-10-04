@@ -7,22 +7,6 @@ html {
 /*
 http://www.phase2technology.com/blog/exploring-maps-in-sass-3-3/
 */
-@media screen and (min-width: 641px) {
-  .widget .container {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-        flex-direction: column; }
-  form {
-    -ms-flex-positive: 1;
-        flex-grow: 1;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-        flex-direction: column; }
-  fieldset {
-    -ms-flex-positive: 1;
-        flex-grow: 1; } }
 
 #page-wrapper {
   display: block; }
@@ -39,3 +23,23 @@ noscript {
   font-style: italic;
   padding: 1em;
   border: 4px double currentColor; }
+
+@media screen and (min-width: 641px) {
+
+  .widget .container {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column; }
+
+  form {
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column; }
+
+  fieldset {
+    -ms-flex-positive: 1;
+    flex-grow: 1; } }
