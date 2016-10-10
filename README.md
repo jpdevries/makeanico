@@ -4,6 +4,8 @@ Makeanico
 Makeanico is a progressively enhanced web app that allows anyone to create a 16x16 favicon.ico graphic. You can access it by [waking the sleeping&nbsp;dino](https://makeanico.herokuapp.com) or [firing up the Azure instance](https://makeanico.azurewebsites.net).
 
 ## 10K Apart
+You can [vote for this entry here](https://a-k-apart.com/gallery/Make-an-Ico) but [first you should take a look around the gallery](https://a-k-apart.com/gallery). There are many amazing submissions to look&nbsp;at.
+
 *Makeanico was originally created as a submission for the 2016 10K Apart&nbsp;competition.*  
 
 The "base" functionality of Makeanico is the ability to create a 16x16 favicon and export it in .ico, .svg and .png formats. This base functionality is achieved with an initial load of less than 10kB. Approximately 2kB of CSS styles are used to graphically enhance the experience for sighted users. This is done by styling a semantic HTML `<table>` of `<input type="checkbox">` elements to create a "WYSIWYG" graphics&nbsp;editor.
