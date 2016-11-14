@@ -1,7 +1,7 @@
 Makeanico
 ========
 
-Makeanico is a progressively enhanced web app that allows anyone to create a 16x16 favicon.ico graphic. You can access it by [waking the sleeping&nbsp;dino](https://makeanico.herokuapp.com) or [firing up the Azure instance](https://makeanico.azurewebsites.net).
+Makeanico is a progressively enhanced web app that allows anyone to create a 16x16 favicon.ico graphic. You can access it by [waking the sleeping&nbsp;dino](https://makeanico.herokuapp.com) or [firing up the Azure instance](https://makeanico.herokuapp.com).
 
 ## 10K Apart
 You can [vote for this entry here](https://a-k-apart.com/gallery/Make-an-Ico) but [first you should take a look around the gallery](https://a-k-apart.com/gallery). There are many amazing submissions to look&nbsp;at.
@@ -10,10 +10,10 @@ You can [vote for this entry here](https://a-k-apart.com/gallery/Make-an-Ico) bu
 
 The "base" functionality of Makeanico is the ability to create a 16x16 favicon and export it in .ico, .svg and .png formats. This base functionality is achieved with an initial load of less than 10kB. Approximately 2kB of CSS styles are used to graphically enhance the experience for sighted users. This is done by styling a semantic HTML `<table>` of `<input type="checkbox">` elements to create a "WYSIWYG" graphics&nbsp;editor.
 
-For example, [here is the 10K Apart Favicon as represented by the Makeanico WYSIWYG&nbsp;Editor](https://makeanico.azurewebsites.net/icos/10kapart):  
+For example, [here is the 10K Apart Favicon as represented by the Makeanico WYSIWYG&nbsp;Editor](https://makeanico.herokuapp.com/icos/10kapart):  
 
 <figure>
-  <a href="https://makeanico.azurewebsites.net/icos/10kapart"><img src="http://j4p.us/0e3a472y0c2Y/10k-favicon-source.png"></a>
+  <a href="https://makeanico.herokuapp.com/icos/10kapart"><img src="http://j4p.us/0e3a472y0c2Y/10k-favicon-source.png"></a>
   <caption>10kapart favicon loaded into Makeanico art&ndash;board</caption>
 </figure>
 
@@ -64,7 +64,7 @@ Some Enhancements are fetched for "dirty" art&ndash;boards. If there is art on t
 
 The more pixels you draw, the longer your URL gets, and the larger the size of the `index.html` gets too! That's ok though because only the "blank canvas" homepage counts as the initial load. Pretty much everything except the HTML source is going to be served by the browser cache if possible. Even the HTML source itself of return visits is cached offline by the service worker. This means that not only can page visits weight 0.0kB but also that JavaScipt users performing asynchronous actions that don't need to communicate with the server (import, export, post) can enjoy an offline editing&nbsp;experience.
 
-The larger initial page weights of lazy&ndash;URLs I have counted to dirty art&ndash;boards are over 10kB. That's with the service worker and browser cache off and includes the initial weight plus all the lazy&ndash;loaded enhancements. To reproduce this [visit a dirty art&ndash;board with every color filled](https://makeanico.azurewebsites.net/icos/random).
+The larger initial page weights of lazy&ndash;URLs I have counted to dirty art&ndash;boards are over 10kB. That's with the service worker and browser cache off and includes the initial weight plus all the lazy&ndash;loaded enhancements. To reproduce this [visit a dirty art&ndash;board with every color filled](https://makeanico.herokuapp.com/icos/random).
 
 You can also reproduce this by importing a photo with edge&ndash;to&ndash;edge to color. From a mobile device snap a photo to import your art to the art&ndash;board.
 
@@ -73,7 +73,7 @@ The Accessibility Preferences are lazy loaded in `localStorage` capable environm
 ### Color the Browser
 Browsers that support the `theme-color`, `msapplication-navbutton-color` and `apple-mobile-web-app-status-bar-style` tag(s) will visually convey the selected color within the browser&nbsp;interface.
 
-[Try it yourself in a browser like Vivaldi](https://makeanico.azurewebsites.net/?fill=0xC61F2B).
+[Try it yourself in a browser like Vivaldi](https://makeanico.herokuapp.com/?fill=0xC61F2B).
 
 ![](http://j4p.us/1p353y2U3j2m/vivaldi.gif)
 
@@ -149,8 +149,8 @@ In the spirit of the World&ndash;Wide Web, MakeanIco provides a public API for f
 
 | Flag | Country Code        | Edit Page           | SVG Icon  | PNG Icon  | ICO Icon  |
 | ------------- | ------------- |:--------------|-------|-------|-------|
-| <a href="https://makeanico.azurewebsites.net/icos/flags/nl"><img src="https://makeanico.azurewebsites.net/get/svg/icos/flags/nl?dl=1"></a> | `nl`      | `/icos/flags/nl` | `/get/svg/icos/flags/nl` | `/get/png/icos/flags/nl` | `/get/ico/icos/flags/nl` |
-| <a href="https://makeanico.azurewebsites.net/icos/flags/us"><img src="https://makeanico.azurewebsites.net/get/svg/icos/flags/us?dl=1"></a> | `us`      | `/icos/flags/us` | `/get/svg/icos/flags/us` | `/get/png/icos/flags/us` | `/get/ico/icos/flags/us` |
+| <a href="https://makeanico.herokuapp.com/icos/flags/nl"><img src="https://makeanico.herokuapp.com/get/svg/icos/flags/nl?dl=1"></a> | `nl`      | `/icos/flags/nl` | `/get/svg/icos/flags/nl` | `/get/png/icos/flags/nl` | `/get/ico/icos/flags/nl` |
+| <a href="https://makeanico.herokuapp.com/icos/flags/us"><img src="https://makeanico.herokuapp.com/get/svg/icos/flags/us?dl=1"></a> | `us`      | `/icos/flags/us` | `/get/svg/icos/flags/us` | `/get/png/icos/flags/us` | `/get/ico/icos/flags/us` |
 
 [Find national flags for every country in the&nbsp;Wiki](https://github.com/jpdevries/makeanico/wiki/World-Wide-Flag-Favicons).
 
@@ -162,29 +162,29 @@ I've added endpoints for some of my favorite favicons. Follow the links in the i
 
 | Icon | Edit Page           | SVG Icon  | PNG Icon  | ICO Icon  |
 | ------------- |:---------------|:------|:------|:------|
-| <a href="https://makeanico.azurewebsites.net/icos/modmore"><img src="https://makeanico.azurewebsites.net/get/svg/icos/modmore"></a> |  `/icos/modmore` | `/get/svg/icos/modmore` | `/get/png/modmore` | `/get/ico/modmore` |
-| <a href="https://makeanico.azurewebsites.net/icos/thinkful"><img src="https://makeanico.azurewebsites.net/get/svg/icos/thinkful"></a> |  `/icos/thinkful` | `/get/svg/icos/thinkful` | `/get/png/thinkful` | `/get/ico/thinkful` |
-| <a href="https://makeanico.azurewebsites.net/icos/sterc"><img src="https://makeanico.azurewebsites.net/get/svg/icos/sterc"></a> |  `/icos/sterc` | `/get/svg/icos/sterc` | `/get/png/sterc` | `/get/ico/sterc` |
-| <a href="https://makeanico.azurewebsites.net/icos/markuptips"><img src="https://makeanico.azurewebsites.net/get/svg/icos/markuptips"></a> |  `/icos/markuptips` | `/get/svg/icos/markuptips` | `/get/png/markuptips` | `/get/ico/markuptips` |
-| <a href="https://makeanico.azurewebsites.net/icos/modx"><img src="https://makeanico.azurewebsites.net/get/svg/icos/modx"></a> |  `/icos/modx` | `/get/svg/icos/modx` | `/get/png/modx` | `/get/ico/modx` |
-| <a href="https://makeanico.azurewebsites.net/icos/apple"><img src="https://makeanico.azurewebsites.net/get/svg/icos/apple"></a> |  `/icos/apple` | `/get/svg/icos/apple` | `/get/png/apple` | `/get/ico/apple` |
-| <a href="https://makeanico.azurewebsites.net/icos/safari"><img src="https://makeanico.azurewebsites.net/get/svg/icos/safari"></a> |  `/icos/safari` | `/get/svg/icos/safari` | `/get/png/safari` | `/get/ico/safari` |
-| <a href="https://makeanico.azurewebsites.net/icos/10kapart"><img src="https://makeanico.azurewebsites.net/get/svg/icos/10kapart"></a> |  `/icos/10kapart` | `/get/svg/icos/10kapart` | `/get/png/10kapart` | `/get/ico/10kapart` |
-| <a href="https://makeanico.azurewebsites.net/icos/microsoft"><img src="https://makeanico.azurewebsites.net/get/svg/icos/windows"></a> |  `/icos/microsoft` | `/get/svg/icos/microsoft` | `/get/png/microsoft` | `/get/ico/microsoft` |
-| <a href="https://makeanico.azurewebsites.net/icos/windows"><img src="https://makeanico.azurewebsites.net/get/svg/icos/windows"></a> |  `/icos/windows` | `/get/svg/icos/windows` | `/get/png/windows` | `/get/ico/windows` |
-| <a href="https://makeanico.azurewebsites.net/icos/edge"><img src="https://makeanico.azurewebsites.net/get/svg/icos/windows"></a> |  `/icos/edge` | `/get/svg/icos/edge` | `/get/png/edge` | `/get/ico/edge` |
-| <a href="https://makeanico.azurewebsites.net/icos/google"><img src="https://makeanico.azurewebsites.net/get/svg/icos/google"></a> |  `/icos/google` | `/get/svg/icos/google` | `/get/png/google` | `/get/ico/google` |
-| <a href="https://makeanico.azurewebsites.net/icos/chrome"><img src="https://makeanico.azurewebsites.net/get/svg/icos/chrome"></a> |  `/icos/chrome` | `/get/svg/icos/chrome` | `/get/png/chrome` | `/get/ico/chrome` |
-| <a href="https://makeanico.azurewebsites.net/icos/opera"><img src="https://makeanico.azurewebsites.net/get/svg/icos/opera"></a> |  `/icos/opera` | `/get/svg/icos/opera` | `/get/png/opera` | `/get/ico/opera` |
-| <a href="https://makeanico.azurewebsites.net/icos/vivaldi"><img src="https://makeanico.azurewebsites.net/get/svg/icos/vivaldi"></a> |  `/icos/vivaldi` | `/get/svg/icos/vivaldi` | `/get/png/vivaldi` | `/get/ico/vivaldi` |
-| <a href="https://makeanico.azurewebsites.net/icos/facebook"><img src="https://makeanico.azurewebsites.net/get/svg/icos/facebook"></a> |  `/icos/facebook` | `/get/svg/icos/facebook` | `/get/png/facebook` | `/get/ico/facebook` |
-| <a href="https://makeanico.azurewebsites.net/icos/twitter"><img src="https://makeanico.azurewebsites.net/get/svg/icos/twitter"></a> |  `/icos/twitter` | `/get/svg/icos/twitter` | `/get/png/twitter` | `/get/ico/twitter` |
-| <a href="https://makeanico.azurewebsites.net/icos/smashingmag"><img src="https://makeanico.azurewebsites.net/get/svg/icos/smashingmag"></a> |  `/icos/smashingmag` | `/get/svg/icos/smashingmag` | `/get/png/smashingmag` | `/get/ico/smashingmag` |
-| <a href="https://makeanico.azurewebsites.net/icos/gmail"><img src="https://makeanico.azurewebsites.net/get/svg/icos/gmail"></a> |  `/icos/gmail` | `/get/svg/icos/gmail` | `/get/png/gmail` | `/get/ico/gmail` |
-| <a href="https://makeanico.azurewebsites.net/icos/firefox"><img src="https://makeanico.azurewebsites.net/get/svg/icos/firefox"></a> |  `/icos/firefox` | `/get/svg/icos/firefox` | `/get/png/firefox` | `/get/ico/firefox` |
-| <a href="https://makeanico.azurewebsites.net/icos/mozilla"><img src="https://makeanico.azurewebsites.net/get/svg/icos/mozilla"></a> |  `/icos/mozilla` | `/get/svg/icos/mozilla` | `/get/png/mozilla` | `/get/ico/mozilla` |
-| <a href="https://makeanico.azurewebsites.net/icos/zeldman"><img src="https://makeanico.azurewebsites.net/get/svg/icos/zeldman"></a> |  `/icos/zeldman` | `/get/svg/icos/zeldman` | `/get/png/zeldman` | `/get/ico/zeldman` |
-| <a href="https://makeanico.azurewebsites.net/icos/w3c"><img src="https://makeanico.azurewebsites.net/get/svg/icos/w3c"></a> |  `/icos/w3c` | `/get/svg/icos/w3c` | `/get/png/w3c` | `/get/ico/w3c` |
+| <a href="https://makeanico.herokuapp.com/icos/modmore"><img src="https://makeanico.herokuapp.com/get/svg/icos/modmore"></a> |  `/icos/modmore` | `/get/svg/icos/modmore` | `/get/png/modmore` | `/get/ico/modmore` |
+| <a href="https://makeanico.herokuapp.com/icos/thinkful"><img src="https://makeanico.herokuapp.com/get/svg/icos/thinkful"></a> |  `/icos/thinkful` | `/get/svg/icos/thinkful` | `/get/png/thinkful` | `/get/ico/thinkful` |
+| <a href="https://makeanico.herokuapp.com/icos/sterc"><img src="https://makeanico.herokuapp.com/get/svg/icos/sterc"></a> |  `/icos/sterc` | `/get/svg/icos/sterc` | `/get/png/sterc` | `/get/ico/sterc` |
+| <a href="https://makeanico.herokuapp.com/icos/markuptips"><img src="https://makeanico.herokuapp.com/get/svg/icos/markuptips"></a> |  `/icos/markuptips` | `/get/svg/icos/markuptips` | `/get/png/markuptips` | `/get/ico/markuptips` |
+| <a href="https://makeanico.herokuapp.com/icos/modx"><img src="https://makeanico.herokuapp.com/get/svg/icos/modx"></a> |  `/icos/modx` | `/get/svg/icos/modx` | `/get/png/modx` | `/get/ico/modx` |
+| <a href="https://makeanico.herokuapp.com/icos/apple"><img src="https://makeanico.herokuapp.com/get/svg/icos/apple"></a> |  `/icos/apple` | `/get/svg/icos/apple` | `/get/png/apple` | `/get/ico/apple` |
+| <a href="https://makeanico.herokuapp.com/icos/safari"><img src="https://makeanico.herokuapp.com/get/svg/icos/safari"></a> |  `/icos/safari` | `/get/svg/icos/safari` | `/get/png/safari` | `/get/ico/safari` |
+| <a href="https://makeanico.herokuapp.com/icos/10kapart"><img src="https://makeanico.herokuapp.com/get/svg/icos/10kapart"></a> |  `/icos/10kapart` | `/get/svg/icos/10kapart` | `/get/png/10kapart` | `/get/ico/10kapart` |
+| <a href="https://makeanico.herokuapp.com/icos/microsoft"><img src="https://makeanico.herokuapp.com/get/svg/icos/windows"></a> |  `/icos/microsoft` | `/get/svg/icos/microsoft` | `/get/png/microsoft` | `/get/ico/microsoft` |
+| <a href="https://makeanico.herokuapp.com/icos/windows"><img src="https://makeanico.herokuapp.com/get/svg/icos/windows"></a> |  `/icos/windows` | `/get/svg/icos/windows` | `/get/png/windows` | `/get/ico/windows` |
+| <a href="https://makeanico.herokuapp.com/icos/edge"><img src="https://makeanico.herokuapp.com/get/svg/icos/windows"></a> |  `/icos/edge` | `/get/svg/icos/edge` | `/get/png/edge` | `/get/ico/edge` |
+| <a href="https://makeanico.herokuapp.com/icos/google"><img src="https://makeanico.herokuapp.com/get/svg/icos/google"></a> |  `/icos/google` | `/get/svg/icos/google` | `/get/png/google` | `/get/ico/google` |
+| <a href="https://makeanico.herokuapp.com/icos/chrome"><img src="https://makeanico.herokuapp.com/get/svg/icos/chrome"></a> |  `/icos/chrome` | `/get/svg/icos/chrome` | `/get/png/chrome` | `/get/ico/chrome` |
+| <a href="https://makeanico.herokuapp.com/icos/opera"><img src="https://makeanico.herokuapp.com/get/svg/icos/opera"></a> |  `/icos/opera` | `/get/svg/icos/opera` | `/get/png/opera` | `/get/ico/opera` |
+| <a href="https://makeanico.herokuapp.com/icos/vivaldi"><img src="https://makeanico.herokuapp.com/get/svg/icos/vivaldi"></a> |  `/icos/vivaldi` | `/get/svg/icos/vivaldi` | `/get/png/vivaldi` | `/get/ico/vivaldi` |
+| <a href="https://makeanico.herokuapp.com/icos/facebook"><img src="https://makeanico.herokuapp.com/get/svg/icos/facebook"></a> |  `/icos/facebook` | `/get/svg/icos/facebook` | `/get/png/facebook` | `/get/ico/facebook` |
+| <a href="https://makeanico.herokuapp.com/icos/twitter"><img src="https://makeanico.herokuapp.com/get/svg/icos/twitter"></a> |  `/icos/twitter` | `/get/svg/icos/twitter` | `/get/png/twitter` | `/get/ico/twitter` |
+| <a href="https://makeanico.herokuapp.com/icos/smashingmag"><img src="https://makeanico.herokuapp.com/get/svg/icos/smashingmag"></a> |  `/icos/smashingmag` | `/get/svg/icos/smashingmag` | `/get/png/smashingmag` | `/get/ico/smashingmag` |
+| <a href="https://makeanico.herokuapp.com/icos/gmail"><img src="https://makeanico.herokuapp.com/get/svg/icos/gmail"></a> |  `/icos/gmail` | `/get/svg/icos/gmail` | `/get/png/gmail` | `/get/ico/gmail` |
+| <a href="https://makeanico.herokuapp.com/icos/firefox"><img src="https://makeanico.herokuapp.com/get/svg/icos/firefox"></a> |  `/icos/firefox` | `/get/svg/icos/firefox` | `/get/png/firefox` | `/get/ico/firefox` |
+| <a href="https://makeanico.herokuapp.com/icos/mozilla"><img src="https://makeanico.herokuapp.com/get/svg/icos/mozilla"></a> |  `/icos/mozilla` | `/get/svg/icos/mozilla` | `/get/png/mozilla` | `/get/ico/mozilla` |
+| <a href="https://makeanico.herokuapp.com/icos/zeldman"><img src="https://makeanico.herokuapp.com/get/svg/icos/zeldman"></a> |  `/icos/zeldman` | `/get/svg/icos/zeldman` | `/get/png/zeldman` | `/get/ico/zeldman` |
+| <a href="https://makeanico.herokuapp.com/icos/w3c"><img src="https://makeanico.herokuapp.com/get/svg/icos/w3c"></a> |  `/icos/w3c` | `/get/svg/icos/w3c` | `/get/png/w3c` | `/get/ico/w3c` |
 
 ## Accessibility Proclaimer
 This web app strives for WCAG 2.0 Guidelines Level AA. Please [open an issue](https://github.com/jpdevries/makeanico/issues/new) for any accessibility issue, feedback, or&nbsp;concern.
