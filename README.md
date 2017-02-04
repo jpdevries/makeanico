@@ -1,7 +1,7 @@
 Makeanico
 ========
 
-Makeanico is a progressively enhanced web app that allows anyone to create a 16x16 favicon.ico graphic. You can access it by [waking the sleeping&nbsp;dino](https://makeanico.herokuapp.com) or [firing up the Azure instance](https://makeanico.herokuapp.com).
+Makeanico is a progressively enhanced web app that allows anyone to create a 16x16 favicon.ico graphic. You can access it by [waking the sleeping&nbsp;dino](https://makeanico.herokuapp.com).
 
 ## 10K Apart
 You can [vote for this entry here](https://a-k-apart.com/gallery/Make-an-Ico) but [first you should take a look around the gallery](https://a-k-apart.com/gallery). There are many amazing submissions to look&nbsp;at.
